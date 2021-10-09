@@ -1,0 +1,184 @@
+@import "../../../mixin";
+
+.user{
+    &__wrapper{
+        @include flexbox();
+    }
+    &__title{
+        font-size: 18px;
+        margin: 0 0 20px 0;
+    }
+    &__col-left{
+        width: 20%;
+        padding: 10px;
+    }
+    &__col-right{
+        flex: 1;
+        padding: 15px 15px 0 25px;
+    }
+    &__filter{
+        @include flexbox(center);
+        margin-bottom: 1rem;
+        &>span{
+            margin-right: 1rem;
+        }
+    }
+    // page info
+    &__info{
+        @include flexbox(flex-start,flex-start,wrap,row);
+    }
+    &__col-2{
+        width: 33%;
+        margin-right: 40px;
+        margin-bottom: 20px;
+    }
+    &__field{
+        margin-bottom: 10px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+    &__value{
+        padding-top: 7px;
+    }
+    &__coupon{
+        & thead{
+            background-color: #f6f6f6;
+            text-transform: uppercase;
+        }
+        & td, th{
+            padding: 16px 20px;
+            color: #9e9e9e;
+            border: 1px solid #eff;
+        }
+        & th{
+            font-weight: 500;
+        }
+        & tfoot td{
+            font-weight: 500;
+        }
+    }
+    //order page
+    &__order{
+        &__item{
+            font-size: 12px;
+            color: grey;
+        }
+        &__head, &__body{
+            padding: 10px;
+        }
+        &__head{
+            border-bottom: 1px solid #9e9e9e;
+            @include flexbox(center,space-between);
+        }
+        &__bottom{
+            @include flexbox();
+            margin-top: 25px;
+        }
+        &__store{
+            @include flexbox(center);
+            font-weight: 500;
+        }
+        &__date{
+            color: green;
+            margin-left: 1rem;
+        }
+        &__body{
+            @include flexbox(center,center);
+            &>p{
+                margin-right: 3rem;
+            }
+            & img{
+                width: 60px;
+                height: auto;
+                border-radius: 0;
+            }
+        }
+        &__col-2{
+            width: 49%;
+            margin: 1% 1% 1% 0;
+            padding: 10px 12px;
+            & h3{
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+            & p{
+                @include flexbox(center,space-between);
+                margin: 5px 0;
+            }
+        }
+        &__title-product{
+            @include dotText();
+            width: 400px;
+            line-height: 1.4;
+        }
+    }
+    //product favorite
+    &__favorite-item{
+        padding: 16px 20px;
+        @include flexbox();
+    }
+    &__favorite-img{
+        width: 80px;
+        height: 80px;
+        margin-right: 12px;
+    }
+    &__favorite-info{
+        font-size: 14px;
+        margin-right: 35px;
+    }
+    &__favorite-priceCur{
+        color: #f57224;
+        font-size: 18px;
+    }
+    &__favorite-priceOr{
+        font-size: 12px;
+        &>span:first-child{
+            text-decoration: line-through;
+            color: #757575;
+            margin-right: 8px;
+        }
+    }
+    &__favorite-addcart{
+        flex: 1;
+        text-align: right;
+    }
+    //store follow
+    &__follow-item{
+        @include flexbox(space-between,space-between);
+        font-size: 14px;
+    }
+    &__follow-left{
+        @include flexbox();
+       
+    }
+    &__follow-img{
+        width: 60px;
+        height: 60px;
+        margin-right: 12px;
+        border-radius: 0;
+    }
+    &__follow-title{
+        font-size: 16px;
+        color: #555;
+        font-weight: 600;
+    }
+    &__follow-right{
+        @include flexbox(center,space-between);
+        & span{
+            margin-right: 10px;
+            color: #757575;
+        }
+    }
+    &__sidebar{
+        &__title{
+            font-size: 16px;
+            font-weight: 500;
+        }
+        &__sub{
+            padding: 15px 7px 7px 7px;
+        }
+    }
+}
+a:hover{
+    color: #056b80;
+}

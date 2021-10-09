@@ -1,0 +1,9 @@
+<div className="client">
+    <ScrollToTop />
+    <Chat />
+    <Header />
+    <main className="client__inner">
+        
+    </main>
+    <Footer />
+</div>

@@ -1,0 +1,166 @@
+@import "../../../mixin";
+
+
+.chat__button{
+    border-radius: 2px 2px 0 0;
+    @include flexbox(center,center);
+    color: #003e52;
+    cursor: pointer;
+    padding: 10px;
+    flex: none;
+    width: 100%;
+    &>h3{
+        margin-left: 15px;
+        font-size: 18px;
+    }
+}
+.close-chat{
+    width: 160px;
+    height: 40px;
+}
+.active-chat{
+    height: 500px;
+    width: 740px;
+}
+.chat{
+    @include flexbox();
+    overflow: hidden;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #fff;
+    border: none;
+    border-radius: 2px 2px 0 0;
+    -webkit-box-shadow: 0 0 7px 0 #999;
+    box-shadow: 0 0 7px 0 #999;
+    position: fixed;
+    bottom: 0;
+    right: 50px;
+    z-index: 100;
+    transition: width  0.25s ease;
+    &__header, &__body{
+       @include flexbox(flex-start,flex-start,nowrap, column);
+    }
+    &__header{
+        width: 40%;
+    }
+    &__body{
+        width: 60%;
+    }
+    &__body-top{
+        width:100%;
+        @include flexbox(flex-start,space-between);
+        border-bottom: 1px solid #ccc;
+    }
+    &__title{
+        font-size: 1rem;
+        color: grey;
+        font-weight: 500;
+        padding: 10px 10px 10px 25px;
+    }
+    &__list-item{
+        @include flexbox();
+        padding: 6px 25px 6px 12px;
+    }
+    &__list-img{
+        width: 36px;
+        height: 36px;
+        overflow: hidden;
+        &>img{
+            border-radius: 0;
+        }
+    }
+    &__list-desc{
+        flex: 1;
+        margin-left: 12px;
+    }
+    &__desc-box{  
+        font-size: 12px;
+        @include flexbox(flex-start,space-between);
+    }
+    &__desc-name{
+        font-size: 14px;
+        font-weight: 700;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        -webkit-box-flex: 1;
+    }
+    &__desc-date{
+        font-size: 12px;
+        line-height: 20px;
+        padding-left: 4px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    &__desc-chat{
+        height: 32px;
+        line-height: 16px;
+        width: 90%;
+        @include dotText();
+    }
+    &__box{
+        width: 100%;
+        height: 397px;
+        overflow: auto;
+    }
+    &__desc-icon{
+        flex: 1;
+    }
+    &__load-top{
+        width: 100%;
+        height: 40px;
+        overflow: hidden;
+        @include flexbox(center,center);
+    }
+    &__content{
+        padding-left: 6px;
+        padding-right: 12px;
+        padding-bottom: 20px;
+        @include flexbox();
+    }
+    &__content-reverse{
+        flex-direction:row-reverse;
+    }
+    &__date{
+        font-size: 13px;
+        color: #9299a2;
+        margin-bottom: 15px;
+        text-align: center;
+        flex: 1;
+    }
+    &__avatar{
+        width: 40px;
+        min-width: 40px;
+        height: 40px;
+        margin: 0 5px;
+        overflow: hidden;
+        border-radius: 100%;
+    }
+    &__message{
+        padding: 5px;
+        font-size: 14px;
+        color: #151515;
+    }
+    &__box-form{
+        width: 100%;
+        @include flexbox(center);
+    }
+    &__input-form{
+        width: 90%;
+        border: 1px solid #cdced2;
+        border-radius: 20px;
+        padding: 2px 6px 2px 22px;
+        @include flexbox(center);
+        &>textarea{
+            border: none;
+            line-height: 20px;
+            font-size: 14px;
+            color: #212121;
+            outline: none;
+            padding: 0 3px 0 4px;
+            margin-right: 4px;
+            resize: none;
+        }
+    }
+}
