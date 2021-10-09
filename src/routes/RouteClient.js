@@ -16,9 +16,12 @@ import FavoriteAndFollowPage from "../views/client/user/FavoriteAndFollowPage";
 import Login from "../views/auth/Login";
 import Register from "../views/auth/Register";
 import VoucherPage from "../views/client/voucher/VoucherPage";
-
+              // admin
 import LoginAdmin from "../views/auth/LoginAdmin";
 import DashboardPage from "../views/admin/dashboard/DashboardPage";
+              // seller
+import CreateStorePage from "../views/seller/create-store/CreateStorePage";
+import DashboardStorePage from "../views/seller/dashboard/DashboardPage";
 
 class RouteClient extends React.Component {
   render() {
@@ -70,6 +73,15 @@ class RouteClient extends React.Component {
           <Route exact path="/vouchers" >
             <VoucherPage />
           </Route>
+
+          {/* seller */}
+          <Route exact path="/create-store" >
+            <CreateStorePage />
+          </Route>
+          <Route exact path="/my-store" >
+            <DashboardStorePage />
+          </Route>
+
           {/* admin */}
           <Route exact path="/admin/login" >
             <LoginAdmin />

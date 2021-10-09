@@ -1,17 +1,15 @@
 import * as React from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-// import Paper from '@mui/material/Paper';
+import Paper from '@mui/material/Paper';
 // import Link from '@mui/material/Link';
 
 import Sidebar from '../../../components/admin/sidebar/Sidebar';
 import Header from '../../../components/admin/header/Header';
-
-import OrderToday from "../../../components/admin/dashboard/OrderToday"
 
 
 const mdTheme = createTheme();
@@ -25,10 +23,8 @@ function DashboardContent() {
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-
-        <Header openSideBar={openSideBar} toggleSideBar={toggleSideBar} />
+        <Header openSideBar={openSideBar}  toggleSideBar={toggleSideBar} />
         <Sidebar openSideBar={openSideBar} toggleSideBar={toggleSideBar} />
-
         <Box
           component="main"
           sx={{
@@ -44,11 +40,37 @@ function DashboardContent() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-
-              <Grid item xs={12} sm={6} md={3}>
-                <OrderToday />
+              {/* Recent Deposits */}
+              {/* <Grid item xs={12} md={4} lg={3}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: 240,
+                  }}
+                >
+                  <Deposits />
+                </Paper>
+              </Grid> */}
+              {/* Recent Orders */}
+              {/* <Grid item xs={12}>
+                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                  <Orders />
+                </Paper>
+              </Grid> */}
+                  <Grid item xs={12} md={4} lg={3}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: 240,
+                  }}
+                >
+                 hello
+                </Paper>
               </Grid>
-
             </Grid>
           </Container>
         </Box>

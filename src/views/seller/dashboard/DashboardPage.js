@@ -8,10 +8,10 @@ import Grid from '@mui/material/Grid';
 // import Paper from '@mui/material/Paper';
 // import Link from '@mui/material/Link';
 
-import Sidebar from '../../../components/admin/sidebar/Sidebar';
-import Header from '../../../components/admin/header/Header';
+import Sidebar from '../../../components/seller/sidebar/Sidebar';
+import Header from '../../../components/seller/header/Header';
 
-import OrderToday from "../../../components/admin/dashboard/OrderToday"
+import OrderToday from "../../../components/seller/dashboard/OrderToday"
 
 
 const mdTheme = createTheme();
