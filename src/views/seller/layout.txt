@@ -26,7 +26,7 @@ function DashboardContent() {
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
 
-        <Header titlePage={'Thống Kê'} openSideBar={openSideBar} toggleSideBar={toggleSideBar} />
+        <Header openSideBar={openSideBar} toggleSideBar={toggleSideBar} />
         <Sidebar openSideBar={openSideBar} toggleSideBar={toggleSideBar} />
 
         <Box
@@ -60,3 +60,32 @@ function DashboardContent() {
 export default function DashboardPage() {
   return <DashboardContent />;
 }
+
+
+
+
+if (e.target.files) {
+
+        /* Get files in array form */
+        const files = Array.from(e.target.files);
+
+        /* Map each file to a promise that resolves to an array of image URI's */ 
+        Promise.all(files.map(file => {
+            return (new Promise((resolve,reject) => {
+                const reader = new FileReader();
+                reader.addEventListener('load', (ev) => {
+                    resolve(ev.target.result);
+                });
+                reader.addEventListener('error', reject);
+                reader.readAsDataURL(file);
+            }));
+        }))
+        .then(images => {
+
+            /* Once all promises are resolved, update state with image URI array */
+            this.setState({ imageArray : images })
+
+        }, error => {        
+            console.error(error);
+        });
+    }

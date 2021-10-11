@@ -22,6 +22,9 @@ import DashboardPage from "../views/admin/dashboard/DashboardPage";
               // seller
 import CreateStorePage from "../views/seller/create-store/CreateStorePage";
 import DashboardStorePage from "../views/seller/dashboard/DashboardPage";
+import AddProductPage from "../views/seller/product/AddProductPage";
+import ListProductPage from "../views/seller/product/ListProductPage";
+import EditProductPage from "../views/seller/product/EditProductPage";
 
 class RouteClient extends React.Component {
   render() {
@@ -78,8 +81,17 @@ class RouteClient extends React.Component {
           <Route exact path="/create-store" >
             <CreateStorePage />
           </Route>
-          <Route exact path="/my-store" >
+          <Route exact path="/seller" >
             <DashboardStorePage />
+          </Route>
+          <Route exact path="/seller/product" >
+            <ListProductPage />
+          </Route>
+          <Route exact path="/seller/product/add" >
+            <AddProductPage />
+          </Route>
+          <Route exact path="/seller/product/edit/:id" >
+            <EditProductPage />
           </Route>
 
           {/* admin */}

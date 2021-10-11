@@ -29,7 +29,7 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 
-export default function Header({openSideBar,toggleSideBar}) {
+export default function Header({titlePage,openSideBar,toggleSideBar}) {
 
     return (
         <AppBar position="absolute" open={openSideBar}>
@@ -57,7 +57,7 @@ export default function Header({openSideBar,toggleSideBar}) {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Dashboard
+             {titlePage}
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">

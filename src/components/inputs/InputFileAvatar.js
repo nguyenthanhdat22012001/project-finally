@@ -7,6 +7,7 @@ export default function InputFileAvatar() {
 
     const handleChange = (e)=>{
         console.log(e.target.file[0]);
+        setImage(e.target.file[0]);
     }
 
     return (
