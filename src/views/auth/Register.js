@@ -1,33 +1,65 @@
-import  React from 'react';
+import React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-// import Link from '@mui/material/Link';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Container from '@mui/material/Container';
+//validate
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
-class Register extends React.Component{
+const theme = createTheme();
 
-    theme = createTheme();
+const schema = yup.object().shape({
+  username: yup
+  .string()
+  .min(8, "Nhập ít nhất 8 ký tự")
+  .max(50,"Nhập tối đa 50 ký tự")
+  .required("Vui lòng nhập họ tên"),
+  email: yup
+    .string()
+    .required("Vui lòng nhập email")
+    .min(18, "mật khẩu ít nhất 18 ký tự")
+    .email('Không đúng định dang email'),
+  password: yup
+    .string()
+    .required("Vui lòng nhập mật khẩu")
+    .min(8, "mật khẩu tối đa 8 ký tự"),
+  confirm_password: yup
+    .string()
+    .required("Vui lòng nhập mật khẩu")
+    .min(8, "mật khẩu tối đa 8 ký tự")
+    .when("password", {
+      is: (val) => (val && val.length > 0 ? true : false),
+      then: yup.string().oneOf(
+        [yup.ref("password")],
+        "Xác mật khẩu không khớp"
+      ),
+    })
+});
 
-    handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
-        console.log({
-          email: data.get('email'),
-          password: data.get('password'),
-        });
-      };
 
-    render(){
-      return   <ThemeProvider theme={this.theme}>
+function Register() {
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({ resolver: yupResolver(schema) });
+
+  const onLoginSubmit = (data) => {
+    console.log(data);
+  };
+
+  return (
+    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -39,14 +71,14 @@ class Register extends React.Component{
           }}
         >
           <Link to="/">
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              <LockOutlinedIcon />
+            </Avatar>
           </Link>
           <Typography component="h1" variant="h5">
             Đăng Kí
           </Typography>
-          <Box component="form" noValidate onSubmit={this.handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form" onSubmit={handleSubmit(onLoginSubmit)} noValidate sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -56,6 +88,9 @@ class Register extends React.Component{
                   label="Họ Tên"
                   name="username"
                   autoComplete="username"
+                  {...register("username")}
+                  helperText={errors.username && `${errors.username?.message}`}
+                  error={errors.username && true}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -66,6 +101,9 @@ class Register extends React.Component{
                   label="Email"
                   name="email"
                   autoComplete="email"
+                  {...register("email")}
+                  helperText={errors.email && `${errors.email?.message}`}
+                  error={errors.email && true}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -77,16 +115,22 @@ class Register extends React.Component{
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  {...register("password")}
+                  helperText={errors.password && `${errors.password?.message}`}
+                  error={errors.password && true}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="config-password"
+                  name="confirm_password"
                   label="Xác nhận mật khẩu"
                   type="password"
-                  id="config-password"
+                  id="confirm_password"
+                  {...register("confirm_password")}
+                  helperText={errors.confirm_password && `${errors.confirm_password?.message}`}
+                  error={errors.confirm_password && true}
                 />
               </Grid>
             </Grid>
@@ -109,7 +153,7 @@ class Register extends React.Component{
         </Box>
       </Container>
     </ThemeProvider>
-    }
+  );
 }
 
 export default Register;

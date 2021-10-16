@@ -13,8 +13,7 @@ import Button from '@mui/material/Button';
 import StoreIcon from '@mui/icons-material/Store';
 import ChatIcon from '@mui/icons-material/Chat';
 import { Tooltip } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
+
 
 
 import "./ProductDetail.scss";
@@ -24,6 +23,7 @@ import ScrollToTop from "../../../components/client/header/ScrollToTop";
 import Chat from "../../../components/client/chat/Chat";
 import TabDetailProduct from "./TabDetailProduct";
 import Product2 from "./Product2";
+import InputUpDown from "../../../components/inputs/InputUpDown";
 
 
 class ProductDetailPage extends React.Component {
@@ -186,26 +186,7 @@ class ProductDetailPage extends React.Component {
                                         </div>
                                         <div className="product__detail__infor__attribute">
                                             <h4>So luong</h4>
-                                            {/* <TextField
-                                        id="outlined-number"
-                                        label=""
-                                        size="small"
-                                        sx={{ maxWidth: 100 }}
-                                        defaultValue={1}
-                                        type="number"
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                    /> */}
-                                            <div className="inputUpDown">
-                                                <IconButton aria-label="delete" size="small"  >
-                                                    <RemoveIcon color="disabled" />
-                                                </IconButton>
-                                                <input className="inputUpDown__input" type="number" defaultValue="1" />
-                                                <IconButton aria-label="delete" size="small"  >
-                                                    <AddIcon color="disabled" />
-                                                </IconButton>
-                                            </div>
+                                            <InputUpDown />
                                         </div>
                                         <div className="group-btn-cart">
                                             <Button variant="contained" color="secondary" size="large" sx={{ marginRight: 1 }}>Mua ngay</Button>

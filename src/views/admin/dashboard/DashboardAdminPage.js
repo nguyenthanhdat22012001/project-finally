@@ -8,26 +8,23 @@ import Grid from '@mui/material/Grid';
 // import Paper from '@mui/material/Paper';
 // import Link from '@mui/material/Link';
 
-import Sidebar from '../../../components/seller/sidebar/Sidebar';
-import Header from '../../../components/seller/header/Header';
+
+import Header from '../../../components/admin/header/Header';
 
 import OrderToday from "../../../components/seller/dashboard/OrderToday"
 
 
 const mdTheme = createTheme();
 
-function DashboardContent() {
-  const [openSideBar, setOpenSideBar] = React.useState(true);
-  const toggleSideBar = () => {
-    setOpenSideBar(!openSideBar);
-  };
+function DashboardAdminPageContent() {
+
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
 
-        <Header openSideBar={openSideBar} toggleSideBar={toggleSideBar} />
-        <Sidebar openSideBar={openSideBar} toggleSideBar={toggleSideBar} />
+        <Header titlePage={'Thống Kê'} />
+
 
         <Box
           component="main"
@@ -57,7 +54,6 @@ function DashboardContent() {
   );
 }
 
-export default function DashboardPage() {
-  return <DashboardContent />;
+export default function DashboardAdminPage() {
+  return <DashboardAdminPageContent />;
 }
-

@@ -39,12 +39,12 @@ class Sidebar extends React.Component {
                     </Link>
                 </ListItem>
                 <ListItem sx={{paddingLeft: 0}}>
-                    <Link to="/favorite">
+                    <Link to="/favorite-follow">
                         <h4 className="user__sidebar__title">San pham & cua hang yeu thich</h4>
                     </Link>
                 </ListItem>
                 <ListItem  sx={{paddingLeft: 0}}>
-                    <Link to="/my-store">
+                    <Link to="/seller">
                         <h4 className="user__sidebar__title">Ban hang tren tadaha</h4>
                     </Link>
                 </ListItem>

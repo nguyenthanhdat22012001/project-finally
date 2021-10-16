@@ -11,6 +11,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 // import Paper from '@mui/material/Paper';
 // import Link from '@mui/material/Link';
 
@@ -250,6 +252,8 @@ export default function EditProductPage() {
                 </Grid >
 
                 <Grid item xs={12} sm={12} md={12} display="flex" justifyContent="flex-end">
+                <FormControlLabel control={<Checkbox defaultChecked />} label="Ẩn Sản Phẩm" />
+
                   <Button
                     type="submit"
                     variant="contained"

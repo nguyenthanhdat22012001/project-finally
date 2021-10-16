@@ -16,21 +16,31 @@ import FavoriteAndFollowPage from "../views/client/user/FavoriteAndFollowPage";
 import Login from "../views/auth/Login";
 import Register from "../views/auth/Register";
 import VoucherPage from "../views/client/voucher/VoucherPage";
-              // admin
+// admin
 import LoginAdmin from "../views/auth/LoginAdmin";
-import DashboardPage from "../views/admin/dashboard/DashboardPage";
-              // seller
+import DashboardAdminPage from "../views/admin/dashboard/DashboardAdminPage";
+import ListOrderAdminPage from "../views/admin/order/ListOrderAdminPage";
+import ListCategoryAdminPage from "../views/admin/category/ListCategoryAdminPage";
+import ListBrandAdminPage from "../views/admin/brand/ListBrandAdminPage";
+import ListCouponAdminPage from "../views/admin/coupon/ListCouponAdminPage";
+import ListMemberAdminPage from "../views/admin/member/ListMemberAdminPage";
+// seller
 import CreateStorePage from "../views/seller/create-store/CreateStorePage";
 import DashboardStorePage from "../views/seller/dashboard/DashboardPage";
 import AddProductPage from "../views/seller/product/AddProductPage";
 import ListProductPage from "../views/seller/product/ListProductPage";
 import EditProductPage from "../views/seller/product/EditProductPage";
+import ListOrderPage from "../views/seller/order/ListOrderPage";
+import MessagePage from "../views/seller/message/MessagePage";
+import ListRatingPage from "../views/seller/comment/ListRatingPage";
+import CommentProductPage from "../views/seller/comment/CommentProductPage";
 
 class RouteClient extends React.Component {
   render() {
     return (
       <Router>
         <Switch>
+          {/* client */}
           <Route exact path="/" >
             <HomePage />
           </Route>
@@ -40,51 +50,51 @@ class RouteClient extends React.Component {
           <Route exact path="/register" >
             <Register />
           </Route>
-          <Route exact path="/product" >
+          <Route exact path="/product" > {/* product  */}
             <ProductPage />
           </Route>
-          <Route exact path="/product/:id.html" >
+          <Route exact path="/product/:id.html" > {/* product detail */}
             <ProductDetailPage />
           </Route>
-          <Route exact path="/cart" >
+          <Route exact path="/cart" > {/* cart   */}
             <CartPage />
           </Route>
-          <Route exact path="/checkout" >
+          <Route exact path="/checkout" > {/* checkout  */}
             <ChekOutPage />
           </Route>
           <Route exact path="/checkout-success" >
             <CheckoutSuccessPage />
           </Route>
-          <Route exact path="/info" >
+          <Route exact path="/info" > {/* info  */}
             <InfoPage />
           </Route>
           <Route exact path="/edit-info" >
             <EditInfoPage />
           </Route>
-          <Route exact path="/my-coupon" >
+          <Route exact path="/coupon" > {/* coupon  */}
             <CouponPage />
           </Route>
-          <Route exact path="/my-order" >
+          <Route exact path="/order" > {/* order   */}
             <HistoryOrderPage />
           </Route>
           <Route exact path="/order-detail" >
             <OrderDetailPage />
           </Route>
-          <Route exact path="/favorite-follow" >
+          <Route exact path="/favorite-follow" > {/* product favorite   */}
             <FavoriteAndFollowPage />
           </Route>
-          <Route exact path="/vouchers" >
+          <Route exact path="/vouchers" > {/* vouvher   */}
             <VoucherPage />
           </Route>
 
           {/* seller */}
-          <Route exact path="/create-store" >
+          <Route exact path="/create-store" > {/* create store   */}
             <CreateStorePage />
           </Route>
-          <Route exact path="/seller" >
+          <Route exact path="/seller" >  {/* dashboard   */}
             <DashboardStorePage />
           </Route>
-          <Route exact path="/seller/product" >
+          <Route exact path="/seller/product" > {/* product  */}
             <ListProductPage />
           </Route>
           <Route exact path="/seller/product/add" >
@@ -93,13 +103,40 @@ class RouteClient extends React.Component {
           <Route exact path="/seller/product/edit/:id" >
             <EditProductPage />
           </Route>
+          <Route exact path="/seller/order" > {/* order  */}
+            <ListOrderPage />
+          </Route>
+          <Route exact path="/seller/message" > {/* message  */}
+            <MessagePage />
+          </Route>
+          <Route exact path="/seller/rating" > {/* rating  */}
+            <ListRatingPage />
+          </Route>
+          <Route exact path="/seller/comments/:id" > {/* comments  */}
+            <CommentProductPage />
+          </Route>
 
           {/* admin */}
           <Route exact path="/admin/login" >
             <LoginAdmin />
           </Route>
           <Route exact path="/admin" >
-            <DashboardPage />
+            <DashboardAdminPage />
+          </Route>
+          <Route exact path="/admin/order" >
+            <ListOrderAdminPage />
+          </Route>
+          <Route exact path="/admin/category" >
+            <ListCategoryAdminPage />
+          </Route>
+          <Route exact path="/admin/brand" >
+            <ListBrandAdminPage />
+          </Route>
+          <Route exact path="/admin/coupon" >
+            <ListCouponAdminPage />
+          </Route>
+          <Route exact path="/admin/member" >
+            <ListMemberAdminPage />
           </Route>
         </Switch>
       </Router>

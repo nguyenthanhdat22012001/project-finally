@@ -3,8 +3,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-// import Link from '@mui/material/Link';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -14,19 +13,64 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import GoogleIcon from '@mui/icons-material/Google';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import IconButton from '@mui/material/IconButton';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import FormControl from '@mui/material/FormControl';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormHelperText from '@mui/material/FormHelperText';
+import InputLabel from '@mui/material/InputLabel';
+//validate
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 const theme = createTheme();
 
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .required("Vui lòng nhập email")
+    .min(18, "mật khẩu ít nhất 18 ký tự")
+    .email('Không đúng định dang email'),
+  password: yup
+    .string()
+    .required("Vui lòng nhập mật khẩu")
+    .min(8, "mật khẩu tối đa 8 ký tự")
+});
+
 export default function Login() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+  const [values, setValues] = React.useState({
+    weightRange: '',
+    showPassword: false,
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({ resolver: yupResolver(schema) });
+
+  const onLoginSubmit = (data) => {
+    console.log(data);
+  };
+
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
     });
   };
+
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   // eslint-disable-next-line no-console
+  //   console.log({
+  //     email: data.get('email'),
+  //     password: data.get('password'),
+  //   });
+  // };
 
   return (
     <ThemeProvider theme={theme}>
@@ -76,7 +120,7 @@ export default function Login() {
                 <FacebookIcon sx={{ fontSize: 30 }} />
               </IconButton>
             </Box>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form" noValidate onSubmit={handleSubmit(onLoginSubmit)} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
@@ -86,17 +130,33 @@ export default function Login() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                {...register("email")}
+                helperText={errors.email && `${errors.email?.message}`}
+                error={errors.email && true}
               />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Mật Khẩu"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
+              <FormControl fullWidth variant="outlined" sx={{marginTop: '16px'}}>
+                <InputLabel htmlFor="outlined-adornment-password" color={errors.password && 'error'}>Mật khẩu</InputLabel>
+                <OutlinedInput
+                  {...register("password")}
+                  he
+                  error={errors.password && true}
+                  id="outlined-adornment-password"
+                  type={values.showPassword ? 'text' : 'password'}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        edge="end"
+                      >
+                        {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Password"
+                />
+                 {errors.password && <FormHelperText sx={{color: 'red'}} id="outlined-weight-helper-text">{errors.password?.message}</FormHelperText>}
+              </FormControl>
               <Button
                 type="submit"
                 fullWidth

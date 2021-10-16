@@ -7,10 +7,10 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import { DataGrid } from '@mui/x-data-grid';
 import Avatar from '@mui/material/Avatar';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import IconButton from '@mui/material/IconButton';
+import CommentIcon from '@mui/icons-material/Comment';
+import Button from '@mui/material/Button';
 import {useHistory} from "react-router-dom";
+import Rating from '@mui/material/Rating';
 // import Paper from '@mui/material/Paper';
 // import Link from '@mui/material/Link';
 
@@ -24,10 +24,10 @@ const mdTheme = createTheme();
 
 
 const rows = [
-  { id: 1, avatar: '../assets/img1.jpg', name: 'cây lược', totalQuanty: 35, active: 'Hoạt động',action:1 },
+  { id: 1, pr_avatar: '../assets/img1.jpg', pr_name: 'cây lược', pr_rating: 5, pr_comment: '35 Lượt',action:1 },
 ];
 
-function ListProductPageContent() {
+function ListRatingPageContent() {
   const history = useHistory();
   const [openSideBar, setOpenSideBar] = React.useState(true);
   const [dialog, setDeleteDialog] = React.useState({openDialog:false,message:''});
@@ -39,48 +39,40 @@ function ListProductPageContent() {
   const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
     {
-      field: 'avatar',
+      field: 'pr_avatar',
       headerName: '',
       width: 150,
       renderCell: (params) => (<div><Avatar variant="square" sx={{ width: 56, height: 56 }} alt="" src={params.value} /></div>)
     },
     {
-      field: 'name',
-      headerName: 'Tên sản phẩm',
+      field: 'pr_name',
+      headerName: 'Sản phẩm',
       width: 150,
     },
     {
-      field: 'totalQuanty',
-      headerName: 'Số lượng tồn kho',
+      field: 'pr_rating',
+      headerName: 'Tổng sao',
+      width: 150,
+      renderCell: (params) => (  <Rating size="small" name="read-only" value={params.value} readOnly />)
+    },
+    {
+      field: 'pr_comment',
+      headerName: 'Số bình luận',
       width: 150,
     },
     {
-      field: 'active',
-      headerName: 'Trạng thái',
-      width: 110,
-    },
-    {
-      field: 'action', headerName: '', width: 150,
+      field: 'action', headerName: '', width: 200,
       renderCell: (params) => (
-        <strong>
-          <IconButton aria-label="" color="inherit" onClick={()=> hanldeDirectEdit(params.value)}>
-            <EditIcon />
-          </IconButton>
-          <IconButton aria-label="" color="inherit" onClick={()=> hanldeDelete(params.value)}>
-            <DeleteOutlineIcon />
-          </IconButton>
-        </strong>
+        <Button variant="outlined" startIcon={<CommentIcon />} onClick={()=> hanldeDirectEdit(params.value)} >
+        Xem bình luận 
+      </Button>
       ),
     },
   ];
 
-  const hanldeDelete = (id)=>{
-    hanldeConfirmDialog(true,`Bạn có chắc muốn xóa sản phẩm id ${id} ?`);
-  }
-
   const hanldeDirectEdit = (id)=>{
     console.log('edit');
-      history.push(`/seller/product/edit/${id}`)
+      history.push(`/seller/comments/${id}`)
   }
 
   const hanldeConfirmDialog = (boolean,message)=>{
@@ -92,7 +84,7 @@ function ListProductPageContent() {
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
 
-        <Header titlePage={'Danh Sách Sản Phẩm'} openSideBar={openSideBar} toggleSideBar={toggleSideBar} />
+        <Header titlePage={'Đánh Giá Sản Phẩm'} openSideBar={openSideBar} toggleSideBar={toggleSideBar} />
         <Sidebar openSideBar={openSideBar} toggleSideBar={toggleSideBar} />
 
         <Box
@@ -133,6 +125,6 @@ function ListProductPageContent() {
   );
 }
 
-export default function ListProductPage() {
-  return <ListProductPageContent />;
+export default function ListRatingPage() {
+  return <ListRatingPageContent />;
 }

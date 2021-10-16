@@ -8,15 +8,13 @@ import Grid from '@mui/material/Grid';
 // import Paper from '@mui/material/Paper';
 // import Link from '@mui/material/Link';
 
-import Sidebar from '../../../components/admin/sidebar/Sidebar';
-import Header from '../../../components/admin/header/Header';
-
-import OrderToday from "../../../components/admin/dashboard/OrderToday"
+import Sidebar from '../../../components/seller/sidebar/Sidebar';
+import Header from '../../../components/seller/header/Header';
 
 
 const mdTheme = createTheme();
 
-function DashboardContent() {
+function EditOrderPageContent() {
   const [openSideBar, setOpenSideBar] = React.useState(true);
   const toggleSideBar = () => {
     setOpenSideBar(!openSideBar);
@@ -46,7 +44,7 @@ function DashboardContent() {
             <Grid container spacing={3}>
 
               <Grid item xs={12} sm={6} md={3}>
-                <OrderToday />
+                
               </Grid>
 
             </Grid>
@@ -57,6 +55,7 @@ function DashboardContent() {
   );
 }
 
-export default function DashboardPage() {
-  return <DashboardContent />;
+export default function EditOrderPage() {
+  return <EditOrderPageContent />;
 }
+

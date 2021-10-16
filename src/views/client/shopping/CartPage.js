@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import LinkBreadcrumbs from '@mui/material/Link';
@@ -16,6 +14,7 @@ import Footer from "../../../components/client/footer/Footer";
 import ScrollToTop from "../../../components/client/header/ScrollToTop";
 import Chat from "../../../components/client/chat/Chat";
 import Stepper from "./Stepper";
+import InputUpDown from "../../../components/inputs/InputUpDown";
 
 
 class CartPage extends React.Component {
@@ -67,7 +66,7 @@ class CartPage extends React.Component {
                         </td> */}
                         <td colspan="6">
                           <Link>
-                          <StorefrontIcon />
+                            <StorefrontIcon />
                             <span>Coop food-Oganic</span>
                           </Link>
                         </td>
@@ -84,15 +83,7 @@ class CartPage extends React.Component {
                         </td>
                         <td class="cart__product__price">400,000đ</td>
                         <td class="cart__product__quanty">
-                          <div className="inputUpDown">
-                            <IconButton aria-label="delete" size="small"  >
-                              <RemoveIcon color="disabled" />
-                            </IconButton>
-                            <input className="inputUpDown__input" type="number" defaultValue="1" />
-                            <IconButton aria-label="delete" size="small"  >
-                              <AddIcon color="disabled" />
-                            </IconButton>
-                          </div>
+                          <InputUpDown />
                         </td>
                         <td class="cart__product__amount">
                           1,200,000đ
@@ -115,15 +106,7 @@ class CartPage extends React.Component {
                         </td>
                         <td class="cart__product__price">400,000đ</td>
                         <td class="cart__product__quanty">
-                          <div className="inputUpDown">
-                            <IconButton aria-label="delete" size="small"  >
-                              <RemoveIcon color="disabled" />
-                            </IconButton>
-                            <input className="inputUpDown__input" type="number" defaultValue="1" />
-                            <IconButton aria-label="delete" size="small"  >
-                              <AddIcon color="disabled" />
-                            </IconButton>
-                          </div>
+                          <InputUpDown />
                         </td>
                         <td class="cart__product__amount">
                           1,200,000đ

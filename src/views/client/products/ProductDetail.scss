@@ -262,9 +262,10 @@
         border-top: 1px solid #eff0f5;
     }
     &__reply-comment{
-        padding: 15px 15px 15px 48px;
+        padding: 15px;
+        margin-left: 45px;
         font-size: 12px;
-        background-color: #f8f8f8
+        background-color: #ccc;
     }
     &__name-seller{
         color: #ff330c
