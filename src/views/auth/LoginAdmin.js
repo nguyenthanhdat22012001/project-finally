@@ -1,4 +1,4 @@
-import  React from 'react';
+import React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,23 +9,39 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Container from '@mui/material/Container';
+//validate
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
-class LoginAdmin extends React.Component{
 
-    theme = createTheme();
+const theme = createTheme();
 
-    handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
-        console.log({
-          email: data.get('email'),
-          password: data.get('password'),
-        });
-      };
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .required("Vui lòng nhập email")
+    .min(18, "mật khẩu ít nhất 18 ký tự")
+    .email('Không đúng định dang email'),
+  password: yup
+    .string()
+    .required("Vui lòng nhập mật khẩu")
+    .min(8, "mật khẩu tối đa 8 ký tự")
+});
 
-    render(){
-      return   <ThemeProvider theme={this.theme}>
+function LoginAdmin() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({ resolver: yupResolver(schema) });
+
+  const onLoginSubmit = (data) => {
+    console.log(data);
+  };
+
+  return (
+    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -42,7 +58,7 @@ class LoginAdmin extends React.Component{
           <Typography component="h1" variant="h5">
             Admin
           </Typography>
-          <Box component="form" noValidate onSubmit={this.handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form" noValidate onSubmit={handleSubmit(onLoginSubmit)} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -52,6 +68,9 @@ class LoginAdmin extends React.Component{
                   label="Email"
                   name="email"
                   autoComplete="email"
+                  {...register("email")}
+                  helperText={errors.email && `${errors.email?.message}`}
+                  error={errors.email && true}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -62,7 +81,10 @@ class LoginAdmin extends React.Component{
                   label="Mật khẩu"
                   type="password"
                   id="password"
-                  autoComplete="new-password"
+                  autoComplete="password"
+                  {...register("password")}
+                  helperText={errors.password && `${errors.password?.message}`}
+                  error={errors.password && true}
                 />
               </Grid>
             </Grid>
@@ -78,7 +100,7 @@ class LoginAdmin extends React.Component{
         </Box>
       </Container>
     </ThemeProvider>
-    }
+  );
 }
 
 export default LoginAdmin;

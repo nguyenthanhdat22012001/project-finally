@@ -1,0 +1,30 @@
+@import "../../../mixin";
+
+.ListMessage{
+    &__item{
+        @include flexbox();
+        cursor: pointer;
+        padding: 7px 0;
+    }
+    &__col-3{
+        margin-right: 10px;
+    }
+    &__col-8{
+        flex: 1;
+        margin-right: 10px;
+    }
+    &__name-user{
+        @include flexbox(center,space-between);
+        color: #212121;
+        margin-bottom: 5px;
+        &>span:last-child{
+            font-size: 12px;
+            color: grey;
+        }
+    }
+    &__desc{
+        font-size: 12px;
+        color: grey;
+        @include dotText();
+    }
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '@mui/material/Button';
+import {Link} from "react-router-dom";
 
 import "./user.scss";
 import Header from "../../../components/client/header/Header";
@@ -42,7 +43,7 @@ class InfoPage extends React.Component {
                                         <p className="user__value">Nguyendat@gmail.com</p>
                                     </div>
                                     <div className="group-btn-cart mt-5rem">
-                                        <Button variant="contained" color="secondary" size="large" sx={{ marginRight: 1 }}>Chinh sua thong tin</Button>
+                                      <Link to="/edit-info">  <Button variant="contained" color="secondary" size="large" sx={{ marginRight: 1 }}>Chinh sua thong tin</Button></Link>
                                         <Button variant="contained" color="primary" size="large">Doi mat khau</Button>
                                     </div>
                                 </div>
