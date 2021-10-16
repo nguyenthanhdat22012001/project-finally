@@ -201,6 +201,6 @@ function DashboardContent() {
   );
 }
 
-export default function DashboardPage() {
+export default function Dashboard() {
   return <DashboardContent />;
 }

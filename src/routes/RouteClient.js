@@ -16,15 +16,9 @@ import FavoriteAndFollowPage from "../views/client/user/FavoriteAndFollowPage";
 import Login from "../views/auth/Login";
 import Register from "../views/auth/Register";
 import VoucherPage from "../views/client/voucher/VoucherPage";
-              // admin
+
 import LoginAdmin from "../views/auth/LoginAdmin";
 import DashboardPage from "../views/admin/dashboard/DashboardPage";
-              // seller
-import CreateStorePage from "../views/seller/create-store/CreateStorePage";
-import DashboardStorePage from "../views/seller/dashboard/DashboardPage";
-import AddProductPage from "../views/seller/product/AddProductPage";
-import ListProductPage from "../views/seller/product/ListProductPage";
-import EditProductPage from "../views/seller/product/EditProductPage";
 
 class RouteClient extends React.Component {
   render() {
@@ -76,24 +70,6 @@ class RouteClient extends React.Component {
           <Route exact path="/vouchers" >
             <VoucherPage />
           </Route>
-
-          {/* seller */}
-          <Route exact path="/create-store" >
-            <CreateStorePage />
-          </Route>
-          <Route exact path="/seller" >
-            <DashboardStorePage />
-          </Route>
-          <Route exact path="/seller/product" >
-            <ListProductPage />
-          </Route>
-          <Route exact path="/seller/product/add" >
-            <AddProductPage />
-          </Route>
-          <Route exact path="/seller/product/edit/:id" >
-            <EditProductPage />
-          </Route>
-
           {/* admin */}
           <Route exact path="/admin/login" >
             <LoginAdmin />
