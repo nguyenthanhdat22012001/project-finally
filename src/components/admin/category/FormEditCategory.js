@@ -1,4 +1,4 @@
-import React from 'react';
+import {useEffect,useState} from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -13,12 +13,20 @@ import { categorySchema } from "../../../validates/categoryValidate";
 
 
 
-FormCategory.propTypes = {
-    handleAddCategory: PropTypes.func,
+FormEditCategory.propTypes = {
+    handleUpdateCategory: PropTypes.func,
+    category: PropTypes.object,
 } 
 
-function FormCategory(props) {
-    const { handleAddCategory } = props;
+FormEditCategory.defaultProps = {
+    handleUpdateCategory: null,
+    category: null,
+} 
+
+function FormEditCategory(props) {
+    const {category, handleUpdateCategory } = props;
+    // const [thisCategory, setThisCategory] = useState(category);
+    console.log(category);
     //validate
     const {
         register,
@@ -32,14 +40,15 @@ function FormCategory(props) {
         } else {
             data.hide = 1;
         }
-        handleAddCategory(data);
+        handleUpdateCategory(data);
 
     };
+
 
     return (
         <div>
             <Typography variant="h5" gutterBottom component="div">
-                Thêm danh mục sản phẩm
+                Chỉnh sửa danh mục "{category && category.name}"
             </Typography>
             <Box
                 component="form"
@@ -51,8 +60,9 @@ function FormCategory(props) {
                     required
                     fullWidth
                     id="outlined-required"
-                    label="Tên thương hiệu"
+                    label="Tên danh mục"
                     margin="normal"
+                    value={category && category.name}
                     {...register("name")}
                     helperText={errors.name && `${errors.name?.message}`}
                     error={errors.name && true}
@@ -63,6 +73,7 @@ function FormCategory(props) {
                     id="outlined-required"
                     label="Slug"
                     margin="normal"
+                    value={category && category.slug}
                     {...register("slug")}
                 />
                 <TextField
@@ -72,10 +83,11 @@ function FormCategory(props) {
                     label="Mô tả"
                     multiline
                     rows={4}
+                    value={category && category.description}
                     {...register("description")}
                 />
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
-                    <FormControlLabel control={<Checkbox  {...register("hide")} />} label="Ẩn" />
+                    <FormControlLabel control={<Checkbox checked={category && category.hide === 1 ? true : false} {...register("hide")} />} label="Ẩn" />
                     <Button type="submit" variant="contained">Thêm danh mục</Button>
                 </Box>
             </Box>
@@ -84,5 +96,5 @@ function FormCategory(props) {
 }
 
 
-export default FormCategory
+export default FormEditCategory;
 

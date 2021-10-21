@@ -58,7 +58,7 @@ export default function Header({ titlePage }) {
   };
 
   return (
-    <Box>
+    <Box sx={{ zIndex: '10'}}>
       <AppBar position="absolute" open={openSideBar}>
         <Toolbar
           sx={{

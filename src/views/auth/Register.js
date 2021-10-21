@@ -1,4 +1,5 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
+import { useHistory } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,19 +15,26 @@ import Container from '@mui/material/Container';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+// api
+import userApi from "../../api/userApi";
+//redux
+import { useSelector, useDispatch } from "react-redux";
+import { LoginAuthAction } from "../../redux/actions/AuthAction";
+
+import LoaderDialog from "../../components/dialog/LoaderDialog";
 
 const theme = createTheme();
 
 const schema = yup.object().shape({
-  username: yup
-  .string()
-  .min(8, "Nhập ít nhất 8 ký tự")
-  .max(50,"Nhập tối đa 50 ký tự")
-  .required("Vui lòng nhập họ tên"),
+  name: yup
+    .string()
+    .min(8, "Nhập ít nhất 8 ký tự")
+    .max(50, "Nhập tối đa 50 ký tự")
+    .required("Vui lòng nhập họ tên"),
   email: yup
     .string()
     .required("Vui lòng nhập email")
-    .min(18, "mật khẩu ít nhất 18 ký tự")
+    .min(16, "email ít nhất 16 ký tự")
     .email('Không đúng định dang email'),
   password: yup
     .string()
@@ -47,19 +55,61 @@ const schema = yup.object().shape({
 
 
 function Register() {
+  const [isLoading, setIsLoading] = useState(true);
+  const isSigned = useSelector(state => state.auth.isSigned);
+  const dispatch = useDispatch();
+  const history = useHistory();
 
+  console.log("isSigned ="+isSigned)
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm({ resolver: yupResolver(schema) });
 
-  const onLoginSubmit = (data) => {
-    console.log(data);
+  /*************** go to home page if logined ************/
+  if (isSigned) {
+    history.push('/');
+  }
+
+  /************** handle register user ***************/
+  const handleRegisterSubmit = async (data) => {
+    try {
+      setIsLoading(true);
+      const res = await userApi.registerUser(data);
+      const user = {
+        user: {
+          id: res.data.id,
+          name: res.data.name,
+          email: res.data.email,
+        },
+        isSigned: true,
+      }
+
+      const action = LoginAuthAction(user);
+      dispatch(action);
+
+      console.log(res);
+    } catch (error) {
+      console.log('error: ' + error);
+    }
   };
+
+  /*************** loading page ************/
+  useEffect(() => {
+    const timeLoading = setTimeout(() => {
+      setIsLoading(false)
+    }, 1000);
+    return () => {
+      clearTimeout(timeLoading)
+    }
+  }, [])
 
   return (
     <ThemeProvider theme={theme}>
+
+      {isLoading && <LoaderDialog />} {/* load page */}
+
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -78,19 +128,19 @@ function Register() {
           <Typography component="h1" variant="h5">
             Đăng Kí
           </Typography>
-          <Box component="form" onSubmit={handleSubmit(onLoginSubmit)} noValidate sx={{ mt: 3 }}>
+          <Box component="form" onSubmit={handleSubmit(handleRegisterSubmit)} noValidate sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  id="username"
+                  id="name"
                   label="Họ Tên"
-                  name="username"
-                  autoComplete="username"
-                  {...register("username")}
-                  helperText={errors.username && `${errors.username?.message}`}
-                  error={errors.username && true}
+                  name="name"
+                  autoComplete="name"
+                  {...register("name")}
+                  helperText={errors.name && `${errors.name?.message}`}
+                  error={errors.name && true}
                 />
               </Grid>
               <Grid item xs={12}>

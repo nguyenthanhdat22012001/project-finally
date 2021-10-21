@@ -1,78 +1,163 @@
-import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import { DataGrid } from '@mui/x-data-grid';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import IconButton from '@mui/material/IconButton';
-import { useHistory } from "react-router-dom";
-
 
 import Header from '../../../components/admin/header/Header';
-import ConfirmDialog from '../../../components/dialog/ConfirmDialog';
 import FormCategory from '../../../components/admin/category/FormCategory';
+import FormEditCategory from '../../../components/admin/category/FormEditCategory';
+import TableListCategory from '../../../components/admin/category/TableListCategory';
+import LoaderDialog from "../../../components/dialog/LoaderDialog";
+import ProccessDialog from "../../../components/dialog/ProccessDialog";
+//noti
+import { useSnackbar } from 'notistack';
+
+// api
+import categoryApi from "../../../api/categoryApi";
 
 const mdTheme = createTheme();
 
 
-const rows = [
-  { id: 1, cate_name: 'Nokia', cate_active: 'Hoạt động', cate_action: 1 },
-];
+
 
 function ListCategoryAdminPageContent() {
-  const history = useHistory();
-  const [dialog, setDeleteDialog] = React.useState({ openDialog: false, message: '' });
+  const [isLoading, setIsLoading] = useState(true);
+  const [listCategory, setListCategory] = useState([]);
+  const [editCategory, setEditCategory] = useState({ isEdit: false, category: null });
+  const [isProccess, setIsProccess] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
-  const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
-    {
-      field: 'cate_name',
-      headerName: 'Danh mục',
-      width: 150,
-    },
-    {
-      field: 'cate_active',
-      headerName: 'Trạng thái',
-      width: 110,
-    },
-    {
-      field: 'cate_action', headerName: '', width: 150,
-      renderCell: (params) => (
-        <strong>
-          <IconButton aria-label="" color="inherit" onClick={() => hanldeDirectEdit(params.value)}>
-            <EditIcon />
-          </IconButton>
-          <IconButton aria-label="" color="inherit" onClick={() => hanldeDelete(params.value)}>
-            <DeleteOutlineIcon />
-          </IconButton>
-        </strong>
-      ),
-    },
-  ];
+  /*************** loading page when get list category ************/
+  useEffect(() => {
+    handleGetListCategory();
 
-  const hanldeDelete = (id) => {
-    hanldeConfirmDialog(true, `Bạn có chắc muốn xóa sản phẩm id ${id} ?`);
+    const timeLoading = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    return () => {
+      clearTimeout(timeLoading)
+    }
+  }, [])
+
+  /************** handle noti dialog***************/
+  const handleNotiDialog = (message, status) => {
+    enqueueSnackbar(message, {
+      variant: status,
+      anchorOrigin: {
+        vertical: 'bottom',
+        horizontal: 'left',
+      },
+    });
+  };
+
+  /************** handle get list category ***************/
+  const handleGetListCategory = async () => {
+    try {
+      const res = await categoryApi.getCategoryAll();
+      if (res) {
+        const newListCategory = res.data.map(item => {
+          return {
+            ...item,
+            action: { cate_id: item.id, cate_name: item.name },
+          }
+        });
+        console.log(newListCategory);
+        setListCategory([...newListCategory]);
+        return true;
+      }
+
+    } catch (error) {
+      console.log('error: ' + error);
+    }
+  };
+
+  /************** handle add category ***************/
+  const handleAddCategory = async (data) => {
+    try {
+      setIsProccess(true);
+
+      const res = await categoryApi.addCategory(data);
+      if (res) {
+        handleGetListCategory()
+        setIsProccess(false);
+        handleNotiDialog('thêm danh mục thành công', 'success');
+      };
+
+
+    } catch (error) {
+      console.log('error: ' + error);
+    }
+  };
+
+
+  /************** handle delete category ***************/
+  const handleDeleteCategory = async (id) => {
+
+    try {
+      setIsProccess(true);
+
+      const res = await categoryApi.deleteCategory(id);
+      if (res) {
+        handleGetListCategory();
+        setIsProccess(false);
+        handleNotiDialog('xóa danh mục thành công', 'success')
+      }
+
+
+    } catch (error) {
+      console.log('error: ' + error);
+    }
+  };
+
+  /************** handle  edit category ***************/
+  const handleEditCategory = async (id) => {
+    try {
+      setIsProccess(true);
+      console.log(id)
+      const res = await categoryApi.getCategoryById(id);
+      if (res) {
+        setEditCategory({...editCategory, isEdit: true, category: res.data});
+        setIsProccess(false);
+      }
+
+      console.log(res);
+    } catch (error) {
+      console.log('error: ' + error);
+    }
   }
+  /************** handle update category ***************/
+  const handleUpdateCategory = async (id) => {
 
-  const hanldeDirectEdit = (id) => {
-    console.log('edit');
-    history.push(`/seller/product/edit/${id}`)
-  }
+    try {
+      setIsProccess(true);
 
-  const hanldeConfirmDialog = (boolean, message) => {
-    setDeleteDialog({ ...dialog, openDialog: boolean, message: message });
-  }
+      const res = await categoryApi.getCategoryById(id);
+      if (res) {
+        handleGetListCategory();
+        setIsProccess(false);
+      }
+
+      console.log(res);
+    } catch (error) {
+      console.log('error: ' + error);
+    }
+  };
 
   return (
     <ThemeProvider theme={mdTheme}>
+
+      {isLoading && <LoaderDialog />} {/* load page */}
+      {isProccess && <ProccessDialog />} {/* proccess page */}
+
+
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
 
-        <Header titlePage={'Danh Sách Sản Phẩm'} />
+        <Header titlePage={'Danh Mục Sản Phẩm'} />
 
         <Box
           component="main"
@@ -91,27 +176,26 @@ function ListCategoryAdminPageContent() {
             <Grid container spacing={3}>
 
               <Grid item xs={12} sm={6} md={6}>
-                <div style={{ height: 400, width: '100%' }}>
-                  <DataGrid
-                    rows={rows}
-                    columns={columns}
-                    pageSize={5}
-                    rowsPerPageOptions={[5]}
-                    disableSelectionOnClick
-                  />
-                </div>
+                <TableListCategory
+                  listCategory={listCategory}
+                  handleDeleteCategory={handleDeleteCategory}
+                  handleEditCategory={handleEditCategory}
+                />
               </Grid>
 
               <Grid item xs={12} sm={6} md={6}>
-                <FormCategory />
+                {
+                editCategory.isEdit ? 
+                <FormEditCategory category={editCategory.category} handleUpdateCategory={handleUpdateCategory}/> :
+                <FormCategory handleAddCategory={handleAddCategory}/> 
+                }
+             
               </Grid>
 
             </Grid>
           </Container>
         </Box>
       </Box>
-      {/* dialog */}
-      <ConfirmDialog dialog={dialog} hanldeConfirmDialog={hanldeConfirmDialog} />
     </ThemeProvider>
   );
 }

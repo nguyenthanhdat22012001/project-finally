@@ -82,3 +82,24 @@ function DashboardContent() {
 export default function DashboardPage() {
   return <DashboardContent />;
 }
+
+
+
+############################ loading page ############################
+
+import LoaderDialog from "../../components/dialog/LoaderDialog";
+
+  const [isLoading, setIsLoading] = useState(true);
+
+
+  /*************** loading page ************/
+  useEffect(() => {
+    const timeLoading = setTimeout(() => {
+      setIsLoading(false)
+    }, 1000);
+    return () => {
+      clearTimeout(timeLoading)
+    }
+  }, [])
+
+   {isLoading && <LoaderDialog />} {/* load page */}

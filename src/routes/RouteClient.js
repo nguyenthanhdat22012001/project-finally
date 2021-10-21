@@ -41,103 +41,68 @@ class RouteClient extends React.Component {
       <Router>
         <Switch>
           {/* client */}
-          <Route exact path="/" >
-            <HomePage />
-          </Route>
-          <Route exact path="/login" >
-            <Login />
-          </Route>
-          <Route exact path="/register" >
-            <Register />
-          </Route>
-          <Route exact path="/product" > {/* product  */}
-            <ProductPage />
-          </Route>
-          <Route exact path="/product/:id.html" > {/* product detail */}
-            <ProductDetailPage />
-          </Route>
-          <Route exact path="/cart" > {/* cart   */}
-            <CartPage />
-          </Route>
-          <Route exact path="/checkout" > {/* checkout  */}
-            <ChekOutPage />
-          </Route>
-          <Route exact path="/checkout-success" >
-            <CheckoutSuccessPage />
-          </Route>
-          <Route exact path="/info" > {/* info  */}
-            <InfoPage />
-          </Route>
-          <Route exact path="/edit-info" >
-            <EditInfoPage />
-          </Route>
-          <Route exact path="/coupon" > {/* coupon  */}
-            <CouponPage />
-          </Route>
-          <Route exact path="/order" > {/* order   */}
-            <HistoryOrderPage />
-          </Route>
-          <Route exact path="/order-detail" >
-            <OrderDetailPage />
-          </Route>
-          <Route exact path="/favorite-follow" > {/* product favorite   */}
-            <FavoriteAndFollowPage />
-          </Route>
-          <Route exact path="/vouchers" > {/* vouvher   */}
-            <VoucherPage />
-          </Route>
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
+
+          <Route exact path="/product" component={ProductPage} /> {/* product  */}
+          <Route exact path="/product/:id.html" component={ProductDetailPage} /> {/* product detail */}
+
+          <Route exact path="/cart" component={CartPage} /> {/* cart   */}
+
+          <Route exact path="/checkout" component={ChekOutPage} /> {/* checkout  */}
+
+          <Route exact path="/checkout-success" component={CheckoutSuccessPage} />
+
+          <Route exact path="/info" component={InfoPage} /> {/* info  */}
+
+          <Route exact path="/edit-info" component={EditInfoPage} />
+
+          <Route exact path="/coupon" component={CouponPage} /> {/* coupon  */}
+
+          <Route exact path="/order" component={HistoryOrderPage} /> {/* order   */}
+
+          <Route exact path="/order-detail" component={OrderDetailPage} />
+
+          <Route exact path="/favorite-follow" component={FavoriteAndFollowPage} /> {/* product favorite   */}
+
+          <Route exact path="/vouchers" component={VoucherPage} /> {/* vouvher   */}
+
 
           {/* seller */}
-          <Route exact path="/create-store" > {/* create store   */}
-            <CreateStorePage />
-          </Route>
-          <Route exact path="/seller" >  {/* dashboard   */}
-            <DashboardStorePage />
-          </Route>
-          <Route exact path="/seller/product" > {/* product  */}
-            <ListProductPage />
-          </Route>
-          <Route exact path="/seller/product/add" >
-            <AddProductPage />
-          </Route>
-          <Route exact path="/seller/product/edit/:id" >
-            <EditProductPage />
-          </Route>
-          <Route exact path="/seller/order" > {/* order  */}
-            <ListOrderPage />
-          </Route>
-          <Route exact path="/seller/message" > {/* message  */}
-            <MessagePage />
-          </Route>
-          <Route exact path="/seller/rating" > {/* rating  */}
-            <ListRatingPage />
-          </Route>
-          <Route exact path="/seller/comments/:id" > {/* comments  */}
-            <CommentProductPage />
-          </Route>
+          <Route exact path="/create-store" component={CreateStorePage} /> {/* create store   */}
+
+          <Route exact path="/seller" component={DashboardStorePage} />  {/* dashboard   */}
+
+          <Route exact path="/seller/product" component={ListProductPage} /> {/* product  */}
+
+          <Route exact path="/seller/product/add" component={AddProductPage} />
+
+          <Route exact path="/seller/product/edit/:id" component={EditProductPage} />
+
+          <Route exact path="/seller/order" component={ListOrderPage} /> {/* order  */}
+
+          <Route exact path="/seller/message" component={MessagePage} /> {/* message  */}
+
+          <Route exact path="/seller/rating" component={ListRatingPage} /> {/* rating  */}
+
+          <Route exact path="/seller/comments/:id" component={CommentProductPage} /> {/* comments  */}
+
 
           {/* admin */}
-          <Route exact path="/admin/login" >
-            <LoginAdmin />
-          </Route>
-          <Route exact path="/admin" >
-            <DashboardAdminPage />
-          </Route>
-          <Route exact path="/admin/order" >
-            <ListOrderAdminPage />
-          </Route>
-          <Route exact path="/admin/category" >
-            <ListCategoryAdminPage />
-          </Route>
-          <Route exact path="/admin/brand" >
-            <ListBrandAdminPage />
-          </Route>
-          <Route exact path="/admin/coupon" >
-            <ListCouponAdminPage />
-          </Route>
-          <Route exact path="/admin/member" >
-            <ListMemberAdminPage />
-          </Route>
+          <Route exact path="/admin/login" component={LoginAdmin} />
+          <Route exact path="/admin" component={DashboardAdminPage} />
+
+          <Route exact path="/admin/order" component={ListOrderAdminPage} />
+
+          <Route exact path="/admin/category" component={ListCategoryAdminPage} />
+
+          <Route exact path="/admin/brand" component={ListBrandAdminPage} />
+
+          <Route exact path="/admin/coupon" component={ListCouponAdminPage} />
+
+          <Route exact path="/admin/member" component={ListMemberAdminPage} />
+
         </Switch>
       </Router>
     );

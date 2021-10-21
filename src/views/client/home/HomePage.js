@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect } from 'react';
 import ImageGallery from 'react-image-gallery';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
@@ -13,44 +13,58 @@ import Chat from "../../../components/client/chat/Chat";
 import ListCategory from './ListCategoey';
 import Product from '../products/Product';
 import TopListStores from './TopListStores';
+import LoaderDialog from "../../../components/dialog/LoaderDialog";
 
-class HomePage extends React.Component {
-    // constructor(props) {
-    //     super(props);
-    // }
-    images = [
-        {
-            original: 'https://picsum.photos/id/1018/1000/600/',
-            thumbnail: 'https://picsum.photos/id/1018/250/150/',
-        },
-        {
-            original: 'https://picsum.photos/id/1015/1000/600/',
-            thumbnail: 'https://picsum.photos/id/1015/250/150/',
-        },
-        {
-            original: 'https://picsum.photos/id/1019/1000/600/',
-            thumbnail: 'https://picsum.photos/id/1019/250/150/',
-        },
-    ];
-    responsive = {
-        desktop: {
-            breakpoint: { max: 3000, min: 1024 },
-            items: 4,
-            slidesToSlide: 3 // optional, default to 1.
-        },
-        tablet: {
-            breakpoint: { max: 1024, min: 464 },
-            items: 2,
-            slidesToSlide: 2 // optional, default to 1.
-        },
-        mobile: {
-            breakpoint: { max: 464, min: 0 },
-            items: 1,
-            slidesToSlide: 1 // optional, default to 1.
+const images = [
+    {
+        original: 'https://picsum.photos/id/1018/1000/600/',
+        thumbnail: 'https://picsum.photos/id/1018/250/150/',
+    },
+    {
+        original: 'https://picsum.photos/id/1015/1000/600/',
+        thumbnail: 'https://picsum.photos/id/1015/250/150/',
+    },
+    {
+        original: 'https://picsum.photos/id/1019/1000/600/',
+        thumbnail: 'https://picsum.photos/id/1019/250/150/',
+    },
+];
+
+const responsive = {
+    desktop: {
+        breakpoint: { max: 3000, min: 1024 },
+        items: 4,
+        slidesToSlide: 3 // optional, default to 1.
+    },
+    tablet: {
+        breakpoint: { max: 1024, min: 464 },
+        items: 2,
+        slidesToSlide: 2 // optional, default to 1.
+    },
+    mobile: {
+        breakpoint: { max: 464, min: 0 },
+        items: 1,
+        slidesToSlide: 1 // optional, default to 1.
+    }
+};
+
+function HomePage() {
+    const [isLoading, setIsLoading] = useState(true);
+
+    /*************** loading page ************/
+    useEffect(() => {
+        const timeLoading = setTimeout(() => {
+            setIsLoading(false)
+        }, 1000);
+        return () => {
+            clearTimeout(timeLoading)
         }
-    };
-    render() {
-        return <div className="client">
+    }, [])
+
+
+    return (
+        <div className="client">
+            {isLoading && <LoaderDialog />} {/* load page */}
             <ScrollToTop />
             <Chat />
             <Header />
@@ -71,7 +85,7 @@ class HomePage extends React.Component {
                                 slideDuration={2000}
                                 swipingTransitionDuration={200}
                                 // autoPlay={true}
-                                items={this.images}
+                                items={images}
                                 originalHeight={100}
                             />
                         </div>
@@ -100,7 +114,7 @@ class HomePage extends React.Component {
                             <Carousel
                                 swipeable={false}
                                 draggable={false}
-                                responsive={this.responsive}
+                                responsive={responsive}
                                 keyBoardControl={true}
                                 containerClass="carousel-container"
                                 removeArrowOnDeviceType={["tablet", "mobile"]}
@@ -151,7 +165,7 @@ class HomePage extends React.Component {
             </main>
             <Footer />
         </div>
-    }
+    );
 }
 
 export default HomePage;
