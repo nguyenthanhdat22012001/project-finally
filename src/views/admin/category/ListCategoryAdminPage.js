@@ -42,7 +42,10 @@ function ListCategoryAdminPageContent() {
       clearTimeout(timeLoading)
     }
   }, [])
-
+  /************** handle  edit category ***************/
+  const handleEditFalse = () => {
+    setEditCategory({...editCategory, isEdit: false, category: null})
+  }
   /************** handle noti dialog***************/
   const handleNotiDialog = (message, status) => {
     enqueueSnackbar(message, {
@@ -65,7 +68,7 @@ function ListCategoryAdminPageContent() {
             action: { cate_id: item.id, cate_name: item.name },
           }
         });
-        console.log(newListCategory);
+
         setListCategory([...newListCategory]);
         return true;
       }
@@ -117,25 +120,24 @@ function ListCategoryAdminPageContent() {
   const handleEditCategory = async (id) => {
     try {
       setIsProccess(true);
-      console.log(id)
+
       const res = await categoryApi.getCategoryById(id);
       if (res) {
         setEditCategory({...editCategory, isEdit: true, category: res.data});
         setIsProccess(false);
       }
 
-      console.log(res);
     } catch (error) {
       console.log('error: ' + error);
     }
   }
   /************** handle update category ***************/
-  const handleUpdateCategory = async (id) => {
+  const handleUpdateCategory = async (id,data) => {
 
     try {
       setIsProccess(true);
 
-      const res = await categoryApi.getCategoryById(id);
+      const res = await categoryApi.updateCategory(id,data);
       if (res) {
         handleGetListCategory();
         setIsProccess(false);
@@ -186,7 +188,12 @@ function ListCategoryAdminPageContent() {
               <Grid item xs={12} sm={6} md={6}>
                 {
                 editCategory.isEdit ? 
-                <FormEditCategory category={editCategory.category} handleUpdateCategory={handleUpdateCategory}/> :
+                <FormEditCategory 
+                key={editCategory.category.id} 
+                category={editCategory.category} 
+                handleUpdateCategory={handleUpdateCategory}
+                handleEditFalse={handleEditFalse}
+                /> :
                 <FormCategory handleAddCategory={handleAddCategory}/> 
                 }
              
