@@ -12,6 +12,7 @@ import FormEditCategory from '../../../components/admin/category/FormEditCategor
 import TableListCategory from '../../../components/admin/category/TableListCategory';
 import LoaderDialog from "../../../components/dialog/LoaderDialog";
 import ProccessDialog from "../../../components/dialog/ProccessDialog";
+import TableSkeleton from "../../../components/skeleton/TableSkeleton";
 //noti
 import { useSnackbar } from 'notistack';
 
@@ -25,6 +26,7 @@ const mdTheme = createTheme();
 
 function ListCategoryAdminPageContent() {
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadFetchApiSuccess, setIsLoadFetchApiSuccess] = useState(false);
   const [listCategory, setListCategory] = useState([]);
   const [editCategory, setEditCategory] = useState({ isEdit: false, category: null });
   const [isProccess, setIsProccess] = useState(false);
@@ -44,7 +46,7 @@ function ListCategoryAdminPageContent() {
   }, [])
   /************** handle  edit category ***************/
   const handleEditFalse = () => {
-    setEditCategory({...editCategory, isEdit: false, category: null})
+    setEditCategory({ ...editCategory, isEdit: false, category: null })
   }
   /************** handle noti dialog***************/
   const handleNotiDialog = (message, status) => {
@@ -60,6 +62,11 @@ function ListCategoryAdminPageContent() {
   /************** handle get list category ***************/
   const handleGetListCategory = async () => {
     try {
+
+      if (isLoadFetchApiSuccess) {
+        setIsLoadFetchApiSuccess(false);
+      }
+
       const res = await categoryApi.getCategoryAll();
       if (res) {
         const newListCategory = res.data.map(item => {
@@ -70,7 +77,7 @@ function ListCategoryAdminPageContent() {
         });
 
         setListCategory([...newListCategory]);
-        return true;
+        setIsLoadFetchApiSuccess(true);
       }
 
     } catch (error) {
@@ -85,7 +92,7 @@ function ListCategoryAdminPageContent() {
 
       const res = await categoryApi.addCategory(data);
       if (res) {
-        handleGetListCategory()
+        handleGetListCategory();
         setIsProccess(false);
         handleNotiDialog('thêm danh mục thành công', 'success');
       };
@@ -107,7 +114,7 @@ function ListCategoryAdminPageContent() {
       if (res) {
         handleGetListCategory();
         setIsProccess(false);
-        handleNotiDialog('xóa danh mục thành công', 'success')
+        handleNotiDialog('xóa danh mục thành công', 'success');
       }
 
 
@@ -123,7 +130,7 @@ function ListCategoryAdminPageContent() {
 
       const res = await categoryApi.getCategoryById(id);
       if (res) {
-        setEditCategory({...editCategory, isEdit: true, category: res.data});
+        setEditCategory({ ...editCategory, isEdit: true, category: res.data });
         setIsProccess(false);
       }
 
@@ -132,15 +139,16 @@ function ListCategoryAdminPageContent() {
     }
   }
   /************** handle update category ***************/
-  const handleUpdateCategory = async (id,data) => {
+  const handleUpdateCategory = async (id, data) => {
 
     try {
       setIsProccess(true);
 
-      const res = await categoryApi.updateCategory(id,data);
+      const res = await categoryApi.updateCategory(id, data);
       if (res) {
         handleGetListCategory();
         setIsProccess(false);
+        handleNotiDialog('chỉnh sửa danh mục thành công', 'success');
       }
 
       console.log(res);
@@ -178,25 +186,30 @@ function ListCategoryAdminPageContent() {
             <Grid container spacing={3}>
 
               <Grid item xs={12} sm={6} md={6}>
-                <TableListCategory
-                  listCategory={listCategory}
-                  handleDeleteCategory={handleDeleteCategory}
-                  handleEditCategory={handleEditCategory}
-                />
+                {
+                  isLoadFetchApiSuccess ?
+                    <TableListCategory
+                      listCategory={listCategory}
+                      handleDeleteCategory={handleDeleteCategory}
+                      handleEditCategory={handleEditCategory}
+                    />
+                    : <TableSkeleton />
+                }
+
               </Grid>
 
               <Grid item xs={12} sm={6} md={6}>
                 {
-                editCategory.isEdit ? 
-                <FormEditCategory 
-                key={editCategory.category.id} 
-                category={editCategory.category} 
-                handleUpdateCategory={handleUpdateCategory}
-                handleEditFalse={handleEditFalse}
-                /> :
-                <FormCategory handleAddCategory={handleAddCategory}/> 
+                  editCategory.isEdit ?
+                    <FormEditCategory
+                      key={editCategory.category.id}
+                      category={editCategory.category}
+                      handleUpdateCategory={handleUpdateCategory}
+                      handleEditFalse={handleEditFalse}
+                    /> :
+                    <FormCategory handleAddCategory={handleAddCategory} />
                 }
-             
+
               </Grid>
 
             </Grid>

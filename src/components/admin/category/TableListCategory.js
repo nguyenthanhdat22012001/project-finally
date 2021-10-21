@@ -4,7 +4,6 @@ import { DataGrid } from '@mui/x-data-grid';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import IconButton from '@mui/material/IconButton';
-import { useHistory } from "react-router-dom";
 
 import ConfirmDialog from '../../../components/dialog/ConfirmDialog';
 
@@ -20,7 +19,6 @@ TableListCategory.defaultProps = {
 function TableListCategory(props) {
   const { listCategory, handleDeleteCategory,handleEditCategory } = props;
   const [dialogDelete, setDialogDelete] = useState({ openDialog: false, message: '', isDelete: false , idDelete: null });
-  const history = useHistory();
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -61,12 +59,6 @@ function TableListCategory(props) {
    const hanldeAcceptDelete = () => {
     hanldeReportDeleteDialog(false);
     handleDeleteCategory(dialogDelete.idDelete);
-  }
-
- /************** handle edit dialogDelete ***************/
-  const hanldeDirectEdit = (id) => {
-    console.log('edit');
-    history.push(`/admin/product/edit/${id}`)
   }
 
   return (

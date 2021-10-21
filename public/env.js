@@ -205,7 +205,7 @@ window.env = {
   "npm_package_devDependencies__iconify_icons_eva": "^1.1.0",
   "npm_package_eslintConfig_extends_0": "react-app",
   "npm_package_eslintConfig_extends_1": "react-app/jest",
-  "npm_package_gitHead": "93a17b23c6d6ad36b1f97d2e3a7e4c364cb6015e",
+  "npm_package_gitHead": "44fb895864976031b952e0febd226aee76c8001f",
   "npm_package_name": "project-finally",
   "npm_package_private": "true",
   "npm_package_readmeFilename": "README.md",
