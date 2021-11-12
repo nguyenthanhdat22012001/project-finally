@@ -8,6 +8,11 @@
         font-size: 18px;
         margin: 0 0 20px 0;
     }
+    &__title-page{
+        font-size: 24px;
+        font-weight: 600;
+        margin: 0 0 30px;
+    }
     &__col-left{
         width: 20%;
         padding: 10px;
@@ -34,8 +39,8 @@
     }
     &__field{
         margin-bottom: 10px;
-        font-size: 12px;
-        font-weight: 500;
+        font-size: 14px;
+        font-weight: 600;
     }
     &__value{
         padding-top: 7px;
@@ -140,7 +145,7 @@
     }
     &__favorite-addcart{
         flex: 1;
-        text-align: right;
+        text-align: center;
     }
     //store follow
     &__follow-item{
@@ -171,14 +176,12 @@
     }
     &__sidebar{
         &__title{
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 500;
+            padding-left: 10px;
         }
         &__sub{
             padding: 15px 7px 7px 7px;
         }
     }
-}
-a:hover{
-    color: #056b80;
 }

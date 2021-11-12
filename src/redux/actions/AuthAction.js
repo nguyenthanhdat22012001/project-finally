@@ -1,14 +1,16 @@
+// api
+import userApi from "api/userApi";
 
-export  const  registerAuthAction = (user) => {
+export  const  LoginAuthAction = (isLogin) => {
     return {
-        type: "REGISTER",
-        payload: user,
+        type: "LOGIN",
+        payload: isLogin,
     }
 }
 
-export  const  LoginAuthAction = (user) => {
+export  const  ProfileAction = (user) => {
     return {
-        type: "LOGIN",
+        type: "PROFILE",
         payload: user,
     }
 }
@@ -19,3 +21,23 @@ export  const  LoginGoogleAuthAction = (user) => {
         payload: user,
     }
 }
+
+// Thunk function
+  export async function updateProfileUser(dispatch, getState) {
+    try {
+        const res = await userApi.getProfileUser();
+
+        if (res.success) {
+
+            const result = {
+                user: res.data
+            };
+            dispatch({ type: "PROFILE", payload: result })
+        }
+
+        console.log(res);
+    } catch (error) {
+        console.log('error: ' + error);
+    }
+    
+  }

@@ -1,25 +1,20 @@
 
 const initState = {
-    user: {},
-    isSigned: false
+    user: null,
 };
 
-const  authReducer = (state = initState, action) => {
+const authReducer = (state = initState, action) => {
     switch (action.type) {
-        case "REGISTER":
-           return{
-               ...state,
-               user: action.payload.user,
-               isSigned: action.payload.isSigned,
-           }
         case "LOGIN":
-           return{
-               ...state,
-               user: action.payload.user,
-               isSigned: action.payload.isSigned,
-           }
-        case "LOGIN_GOOGLE":
-            return state;
+            return {
+                ...state,
+                isSigned: action.payload.isSigned,
+            }
+        case "PROFILE":
+            return {
+                ...state,
+                user: action.payload.user,
+            }
         default:
             return state
     }

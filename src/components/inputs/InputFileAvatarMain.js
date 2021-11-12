@@ -1,9 +1,10 @@
 import {useState} from 'react';
 
 import "./InputFileAvatarMain.scss";
+import emptyimage from 'assets/images/plus.png';
 
 export default function InputFileAvatarMain() {
-    const [image , setImage] = useState('../../../assets/plus.png')
+    const [image , setImage] = useState(emptyimage);
 
     const handleChange = (e)=>{
         let fileImage = URL.createObjectURL(e.target.files[0]);

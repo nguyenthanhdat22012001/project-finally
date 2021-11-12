@@ -37,7 +37,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 
-export default function Sidebar({openSideBar,toggleSideBar}) {
+export default function Sidebar({openSideBar,toggleSideBar,handleChangeTitlepage}) {
 
     return (
         <Drawer variant="permanent" open={openSideBar}>
@@ -54,7 +54,9 @@ export default function Sidebar({openSideBar,toggleSideBar}) {
           </IconButton>
         </Toolbar>
         <Divider />
-        <ListItems/>
+        <ListItems  
+        handleChangeTitlepage={handleChangeTitlepage}
+        />
       </Drawer>
     );
 }

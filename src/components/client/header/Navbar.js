@@ -8,8 +8,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
 import CategoryIcon from '@mui/icons-material/Category';
-import LoginIcon from '@mui/icons-material/Login';
-import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import { Link } from "react-router-dom";
@@ -44,6 +42,7 @@ class Navbar extends React.Component {
             onClick={this.toggleDrawer(anchor, false)}
             onKeyDown={this.toggleDrawer(anchor, false)}
         >
+              {console.log('Navbar componentDidMount')}
             <List>
                 <Link to="/">
                     <ListItem button key="Trang Chu">
@@ -53,7 +52,7 @@ class Navbar extends React.Component {
                         <ListItemText primary="Trang Chu" />
                     </ListItem>
                 </Link>
-                <Link  to="/product">
+                <Link  to="/client/product">
                     <ListItem button key="Danh Muc">
                         <ListItemIcon>
                             <CategoryIcon />
@@ -61,7 +60,7 @@ class Navbar extends React.Component {
                         <ListItemText primary="Danh Muc" />
                     </ListItem>
                 </Link>
-                <Link  to="/vouchers">
+                <Link  to="/client/vouchers">
                     <ListItem button key="Suu Tap Voucher">
                         <ListItemIcon>
                             <CardGiftcardIcon />
@@ -79,24 +78,6 @@ class Navbar extends React.Component {
                 </Link>
             </List>
             <Divider />
-            <List>
-                <Link  to="/login">
-                    <ListItem button key="Dang Nhap">
-                        <ListItemIcon>
-                            <LoginIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Dang Nhap" />
-                    </ListItem>
-                </Link>
-                <Link  to="/register">
-                    <ListItem button key="Dang Ki">
-                        <ListItemIcon>
-                            <AppRegistrationIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Dang Ki" />
-                    </ListItem>
-                </Link>
-            </List>
         </Box>
     );
 

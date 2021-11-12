@@ -61,3 +61,9 @@
     line-height: 1.42857143;
     border-top: 1px solid #ddd;
 }
+
+.nav-active{
+  color: #fff;
+  display: block;
+  background-image: linear-gradient(to right,#009fff,#ec2f4b);
+}

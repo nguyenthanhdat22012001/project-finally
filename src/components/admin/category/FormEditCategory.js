@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -25,8 +26,8 @@ FormEditCategory.defaultProps = {
 }
 
 function FormEditCategory(props) {
-    const { category, handleUpdateCategory,handleEditFalse } = props;
-
+    const { category, handleUpdateCategory, handleEditFalse } = props;
+    const [inputHide, setInputHide] = useState(category.hide === 1 ? true : false);
     //validate
     const {
         register,
@@ -43,11 +44,15 @@ function FormEditCategory(props) {
         handleUpdateCategory(category.id, data);
 
     };
+    /************** handle update category ***************/
+    const handleChangeHide = () => {
+        setInputHide(!inputHide);
+    }
 
     return (
         <div>
             <Typography variant="h5" gutterBottom component="div">
-                Chỉnh sửa danh mục "{category && category.name}"
+                Chỉnh sửa danh mục "{category.name}"
             </Typography>
             <Box
                 component="form"
@@ -61,7 +66,7 @@ function FormEditCategory(props) {
                     id="outlined-required"
                     label="Tên danh mục"
                     margin="normal"
-                    defaultValue={category && category.name}
+                    defaultValue={category.name}
                     {...register("name")}
                     helperText={errors.name && `${errors.name?.message}`}
                     error={errors.name && true}
@@ -72,7 +77,7 @@ function FormEditCategory(props) {
                     id="outlined-required"
                     label="Slug"
                     margin="normal"
-                    defaultValue={category && category.slug}
+                    defaultValue={category.slug}
                     {...register("slug")}
                 />
                 <TextField
@@ -82,18 +87,26 @@ function FormEditCategory(props) {
                     label="Mô tả"
                     multiline
                     rows={4}
-                    defaultValue={category && category.description}
+                    defaultValue={ category.description}
                     {...register("description")}
                 />
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
-                    <FormControlLabel control={<Checkbox checked={category && category.hide === 1 ? true : false} {...register("hide")} />} label="Ẩn" />
+                    <FormControlLabel
+                        control={
+                            <Checkbox checked={inputHide ? true : false}
+                                {...register("hide")}
+                                onChange={handleChangeHide}
+                            />
+                        }
+                        label="Ẩn" />
+
                     <Button type="submit" variant="contained">Chỉnh sửa</Button>
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
-                    <Button 
-                    color="secondary" 
-                    variant="contained"
-                    onClick={handleEditFalse}
+                    <Button
+                        color="secondary"
+                        variant="contained"
+                        onClick={handleEditFalse}
                     >Quay lại</Button>
                 </Box>
             </Box>

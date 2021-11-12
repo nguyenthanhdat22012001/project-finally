@@ -5,7 +5,7 @@ import SendIcon from '@mui/icons-material/Send';
 import IconButton from '@mui/material/IconButton';
 
 import "./FormMessage.scss";
-import AvatarCircelShortText from "../../../components/avatar/AvatarCircelShortText";
+import AvatarCircelShortText from "components/avatar/AvatarCircelShortText";
 
 function FormMessage(props) {
     return (

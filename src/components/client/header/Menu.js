@@ -13,8 +13,8 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import "./CartMenu.scss"
 import Navbar from "./Navbar";
-import AvatarMenu from "../../../components/client/header/AvatarMenu";
-import CartMenu from "../../../components/client/header/CartMenu";
+import AvatarMenu from "components/client/header/AvatarMenu";
+import CartMenu from "components/client/header/CartMenu";
 
 
 const Search = styled('div')(({ theme }) => ({

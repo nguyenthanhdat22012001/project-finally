@@ -3,7 +3,7 @@ import React from 'react';
 
 
 import './ListMessage.scss';
-import AvatarCircelShortText from "../../../components/avatar/AvatarCircelShortText";
+import AvatarCircelShortText from "components/avatar/AvatarCircelShortText";
 
 
 function ListMessage(props) {

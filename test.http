@@ -1,0 +1,23 @@
+POST http://127.0.0.1:8000/api/login
+Content-Type: application/json
+
+{
+    "email": "tieuviem@gmail.com",
+    "password": "tieuviem123"
+}
+###
+GET http://127.0.0.1:8000/api/profile
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9sb2dpbiIsImlhdCI6MTYzNjU0Nzk5MywiZXhwIjoxNjM2NTQ4MDUzLCJuYmYiOjE2MzY1NDc5OTMsImp0aSI6Ik0xcTgxWFJlZ1lyaDYxenIiLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.FPlX8tk6XpizrO52Gunem3HOR81lnEQgYPa3-LJvO-k
+###
+GET http://127.0.0.1:8000/api/refresh-token
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9sb2dpbiIsImlhdCI6MTYzNjU0ODQ3MywiZXhwIjoxNjM2NTQ4NTMzLCJuYmYiOjE2MzY1NDg0NzMsImp0aSI6Ik9HSVk0OWVyOGJ3ODJtT1UiLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.myj2F_P43QAkHqBLNh6dRZbQ52btcRm9F7q_Rg6li8k
+###
+POST http://127.0.0.1:8000/api/admin/login
+Content-Type: application/json
+
+{
+    "email": "namlan@gmail.com",
+    "password": "123456789"
+}

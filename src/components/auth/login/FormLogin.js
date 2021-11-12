@@ -16,7 +16,7 @@ import IconButton from '@mui/material/IconButton';
 //validate
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {loginSchema} from "../../../validates/authValidate";
+import {loginSchema} from "validates/authValidate";
 
 FormLogin.propTypes = {
     onHandleLogin: PropTypes.func,
@@ -92,7 +92,7 @@ function FormLogin(props) {
 
             <Grid container>
                 <Grid item xs>
-                    <Link to="#" variant="body2">
+                    <Link to="/forgot-password" variant="body2">
                         Quên Mật Khẩu?
                     </Link>
                 </Grid>

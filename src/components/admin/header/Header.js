@@ -41,8 +41,8 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 
-export default function Header({ titlePage }) {
-
+export default function Header() {
+  const [titlePage, setTitlePage] = React.useState('Thống Kê');
   const [openSideBar, setOpenSideBar] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -57,8 +57,14 @@ export default function Header({ titlePage }) {
     setOpenSideBar(!openSideBar);
   };
 
+    /***********hanlde change title page************/
+    const handleChangeTitlepage = (titlePage) => {
+      setTitlePage(titlePage)
+    }
+
   return (
     <Box sx={{ zIndex: '10'}}>
+      
       <AppBar position="absolute" open={openSideBar}>
         <Toolbar
           sx={{
@@ -158,7 +164,12 @@ export default function Header({ titlePage }) {
           </Menu>
         </Toolbar>
       </AppBar>
-      <Sidebar openSideBar={openSideBar} toggleSideBar={toggleSideBar} />
+
+      <Sidebar 
+      openSideBar={openSideBar} 
+      toggleSideBar={toggleSideBar} 
+      handleChangeTitlepage={handleChangeTitlepage} 
+      />
     </Box>
   );
 }
