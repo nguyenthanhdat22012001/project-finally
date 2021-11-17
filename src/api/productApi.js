@@ -1,8 +1,8 @@
 import axisosClient from "./axisosClient";
 
 const productApi = {
-    getAll: (param)=>{
-        const url = `/product`;
+    getAllProducts: (param)=>{
+        const url = `/products`;
         return axisosClient.get(url,{param});
     },
 

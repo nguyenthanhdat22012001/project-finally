@@ -11,9 +11,11 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import { Link,useHistory } from 'react-router-dom';
+// notify
+import { useSnackbar } from 'notistack';
 //redux
 import { useDispatch, useSelector } from "react-redux";
-import { ProfileAction,updateProfileUser} from "redux/actions/AuthAction";
+import { LogOutUserRedux} from "redux/actions/AuthAction";
 // api
 import userApi from "api/userApi";
 
@@ -27,29 +29,17 @@ function AvatarMenu(props) {
     const history = useHistory();
     const user = useSelector(state => state.auth.user);
     const dispatch = useDispatch();
+    const { enqueueSnackbar } = useSnackbar();
 
     /***********handle logout user**********/
     const handleLogoutUser = async () => {
        try {
-        const res = await userApi.LogoutUser();
+        dispatch(()=> LogOutUserRedux(enqueueSnackbar));
+        history.push('/');
 
-        if (res.success) {
-            // remove localstorage token
-            localStorage.removeItem('token');
-
-            const result = {
-                user: {}
-            };
-
-            const action = ProfileAction(result);
-            dispatch(action);
-            
-            history.push('/');
-        }
-
-        console.log(res);
+        console.log('log out');
        } catch (error) {
-           
+        console.log('error',error);
        }
     };
    /***********handle toggle sub menu**********/

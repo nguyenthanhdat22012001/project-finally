@@ -12,7 +12,7 @@ import userApi from "api/userApi";
 // notify
 import { useSnackbar } from 'notistack';
 // helper
-import { setToken } from "helper/auth";
+import { setUserLocalStorage } from "helper/auth";
 
 import FormLoginAdmin from 'components/auth/login/FormLoginAdmin';
 import ProccessDialog from "components/dialog/ProccessDialog";
@@ -32,7 +32,7 @@ function LoginAdmin() {
       const res = await userApi.LoginAdmin(data);
 
       if (res.success) {
-        setToken(res.access_token);
+        setUserLocalStorage(res.access_token);
 
         setIsProccess(false);
         history.push('/admin');

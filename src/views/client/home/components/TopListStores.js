@@ -99,7 +99,7 @@ class TopListStores extends React.Component {
         },
         {
           url: '/static/images/buttons/camera.jpg',
-          title: 'Camera hama',
+          title: 'Cameraasd',
           width: '20%',
         },
       ];
@@ -107,10 +107,10 @@ class TopListStores extends React.Component {
     render() {
         return (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' }}>
-                {this.images.map((image) => (
+                {this.images.map((image,index) => (
                     <ImageButton
                         focusRipple
-                        key={image.title}
+                        key={index}
                         style={{
                             width: image.width,
                         }}
@@ -129,7 +129,7 @@ class TopListStores extends React.Component {
                                     pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
                                 }}
                             >
-                                {image.title}
+                                {index}
                                 <ImageMarked className="MuiImageMarked-root" />
                             </Typography>
                         </Image>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Rating from '@mui/material/Rating';
 
 import "./Product2.scss";
+import imageProduct from "assets/images/img1.jpg";
 
 class Product2 extends React.Component{
     render() {
@@ -10,7 +11,7 @@ class Product2 extends React.Component{
             <div className="product2 flexBoxColunm">
             <Link>
                 <div className="product2__image">
-                    <img src="../assets/images/img1.jpg" alt="" />
+                    <img src={imageProduct} alt="" />
                 </div>
                 <div className="product2__content">
                     <h3 className="product2__title" >ao tam kim sa ao tam kim sa ao tam kim sa kim sa ao tam kim ao tam kim sa ao tam kim sa ao tam kim sa kim sa ao tam kim</h3>

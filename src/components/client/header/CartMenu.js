@@ -8,6 +8,7 @@ import Badge from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
 
 import "./CartMenu.scss";
+import imageProduct from "assets/images/img1.jpg";
 
 function CartMenu(props) {
     return (
@@ -28,7 +29,7 @@ function CartMenu(props) {
                         >
                             <CloseIcon color="disabled" />
                         </IconButton>
-                        <img src="../assets/img1.jpg" alt="" />
+                        <img src={imageProduct} alt="" />
                     </div>
                     <div className="cart-menu__col-text">
                         <Link to="/as.html" className="cart-menu__link">Đầm body cá tình với nhiều màu sắc hiện đại, trẻ trung</Link>

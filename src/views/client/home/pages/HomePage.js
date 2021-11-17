@@ -42,6 +42,8 @@ const responsive = {
     }
 };
 
+
+
 function HomePage() {
 
     return (
@@ -67,19 +69,19 @@ function HomePage() {
                 </div>
 
                 <div className="row home__sub-banner home__top-item">
-                    <Link>
+                    <Link to="#">
                         <img src="https://img.alicdn.com/tfs/TB1yhWyueL2gK0jSZPhXXahvXXa-776-194.png" alt="" />
                     </Link>
                 </div>
 
                 <div className="row home__sub-banner home__top-item">
-                    <Link>
+                    <Link to="#">
                         <img src="https://img.alicdn.com/tfs/TB11L1Eubj1gK0jSZFuXXcrHpXa-776-194.png" alt="" />
                     </Link>
                 </div>
 
                 <div className="row home__sub-banner home__top-item">
-                    <Link>
+                    <Link to="#">
                         <img src="https://img.alicdn.com/tfs/TB1pQmAueH2gK0jSZFEXXcqMpXa-776-194.png" alt="" />
                     </Link>
                 </div>

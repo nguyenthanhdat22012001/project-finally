@@ -4,6 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import StoreIcon from '@mui/icons-material/Store';
 
 import "./Mystore.scss";
+import imageProduct from "assets/images/img1.jpg";
 
 class Mystore extends React.Component {
     constructor(props) {
@@ -21,7 +22,7 @@ class Mystore extends React.Component {
         return (
             <div className="mystore">
                 <div className="mystore__item">
-                    <img src="../assets/img1.jpg" alt="" />
+                    <img src={imageProduct} alt="" />
                 </div>
                 <div className="mystore__item">
                     <h4 className="mystore__name">OPPO rental mega</h4>

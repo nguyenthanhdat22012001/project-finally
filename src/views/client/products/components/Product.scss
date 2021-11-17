@@ -1,5 +1,5 @@
 @import "../../../../mixin";
-
+@import "../../../../variables";
 
 .product{
     &__box{
@@ -25,10 +25,10 @@
         font-size: 16px;
         font-weight: 600;
         line-height: 1.4;
-        color: red;
+        color: $text-primary;
         @include dotText();
         &:hover{
-            color: blue;
+            color: $text-second;
             transition: color 0.25s ease;
         }
     }

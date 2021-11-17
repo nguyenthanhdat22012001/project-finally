@@ -1,9 +1,9 @@
 import axios from "axios";
 import queryString from "query-string"; // .parse, .stringify
-import { getToken,handleRefreshToken } from "helper/auth";
+import { getUserLocalStorage,handleRefreshToken } from "helper/auth";
 
 const axisosClient = axios.create({
-  baseURL: process.env.REACT_APP_URL_SERVER_API,
+  baseURL: /*process.env.REACT_APP_URL_SERVER_API*/ 'https://619468539b1e780017ca1f54.mockapi.io',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -11,9 +11,9 @@ const axisosClient = axios.create({
 })
 
 axisosClient.interceptors.request.use(async (config) => {
-  const token = getToken();
+  const token = getUserLocalStorage();
   if (token) {
-    config.headers.Authorization = `bearer ${token}`;
+    config.headers.Authorization = `bearer ${token.access_token}`;
   }
   return config;
 })
@@ -25,19 +25,23 @@ axisosClient.interceptors.response.use(async (response) => {
   return response;
 },
   async (error)  => {
-    try {
-      const originalRequest = error.config
-      if (error.response && error.response.status === 401 && error.config && !error.config.__isRetryRequest) {
-        originalRequest._retry = true
-  
-        let result = await handleRefreshToken();
+    const originalConfig = error.config;
+    if (originalConfig.url !== "/login" && error.response) {
+      if (error.response.status === 401 && !originalConfig._retry) {
+        originalConfig._retry = true;
+
+        try {
+          let result = await handleRefreshToken();
           if(result){
-            return axios(originalRequest)
+            return axisosClient(originalConfig);
           }    
+        } catch (error) {
+          console.log('error: ',error);
+        }
       }
-    } catch (error) {
-      console.log('error: ',error);
     }
   },
 )
 export default axisosClient;
+
+//https://www.bezkoder.com/redux-refresh-token-axios/

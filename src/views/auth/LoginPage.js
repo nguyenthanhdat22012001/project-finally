@@ -11,12 +11,13 @@ import GoogleIcon from '@mui/icons-material/Google';
 import IconButton from '@mui/material/IconButton';
 import { GoogleLogin } from 'react-google-login';
 import { useHistory } from "react-router-dom";
-// api
-import userApi from "api/userApi";
 // helper
-import { getToken,setToken } from "helper/auth";
+import { getUserLocalStorage } from "helper/auth";
 // notify
 import { useSnackbar } from 'notistack';
+//redux
+import { useDispatch} from "react-redux";
+import { LoginUserRedux } from 'redux/actions/AuthAction';
 
 import imgLogin from "assets/images/img-login.webp";
 import FormLogin from 'components/auth/login/FormLogin';
@@ -27,11 +28,12 @@ const theme = createTheme();
 export default function Login() {
   const [isProccess, setIsProccess] = useState(false);
   const history = useHistory();
+  const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
   /*************** go to back page if logined ************/
   useEffect(() => {
-    const token = getToken();
+    const token = getUserLocalStorage();
     if (token) {
       history.goBack();
     }
@@ -41,33 +43,16 @@ export default function Login() {
     try {
       setIsProccess(true);
 
-      const res = await userApi.LoginUser(data);
+      dispatch(() => LoginUserRedux(enqueueSnackbar,data));
 
-      if (res.success) {
-        setToken(res.access_token);
-  
-        setIsProccess(false);
-      }else{
-        setIsProccess(false);
-        handleNotiDialog(res.message,'error');
-      }
+      setIsProccess(false);
 
-      console.log(res);
+      console.log('login');
     } catch (error) {
       console.log('error: ' + error);
     }
 
   }
-   /************** handle noti dialog***************/
-   const handleNotiDialog = (message, status) => {
-    enqueueSnackbar(message, {
-      variant: status,
-      anchorOrigin: {
-        vertical: 'bottom',
-        horizontal: 'left',
-      },
-    });
-  };
   /*************** handle login google ************/
   const handleLoginGoogle = (data) => {
     console.log(data.profileObj);

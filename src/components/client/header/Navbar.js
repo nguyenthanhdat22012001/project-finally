@@ -22,6 +22,7 @@ class Navbar extends React.Component {
 
     static getDerivedStateFromProps(props, state) {
         if (state.openNavbar !== props.openNavbar) {
+            console.log('getDerivedStateFromProps navbar')
             return { openNavbar: props.openNavbar }
         };
     };
@@ -42,7 +43,6 @@ class Navbar extends React.Component {
             onClick={this.toggleDrawer(anchor, false)}
             onKeyDown={this.toggleDrawer(anchor, false)}
         >
-              {console.log('Navbar componentDidMount')}
             <List>
                 <Link to="/">
                     <ListItem button key="Trang Chu">

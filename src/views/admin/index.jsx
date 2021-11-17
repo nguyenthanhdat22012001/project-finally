@@ -10,7 +10,7 @@ import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { UpdateProfileAction} from "redux/actions/AuthAction";
 // helper
-import { getToken, setToken } from "helper/auth";
+import { getUserLocalStorage } from "helper/auth";
 
 import Header from 'components/admin/header/Header';
 
@@ -31,7 +31,7 @@ function Admin(props) {
     // const dispatch = useDispatch();
 
     useEffect(() => {
-        const token = getToken();
+        const token = getUserLocalStorage();
         if (token) {
             // const action = UpdateProfileAction();
             // dispatch(action);

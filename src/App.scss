@@ -1,3 +1,7 @@
+@import "variables";
+
+
+
 .wrapper{
     width: 100%;
     margin: 0 auto;
@@ -65,5 +69,5 @@
 .nav-active{
   color: #fff;
   display: block;
-  background-image: linear-gradient(to right,#009fff,#ec2f4b);
+  background-image: linear-gradient(to right,$color-primary,$color-second);
 }

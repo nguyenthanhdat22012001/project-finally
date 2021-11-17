@@ -1,15 +1,10 @@
 import React from 'react';
-import {useEffect} from 'react';
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 // common component
 import Header from "components/client/header/Header";
 import Footer from "components/client/footer/Footer";
 import ScrollToTop from "components/client/header/ScrollToTop";
 import Chat from "components/client/chat/Chat";
-//redux
-import { useDispatch, useSelector } from "react-redux";
-import { updateProfileUser} from "redux/actions/AuthAction";
-
 // lazy load 
 const homeLazyLoad = React.lazy(() => import('./home'));
 const productLazyLoad = React.lazy(() => import('./products'));
@@ -19,17 +14,6 @@ const voucherLazyLoad = React.lazy(() => import('./voucher'));
 
 function Client(props) {
     const match = useRouteMatch();
-    const dispatch = useDispatch();
-    const user = useSelector(state => state.auth.user);
-
-    useEffect(() => {
-        console.log('update');
-        const localStorage_token = localStorage.getItem('token');
-        if (localStorage_token) {
-            dispatch(updateProfileUser);
-            console.log('user',user)
-        }
-    },[])
 
     return (
         <div className="client">

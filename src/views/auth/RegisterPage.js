@@ -11,7 +11,7 @@ import Container from '@mui/material/Container';
 // api
 import userApi from "api/userApi";
 // helper
-import { getToken } from "helper/auth";
+import { getUserLocalStorage } from "helper/auth";
 
 import FormRegister from 'components/auth/register/FormRegister';
 
@@ -22,7 +22,7 @@ function Register() {
 
   /*************** go to back page if logined ************/
   useEffect(() => {
-    const token = getToken();
+    const token = getUserLocalStorage();
     if (token) {
       history.goBack();
     }
