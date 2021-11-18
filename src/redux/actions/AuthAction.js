@@ -3,11 +3,11 @@ import userApi from "api/userApi";
 //type auth redux
 import typeAuth from "../contains/typeAuth";
 //helper
-import { setUserLocalStorage ,removeUserLocalStorage} from "helper/auth";
+import { setUserLocalStorage, removeUserLocalStorage } from "helper/auth";
 import { handleNotiDialog } from 'helper/notify';
 
 // Thunk function
-export const LoginUserRedux = (enqueueSnackbar, data) => async (dispatch, getState) => {
+export const LoginUserRedux = (enqueueSnackbar, history, data) => async (dispatch, getState) => {
     try {
         const res = await userApi.LoginUser(data);
 
@@ -18,7 +18,9 @@ export const LoginUserRedux = (enqueueSnackbar, data) => async (dispatch, getSta
                 expires_in: res.expires_in,
             }
             dispatch({ type: typeAuth.LOGIN_USER, payload: result });
+            handleNotiDialog(enqueueSnackbar, res.message, 'success');
             setUserLocalStorage(result);
+            history.goBack();
         } else {
             handleNotiDialog(enqueueSnackbar, res.message, 'error');
         }
@@ -30,22 +32,21 @@ export const LoginUserRedux = (enqueueSnackbar, data) => async (dispatch, getSta
 
 }
 
-export const LogOutUserRedux = (enqueueSnackbar) => async (dispatch, getState) => {
+export const LogOutUserRedux = (enqueueSnackbar,history) => async (dispatch, getState) => {
     try {
         const res = await userApi.LogoutUser();
 
         if (res.success) {
-            dispatch({ type: typeAuth.LOGOUT_USER});
+            dispatch({ type: typeAuth.LOGOUT_USER });
             removeUserLocalStorage();
+            history.push('/');
         } else {
             handleNotiDialog(enqueueSnackbar, res.message, 'error');
         }
-
-        console.log(res);
+        
     } catch (error) {
         console.log('error: ' + error);
     }
-
 }
 
 // export const LoginUser = () => async (dispatch, getState) => {

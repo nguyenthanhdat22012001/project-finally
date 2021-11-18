@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Logout from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
@@ -16,8 +16,6 @@ import { useSnackbar } from 'notistack';
 //redux
 import { useDispatch, useSelector } from "react-redux";
 import { LogOutUserRedux} from "redux/actions/AuthAction";
-// api
-import userApi from "api/userApi";
 
 import AvatarCircelShortText from "components/avatar/AvatarCircelShortText";
 
@@ -34,10 +32,8 @@ function AvatarMenu(props) {
     /***********handle logout user**********/
     const handleLogoutUser = async () => {
        try {
-        dispatch(()=> LogOutUserRedux(enqueueSnackbar));
-        history.push('/');
+        dispatch(LogOutUserRedux(enqueueSnackbar,history));
 
-        console.log('log out');
        } catch (error) {
         console.log('error',error);
        }

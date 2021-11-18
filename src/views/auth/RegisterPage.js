@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -8,36 +7,43 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Container from '@mui/material/Container';
+//redux
+import {useSelector} from "react-redux";
 // api
 import userApi from "api/userApi";
 // helper
-import { getUserLocalStorage } from "helper/auth";
+import { handleNotiDialog } from 'helper/notify';
+// notify
+import { useSnackbar } from 'notistack';
 
 import FormRegister from 'components/auth/register/FormRegister';
 
 const theme = createTheme();
 
 function Register() {
+  const { enqueueSnackbar } = useSnackbar();
   const history = useHistory();
 
   /*************** go to back page if logined ************/
-  useEffect(() => {
-    const token = getUserLocalStorage();
-    if (token) {
+  const user = useSelector(state => state.auth.user);
+
+  if (!user) {
       history.goBack();
-    }
-  });
+  }
   /************** handle register user ***************/
   const handleRegisterSubmit = async (data) => {
     try {
       const res = await userApi.registerUser(data);
 
       if (res.success) {
+        handleNotiDialog(enqueueSnackbar, res.message, 'success');
         history.push('/login');
+      }else{
+        handleNotiDialog(enqueueSnackbar, res.message, 'error');
       }
 
     } catch (error) {
-      console.log('error: ' + error);
+      console.log('error: ' + error.message);
     }
   };
 

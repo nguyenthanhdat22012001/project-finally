@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useEffect } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
@@ -7,10 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
 //redux
-import { useDispatch, useSelector } from "react-redux";
-import { UpdateProfileAction} from "redux/actions/AuthAction";
-// helper
-import { getUserLocalStorage } from "helper/auth";
+import { useSelector } from "react-redux";
 
 import Header from 'components/admin/header/Header';
 
@@ -27,22 +23,11 @@ const mdTheme = createTheme();
 function Admin(props) {
     const match = useRouteMatch();
     const history = useHistory();
-    // const user = useSelector(state => state.auth.user);
-    // const dispatch = useDispatch();
+    const user = useSelector(state => state.auth.user);
 
-    useEffect(() => {
-        const token = getUserLocalStorage();
-        if (token) {
-            // const action = UpdateProfileAction();
-            // dispatch(action);
-
-            // if (!user || user.role < 1) {
-            //     history.push('/login-admin');
-            // }
-        }else{
-            history.push('/login-admin');
-        }
-    })
+    if (!user || user.role < 1) {
+        history.push('/login-admin');
+    }
 
     return (
         <ThemeProvider theme={mdTheme}>

@@ -1,4 +1,4 @@
-import { useEffect,useState } from 'react';
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Paper from '@mui/material/Paper';
@@ -11,12 +11,10 @@ import GoogleIcon from '@mui/icons-material/Google';
 import IconButton from '@mui/material/IconButton';
 import { GoogleLogin } from 'react-google-login';
 import { useHistory } from "react-router-dom";
-// helper
-import { getUserLocalStorage } from "helper/auth";
 // notify
 import { useSnackbar } from 'notistack';
 //redux
-import { useDispatch} from "react-redux";
+import { useDispatch,useSelector} from "react-redux";
 import { LoginUserRedux } from 'redux/actions/AuthAction';
 
 import imgLogin from "assets/images/img-login.webp";
@@ -32,18 +30,17 @@ export default function Login() {
   const { enqueueSnackbar } = useSnackbar();
 
   /*************** go to back page if logined ************/
-  useEffect(() => {
-    const token = getUserLocalStorage();
-    if (token) {
+  const user = useSelector(state => state.auth.user);
+
+  if (!user) {
       history.goBack();
-    }
-  });
+  }
   /*************** handle login ************/
   const handleLogin = async (data) => {
     try {
       setIsProccess(true);
 
-      dispatch(() => LoginUserRedux(enqueueSnackbar,data));
+      dispatch(LoginUserRedux(enqueueSnackbar,history,data));
 
       setIsProccess(false);
 

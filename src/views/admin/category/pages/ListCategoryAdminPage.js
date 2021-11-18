@@ -25,10 +25,9 @@ function ListCategoryAdminPage() {
   const { enqueueSnackbar } = useSnackbar();
 
   /*************** loading page when get list category ************/
-  useEffect(() => {
-     handleGetListCategory();
-
-  }, [])
+  useEffect( async () => {
+     await handleGetListCategory();
+}, [listCategory])
   /************** handle  edit category ***************/
   const handleEditFalse = () => {
     setEditCategory({ ...editCategory, isEdit: false, category: null })
