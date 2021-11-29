@@ -5,7 +5,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import IconButton from '@mui/material/IconButton';
 
-import ConfirmDialog from '../../../components/dialog/ConfirmDialog';
+import ConfirmDialog from 'components/dialog/ConfirmDialog';
 
 TableListCategory.propTypes = {
   handleDeleteCategory: PropTypes.func,

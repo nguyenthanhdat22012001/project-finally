@@ -1,8 +1,7 @@
-import React from 'react';
-// import { useHistory } from "react-router-dom";
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
-import { Link } from "react-router-dom";
+import { Link,useHistory } from "react-router-dom";
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
@@ -10,21 +9,64 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 // api
 import userApi from "api/userApi";
+// notify
+import { useSnackbar } from 'notistack';
+// helper
+import { handleNotiDialog } from 'helper/notify';
 
 import FormForgotPassword from 'components/auth/password/FormForgotPassword';
+import FormResetPassword from 'components/auth/password/FormResetPassword';
 
 const theme = createTheme();
 
 function ForgotPasswordPage(props) {
+    const { enqueueSnackbar } = useSnackbar();
+    const [user, setUser] = useState({});
+    const history = useHistory();
 
-    /************** handle register user ***************/
-    const handleForgotPasswordSubmit = async (data) => {
+    /************** handle forgot password ***************/
+    const handleForgotPasswordSubmit = async (email) => {
         try {
-            const res = await userApi.forgotPassword(data);
+            const res = await userApi.forgotPassword(email);
             console.log(res);
-            // if (res.success) {
+            if (res.success) {
+                handleNotiDialog(enqueueSnackbar, res.message, 'success');
+                setUser({ ...user, ...email });
+            } else {
+                handleNotiDialog(enqueueSnackbar, res.message, 'error');
+            }
 
-            // }
+        } catch (error) {
+            console.log('error: ' + error);
+        }
+    };
+    /************** handle re-send mail  ***************/
+    const handleReSendMail = async () => {
+        try {
+            const res = await userApi.forgotPassword(user);
+            console.log(res);
+            if (res.success) {
+                handleNotiDialog(enqueueSnackbar, res.message, 'success');
+            } else {
+                handleNotiDialog(enqueueSnackbar, res.message, 'error');
+            }
+
+        } catch (error) {
+            console.log('error: ' + error);
+        }
+    };
+    /************** handle reset password ***************/
+    const handleResetPasswordSubmit = async (data) => {
+        const newData = { ...user, ...data };
+        try {
+            const res = await userApi.resetPassword(newData);
+            console.log(res);
+            if (res.success) {
+                handleNotiDialog(enqueueSnackbar, res.message, 'success');
+                history.push('/login');
+            } else {
+                handleNotiDialog(enqueueSnackbar, res.message, 'error');
+            }
 
         } catch (error) {
             console.log('error: ' + error);
@@ -51,8 +93,11 @@ function ForgotPasswordPage(props) {
                     <Typography component="h1" variant="h5">
                         Quên mật khẩu
                     </Typography>
-                    {/* form register */}
-                    <FormForgotPassword handleForgotPasswordSubmit={handleForgotPasswordSubmit} />
+                    {
+                        Object.keys(user).length === 0 ?
+                            <FormForgotPassword handleForgotPasswordSubmit={handleForgotPasswordSubmit} />
+                            : <FormResetPassword handleResetPasswordSubmit={handleResetPasswordSubmit} handleReSendMail={handleReSendMail} />
+                    }
                 </Box>
             </Container>
         </ThemeProvider>

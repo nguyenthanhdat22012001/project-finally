@@ -9,22 +9,22 @@ import Box from '@mui/material/Box';
 //validate
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { categorySchema } from "../../../validates/categoryValidate";
+import { brandSchema } from "validates/adminValidate";
 
 
 
-FormCategory.propTypes = {
-    handleAddCategory: PropTypes.func,
+FormBrand.propTypes = {
+    handleAddBrand: PropTypes.func,
 } 
 
-function FormCategory(props) {
-    const { handleAddCategory } = props;
+function FormBrand(props) {
+    const { handleAddBrand } = props;
     //validate
     const {
         register,
         handleSubmit,
         formState: { errors }
-    } = useForm({ resolver: yupResolver(categorySchema) });
+    } = useForm({ resolver: yupResolver(brandSchema) });
 
     const onLoginSubmit = (data) => {
         if (data.hide === "false") {
@@ -32,14 +32,14 @@ function FormCategory(props) {
         } else {
             data.hide = 1;
         }
-        handleAddCategory(data);
+        handleAddBrand(data);
 
     };
 
     return (
         <div>
             <Typography variant="h5" gutterBottom component="div">
-                Thêm danh mục sản phẩm
+                Thêm thương hiệu
             </Typography>
             <Box
                 component="form"
@@ -58,14 +58,6 @@ function FormCategory(props) {
                     error={errors.name && true}
                 />
                 <TextField
-                    required
-                    fullWidth
-                    id="outlined-required"
-                    label="Slug"
-                    margin="normal"
-                    {...register("slug")}
-                />
-                <TextField
                     id="outlined-multiline-static"
                     fullWidth
                     margin="normal"
@@ -76,7 +68,7 @@ function FormCategory(props) {
                 />
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
                     <FormControlLabel control={<Checkbox  {...register("hide")} />} label="Ẩn" />
-                    <Button type="submit" variant="contained">Thêm danh mục</Button>
+                    <Button type="submit" variant="contained">Thêm</Button>
                 </Box>
             </Box>
         </div>
@@ -84,5 +76,5 @@ function FormCategory(props) {
 }
 
 
-export default FormCategory
+export default FormBrand
 

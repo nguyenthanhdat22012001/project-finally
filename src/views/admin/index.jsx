@@ -4,9 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
-import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
-//redux
-import { useSelector } from "react-redux";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
 
 import Header from 'components/admin/header/Header';
 
@@ -22,12 +20,6 @@ const mdTheme = createTheme();
 
 function Admin(props) {
     const match = useRouteMatch();
-    const history = useHistory();
-    const user = useSelector(state => state.auth.user);
-
-    if (!user || user.role < 1) {
-        history.push('/login-admin');
-    }
 
     return (
         <ThemeProvider theme={mdTheme}>

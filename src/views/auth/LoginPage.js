@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Paper from '@mui/material/Paper';
@@ -32,9 +32,11 @@ export default function Login() {
   /*************** go to back page if logined ************/
   const user = useSelector(state => state.auth.user);
 
-  if (!user) {
+useEffect(() => {
+  if (user) {
       history.goBack();
   }
+}, [])
   /*************** handle login ************/
   const handleLogin = async (data) => {
     try {
@@ -44,7 +46,6 @@ export default function Login() {
 
       setIsProccess(false);
 
-      console.log('login');
     } catch (error) {
       console.log('error: ' + error);
     }

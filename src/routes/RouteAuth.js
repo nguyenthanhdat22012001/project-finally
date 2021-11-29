@@ -7,8 +7,8 @@ const registerLazyLoad = React.lazy(()=> import('views/auth/RegisterPage'));
 const loginAdminLazyLoad = React.lazy(()=> import('views/auth/LoginAdminPage'));
 const ForgotPasswordPageAdminLazyLoad = React.lazy(()=> import('views/auth/ForgotPasswordPage'));
 
-class RouteAdmin extends React.Component {
-    render() {
+ function RouteAdmin()  {
+
         return (
             <Switch>
                 {/* admin */}
@@ -21,7 +21,6 @@ class RouteAdmin extends React.Component {
                 <Route path="/login-admin" component={loginAdminLazyLoad} />
             </Switch>
         );
-    }
 }
 
 

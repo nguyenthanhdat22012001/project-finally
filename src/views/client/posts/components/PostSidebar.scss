@@ -1,0 +1,15 @@
+.post{
+    &__sidebar{
+        &__inner{
+            padding: 0 20px;
+        }
+        &__category,&__brand,&__rating{
+            border-bottom: 1px solid #ccc;
+            margin: 15px 0;
+        }
+        &__title{
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+    }
+}

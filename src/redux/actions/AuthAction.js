@@ -3,10 +3,10 @@ import userApi from "api/userApi";
 //type auth redux
 import typeAuth from "../contains/typeAuth";
 //helper
-import { setUserLocalStorage, removeUserLocalStorage } from "helper/auth";
+import { setUserLocalStorage, removeUserLocalStorage ,getUserLocalStorage} from "helper/auth";
 import { handleNotiDialog } from 'helper/notify';
 
-// Thunk function
+/**********login user****************/
 export const LoginUserRedux = (enqueueSnackbar, history, data) => async (dispatch, getState) => {
     try {
         const res = await userApi.LoginUser(data);
@@ -32,6 +32,32 @@ export const LoginUserRedux = (enqueueSnackbar, history, data) => async (dispatc
 
 }
 
+/**********login admin****************/
+export const LoginAdminRedux = (enqueueSnackbar, history, data) => async (dispatch, getState) => {
+    try {
+        const res = await userApi.LoginAdmin(data);
+
+        if (res.success) {
+            const result = {
+                user: res.data,
+                access_token: res.access_token,
+                expires_in: res.expires_in,
+            }
+            dispatch({ type: typeAuth.LOGIN_USER, payload: result });
+            handleNotiDialog(enqueueSnackbar, res.message, 'success');
+            setUserLocalStorage(result);
+            history.push('/admin');
+        } else {
+            handleNotiDialog(enqueueSnackbar, res.message, 'error');
+        }
+
+        console.log(res);
+    } catch (error) {
+        console.log('error: ' + error);
+    }
+
+}
+/**********login out****************/
 export const LogOutUserRedux = (enqueueSnackbar,history) => async (dispatch, getState) => {
     try {
         const res = await userApi.LogoutUser();
@@ -49,20 +75,24 @@ export const LogOutUserRedux = (enqueueSnackbar,history) => async (dispatch, get
     }
 }
 
-// export const LoginUser = () => async (dispatch, getState) => {
-//     try {
-//         const res = await userApi.getProfileUser();
+/**********update user****************/
+export const updateUserRedux = () => async (dispatch, getState) => {
+    try {
+        const res = await userApi.getProfileUser();
 
-//         if (res.success) {
-//             const result = {
-//                 user: res.data
-//             };
-//             dispatch({ type: typeAuth.LOGIN_USER, payload: result })
-//         }
+        if (res.success) {
+            const localSorage_user = getUserLocalStorage();
+            const result = {
+                ...localSorage_user,
+                user: res.data,
+            }
+            dispatch({ type: typeAuth.UPDATE_USER, payload: result });
+            setUserLocalStorage(result);
+        } else {
+            console.log(res);
+        }
+    } catch (error) {
+        console.log('error: ' + error);
+    }
 
-//         console.log(res);
-//     } catch (error) {
-//         console.log('error: ' + error);
-//     }
-
-// }
+}

@@ -14,17 +14,17 @@ class Footer extends React.Component {
       <div className="footer__container">
         <div className="footer__inner">
           <div className="footer__col">
-            <h3 className="footer__title">LAZADA VIỆT NAM</h3>
+            <h3 className="footer__title">TADAHA VIỆT NAM</h3>
             <ul className="footer__list">
-              <li className="footer__li"><Link to="#">Về Lazada Việt Nam</Link></li>
-              <li className="footer__li"><Link to="#">Bán hàng cùng Lazada</Link></li>
+              <li className="footer__li"><Link to="#">Về Tadaha Việt Nam</Link></li>
+              <li className="footer__li"><Link to="#">Bán hàng cùng Tadaha</Link></li>
               <li className="footer__li"><Link to="#">Điều khoản sử dụng</Link></li>
               <li className="footer__li"><Link to="#">Chính sách bảo mật</Link></li>
-              <li className="footer__li"><Link to="#">Quy chế hoạt động sàn Lazada</Link></li>
+              <li className="footer__li"><Link to="#">Quy chế hoạt động sàn Tadaha</Link></li>
             </ul>
           </div>
           <div className="footer__col">
-            <h3 className="footer__title">LIÊN HỆ VỚI LAZADA</h3>
+            <h3 className="footer__title">LIÊN HỆ VỚI TADAHA</h3>
             <ul className="footer__list">
               <li className="footer__li"><Link to="#">Hotline &amp; Chat trực tuyến (24/7)</Link></li>
               <li className="footer__li"><Link to="#">Trung tâm hỗ trợ</Link></li>

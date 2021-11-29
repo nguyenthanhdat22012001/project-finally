@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
@@ -7,12 +7,11 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import { useHistory } from "react-router-dom";
-// api
-import userApi from "api/userApi";
+//redux
+import { useDispatch } from "react-redux";
+import { LoginAdminRedux } from 'redux/actions/AuthAction';
 // notify
 import { useSnackbar } from 'notistack';
-// helper
-import { setUserLocalStorage } from "helper/auth";
 
 import FormLoginAdmin from 'components/auth/login/FormLoginAdmin';
 import ProccessDialog from "components/dialog/ProccessDialog";
@@ -22,6 +21,7 @@ const theme = createTheme();
 function LoginAdmin() {
   const [isProccess, setIsProccess] = useState(false);
   const history = useHistory();
+  const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
   /*************** handle login ************/
@@ -29,34 +29,14 @@ function LoginAdmin() {
     try {
       setIsProccess(true);
 
-      const res = await userApi.LoginAdmin(data);
+      dispatch(LoginAdminRedux(enqueueSnackbar, history, data));
 
-      if (res.success) {
-        setUserLocalStorage(res.access_token);
+      setIsProccess(false);
 
-        setIsProccess(false);
-        history.push('/admin');
-      } else {
-        setIsProccess(false);
-        handleNotiDialog(res.message, 'error');
-      }
-
-      console.log(res);
     } catch (error) {
       console.log('error: ' + error);
     }
-    console.log(data);
   }
-     /************** handle noti dialog***************/
-     const handleNotiDialog = (message, status) => {
-      enqueueSnackbar(message, {
-        variant: status,
-        anchorOrigin: {
-          vertical: 'bottom',
-          horizontal: 'left',
-        },
-      });
-    };
 
   return (
     <ThemeProvider theme={theme}>

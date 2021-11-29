@@ -11,6 +11,7 @@ const productLazyLoad = React.lazy(() => import('./products'));
 const shoppingLazyLoad = React.lazy(() => import('./shopping'));
 const userLazyLoad = React.lazy(() => import('./user'));
 const voucherLazyLoad = React.lazy(() => import('./voucher'));
+const postsLazyLoad = React.lazy(() => import('./posts'));
 
 function Client(props) {
     const match = useRouteMatch();
@@ -31,6 +32,8 @@ function Client(props) {
                     <Route path={`${match.url}/user`} component={userLazyLoad} /> {/* users  */}
 
                     <Route path={`${match.url}/vouchers`} component={voucherLazyLoad} /> {/* voucher   */}
+                    
+                    <Route path={`${match.url}/posts`} component={postsLazyLoad} /> {/* posts   */}
                 </Switch>
             </main>
             <Footer />

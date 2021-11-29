@@ -6,6 +6,7 @@ import { styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 
+import Logo from "assets/images/logo.png";
 import ListItems from './listItems';
 
 const drawerWidth = 240;
@@ -49,6 +50,7 @@ export default function Sidebar({openSideBar,toggleSideBar,handleChangeTitlepage
             px: [1],
           }}
         >
+    <img src={Logo} alt="" style={{width: '150px'}} />
           <IconButton onClick={toggleSideBar}>
             <ChevronLeftIcon />
           </IconButton>
