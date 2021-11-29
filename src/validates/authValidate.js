@@ -70,3 +70,24 @@ export const forgotPasswordSchema = yup.object().shape({
     .min(16, "email ít nhất 16 ký tự")
     .email('Không đúng định dang email'),
 });
+
+export const resetPasswordSchema = yup.object().shape({
+  password: yup
+    .string()
+    .required("Vui lòng nhập mật khẩu")
+    .min(8, "mật khẩu tối đa 8 ký tự"),
+  password_confirmation: yup
+    .string()
+    .required("Vui lòng nhập mật khẩu")
+    .min(8, "mật khẩu tối đa 8 ký tự")
+    .when("password", {
+      is: (val) => (val && val.length > 0 ? true : false),
+      then: yup.string().oneOf(
+        [yup.ref("password")],
+        "Xác mật khẩu không khớp"
+      ),
+    }),
+    otp: yup
+    .string()
+    .required("Vui lòng mã otp")
+});

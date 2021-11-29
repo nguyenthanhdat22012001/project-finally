@@ -1,0 +1,30 @@
+@import "../../../../mixin";
+@import "../../../../variables";
+
+.posts__app{
+    &__wrapper{
+        display: grid;
+        grid-template-columns: 4fr 1fr;
+        grid-column-gap: 20px;
+        padding-top: 20px;
+    }
+    &__main{
+            width: 100%;
+            overflow: hidden;
+        &__title{
+            font-size: 24px;
+            text-transform: capitalize;
+        }
+        &__body{
+            width: 100%;
+            overflow: hidden;
+            padding: 30px;
+        }
+    }
+    &__list{
+        margin: 15px 0;
+    }
+    &__item{
+        width: 100%;
+    }
+   }

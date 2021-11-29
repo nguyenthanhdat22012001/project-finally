@@ -16,14 +16,14 @@ import "./ProductPage.scss";
 import Sidebar from "../components/Sidebar";
 import Product from "../components/Product";
 import Mystore from "../components/Mystore";
-import ProductSkeleton from "../components/ProductSkeleton";
+// import ProductSkeleton from "../components/ProductSkeleton";
 
 
 function ProductPage() {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        handleCallApiGetProduct();
+        // handleCallApiGetProduct();
     }, []);
     /***********handle call api get products*************/
     const handleCallApiGetProduct = async () => {
@@ -94,9 +94,6 @@ function ProductPage() {
                                 }) :
                                 "khong co san pham nao"
                             }
-                            <div className="product__item">
-                                <ProductSkeleton />
-                            </div>
                         </div>
                     </div>
                     <div className="product__paginion">

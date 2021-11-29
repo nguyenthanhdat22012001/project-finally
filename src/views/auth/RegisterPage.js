@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -27,9 +28,11 @@ function Register() {
   /*************** go to back page if logined ************/
   const user = useSelector(state => state.auth.user);
 
-  if (!user) {
-      history.goBack();
-  }
+  useEffect(() => {
+    if (user) {
+        history.goBack();
+    }
+  }, [])
   /************** handle register user ***************/
   const handleRegisterSubmit = async (data) => {
     try {

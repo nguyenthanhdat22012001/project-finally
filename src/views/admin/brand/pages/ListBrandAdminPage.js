@@ -1,85 +1,165 @@
-import * as React from 'react';
+import { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
-import { DataGrid } from '@mui/x-data-grid';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import IconButton from '@mui/material/IconButton';
-import { useHistory } from "react-router-dom";
 
 
-import ConfirmDialog from 'components/dialog/ConfirmDialog';
-import FormBrand from 'components/admin/brand/FormBrand';
-
-const rows = [
-  { id: 1, cate_name: 'Nokia', cate_active: 'Hoạt động', cate_action: 1 },
-];
+import FormAddBrand from '../components/FormAddBrand';
+import FormEditBrand from '../components/FormEditBrand';
+import TableListBrand from '../components/TableListBrand';
+import ProccessDialog from "components/dialog/ProccessDialog";
+import TableSkeleton from "components/skeleton/TableSkeleton";
+//noti
+import { useSnackbar } from 'notistack';
+//helper
+import { handleNotiDialog } from "helper/notify";
+// api
+import brandApi from "api/brandApi";
 
 function ListBrandAdminPage() {
-  const history = useHistory();
-  const [dialog, setDeleteDialog] = React.useState({ openDialog: false, message: '' });
+  const [isLoadFetchApiSuccess, setIsLoadFetchApiSuccess] = useState(false);
+  const [listBrand, setListBrand] = useState([]);
+  const [editBrand, setEditBrand] = useState({ isEdit: false, brand: null });
+  const [isProccess, setIsProccess] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
+  /*************** loading page when get list brand ************/
+  useEffect(async () => {
+    await handleGetListBrand();
+  }, [])
+  /************** handle get list brand ***************/
+  const handleGetListBrand = async () => {
+    try {
 
-  const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
-    {
-      field: 'cate_name',
-      headerName: 'Danh mục',
-      width: 150,
-    },
-    {
-      field: 'cate_active',
-      headerName: 'Trạng thái',
-      width: 110,
-    },
-    {
-      field: 'cate_action', headerName: '', width: 150,
-      renderCell: (params) => (
-        <strong>
-          <IconButton aria-label="" color="inherit" onClick={() => hanldeDirectEdit(params.value)}>
-            <EditIcon />
-          </IconButton>
-          <IconButton aria-label="" color="inherit" onClick={() => hanldeDelete(params.value)}>
-            <DeleteOutlineIcon />
-          </IconButton>
-        </strong>
-      ),
-    },
-  ];
+      if (isLoadFetchApiSuccess) {
+        setIsLoadFetchApiSuccess(false);
+      }
 
-  const hanldeDelete = (id) => {
-    hanldeConfirmDialog(true, `Bạn có chắc muốn xóa sản phẩm id ${id} ?`);
+      const res = await brandApi.getBrandAll();
+      if (res.success) {
+        const newListBrand = res.data.map(item => {
+          return {
+            ...item,
+            action: { br_id: item.id, br_name: item.name },
+          }
+        });
+
+        setListBrand([...newListBrand]);
+        setIsLoadFetchApiSuccess(true);
+        console.log(res.data);
+      }
+
+    } catch (error) {
+      console.log('error: ' + error);
+    }
+  };
+  /************** handle  edit brand ***************/
+  const handleEditFalse = () => {
+    setEditBrand({ ...editBrand, isEdit: false, brand: null })
   }
 
-  const hanldeDirectEdit = (id) => {
-    console.log('edit');
-    history.push(`/seller/product/edit/${id}`)
-  }
+  /************** handle add brand ***************/
+  const handleAddBrand = async (data) => {
+    try {
+      setIsProccess(true);
 
-  const hanldeConfirmDialog = (boolean, message) => {
-    setDeleteDialog({ ...dialog, openDialog: boolean, message: message });
+      const res = await brandApi.addBrand(data);
+      if (res.success) {
+        await handleGetListBrand();
+        handleNotiDialog(enqueueSnackbar, res.message, 'success');
+      }else{
+        handleNotiDialog(enqueueSnackbar, res.message, 'error');
+      }
+      setIsProccess(false);
+
+    } catch (error) {
+      console.log('error: ' + error);
+    }
+  };
+
+
+  /************** handle delete brand ***************/
+  const handleDeleteBrand = async (id) => {
+
+    try {
+      setIsProccess(true);
+
+      const res = await brandApi.deleteBrand(id);
+      if (res.success) {
+        handleGetListBrand();
+        setIsProccess(false);
+        handleNotiDialog(enqueueSnackbar, 'xóa thương hiệu thành công', 'success');
+      }
+
+
+    } catch (error) {
+      console.log('error: ' + error);
+    }
+  };
+
+  /************** handle  edit brand ***************/
+  const handleEditBrand = async (id) => {
+    try {
+      setIsProccess(true);
+
+      const res = await brandApi.getBrandById(id);
+      if (res.success) {
+        setEditBrand({ ...editBrand, isEdit: true, brand: res.data });
+        setIsProccess(false);
+      }
+
+    } catch (error) {
+      console.log('error: ' + error);
+    }
   }
+  /************** handle update brand ***************/
+  const handleUpdateBrand = async (id, data) => {
+
+    try {
+      setIsProccess(true);
+
+      const res = await brandApi.updateBrand(id, data);
+      if (res.success) {
+        handleGetListBrand();
+        setIsProccess(false);
+        handleNotiDialog(enqueueSnackbar, 'cập nhật thương hiệu thành công', 'success');
+      }
+
+      console.log(res);
+    } catch (error) {
+      console.log('error: ' + error);
+    }
+  };
 
   return (
     <Grid container spacing={3}>
+      {isProccess && <ProccessDialog />} {/* proccess page */}
 
       <Grid item xs={12} sm={6} md={6}>
-        <div style={{ height: 400, width: '100%' }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={5}
-            rowsPerPageOptions={[5]}
-            disableSelectionOnClick
-          />
-        </div>
+        {
+          isLoadFetchApiSuccess ?
+            <TableListBrand
+              listBrand={listBrand}
+              handleDeleteBrand={handleDeleteBrand}
+              handleEditBrand={handleEditBrand}
+            />
+            : <TableSkeleton />
+        }
+
       </Grid>
 
       <Grid item xs={12} sm={6} md={6}>
-        <FormBrand />
+        {
+          editBrand.isEdit ?
+            <FormEditBrand
+              key={editBrand.brand.id}
+              brand={editBrand.brand}
+              handleUpdateBrand={handleUpdateBrand}
+              handleEditFalse={handleEditFalse}
+            /> :
+            <FormAddBrand handleAddBrand={handleAddBrand} />
+        }
+
       </Grid>
 
-      {/* dialog */}
-      <ConfirmDialog dialog={dialog} hanldeConfirmDialog={hanldeConfirmDialog} />
     </Grid>
   );
 }

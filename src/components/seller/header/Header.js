@@ -17,8 +17,11 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
+//redux
+import { useSelector } from "react-redux";
 
 import Sidebar from '../sidebar/Sidebar';
+import AvatarCircelShortText from "components/avatar/AvatarCircelShortText";
 
 const drawerWidth = 240;
 
@@ -42,6 +45,7 @@ const AppBar = styled(MuiAppBar, {
 
 
 export default function Header() {
+  const user = useSelector(state => state.auth.user);
   const [titlePage, setTitlePage] = React.useState('Thống Kê');
   const [openSideBar, setOpenSideBar] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -57,14 +61,15 @@ export default function Header() {
     setOpenSideBar(!openSideBar);
   };
 
-  /***********hanlde change title page************/
-  const handleChangeTitlepage = (titlePage) => {
-    setTitlePage(titlePage)
-  }
-  return (
-    <Box sx={{ zIndex: '10' }}>
+    /***********hanlde change title page************/
+    const handleChangeTitlepage = (titlePage) => {
+      setTitlePage(titlePage)
+    }
 
-      <AppBar position="absolute" open={openSideBar}>
+  return (
+    <Box sx={{ zIndex: '10'}}>
+      
+      <AppBar position="absolute" open={openSideBar} sx={{backgroundColor: '#ec2f4b'}}>
         <Toolbar
           sx={{
             pr: '24px', // keep right padding when drawer closed
@@ -98,7 +103,7 @@ export default function Header() {
           </IconButton>
           <Tooltip title="Account settings">
             <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-              <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+              <AvatarCircelShortText name={user.name} />
             </IconButton>
           </Tooltip>
           <Menu
@@ -169,7 +174,6 @@ export default function Header() {
       toggleSideBar={toggleSideBar} 
       handleChangeTitlepage={handleChangeTitlepage} 
       />
-      
     </Box>
   );
 }

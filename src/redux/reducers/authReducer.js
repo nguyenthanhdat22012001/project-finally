@@ -22,6 +22,13 @@ const authReducer = (state = initState, action) => {
                 access_token: action.payload.access_token,
                 expires_in:action.payload.expires_in,
             }
+        case typeAuth.UPDATE_USER:
+            return {
+                ...state,
+                user: action.payload.user,
+                access_token: action.payload.access_token,
+                expires_in:action.payload.expires_in,
+            }
         case typeAuth.LOGOUT_USER:
             return {
                 ...state,

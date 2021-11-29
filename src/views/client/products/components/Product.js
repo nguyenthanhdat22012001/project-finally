@@ -23,7 +23,6 @@ function Product(props) {
     console.log(product);
     return (
         <div>
-            {!product ? <ProductSkeleton /> :
             
                 <div className="product__box">
                     <div className="product__favorit">
@@ -57,7 +56,6 @@ function Product(props) {
                         </div>
                     </div>
                 </div>
-            }
         </div>
     );
 }

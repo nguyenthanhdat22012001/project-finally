@@ -13,6 +13,10 @@ const userApi = {
         const url = `/forgot-password`;
         return axisosClient.post(url,{...data});
     },
+    resetPassword: (data)=>{
+        const url = `/reset-password`;
+        return axisosClient.post(url,{...data});
+    },
     getProfileUser: ()=>{
         const url = `/profile`;
         return axisosClient.get(url);

@@ -2,19 +2,17 @@ import { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 
 
-import FormCategory from 'components/admin/category/FormCategory';
-import FormEditCategory from 'components/admin/category/FormEditCategory';
-import TableListCategory from 'components/admin/category/TableListCategory';
+import FormCategory from '../components/FormCategory';
+import FormEditCategory from '../components/FormEditCategory';
+import TableListCategory from '../components/TableListCategory';
 import ProccessDialog from "components/dialog/ProccessDialog";
 import TableSkeleton from "components/skeleton/TableSkeleton";
 //noti
 import { useSnackbar } from 'notistack';
-
+//helper
+import {handleNotiDialog} from "helper/notify";
 // api
 import categoryApi from "api/categoryApi";
-
-
-
 
 
 function ListCategoryAdminPage() {
@@ -25,24 +23,9 @@ function ListCategoryAdminPage() {
   const { enqueueSnackbar } = useSnackbar();
 
   /*************** loading page when get list category ************/
-  useEffect( async () => {
-     await handleGetListCategory();
-}, [listCategory])
-  /************** handle  edit category ***************/
-  const handleEditFalse = () => {
-    setEditCategory({ ...editCategory, isEdit: false, category: null })
-  }
-  /************** handle noti dialog***************/
-  const handleNotiDialog = (message, status) => {
-    enqueueSnackbar(message, {
-      variant: status,
-      anchorOrigin: {
-        vertical: 'bottom',
-        horizontal: 'left',
-      },
-    });
-  };
-
+  useEffect(async () => {
+    await handleGetListCategory();
+  }, [])
   /************** handle get list category ***************/
   const handleGetListCategory = async () => {
     try {
@@ -52,8 +35,7 @@ function ListCategoryAdminPage() {
       }
 
       const res = await categoryApi.getCategoryAll();
-      if (res) {
-        console.log(res.data);
+      if (res.success) {
         const newListCategory = res.data.map(item => {
           return {
             ...item,
@@ -63,12 +45,17 @@ function ListCategoryAdminPage() {
 
         setListCategory([...newListCategory]);
         setIsLoadFetchApiSuccess(true);
+        console.log(res.data);
       }
 
     } catch (error) {
       console.log('error: ' + error);
     }
   };
+  /************** handle  edit category ***************/
+  const handleEditFalse = () => {
+    setEditCategory({ ...editCategory, isEdit: false, category: null })
+  }
 
   /************** handle add category ***************/
   const handleAddCategory = async (data) => {
@@ -76,10 +63,10 @@ function ListCategoryAdminPage() {
       setIsProccess(true);
 
       const res = await categoryApi.addCategory(data);
-      if (res) {
-        handleGetListCategory();
+      if (res.success) {
+        await handleGetListCategory();
         setIsProccess(false);
-        handleNotiDialog('thêm danh mục thành công', 'success');
+        handleNotiDialog(enqueueSnackbar,'thêm danh mục thành công', 'success');
       };
 
 
@@ -96,10 +83,10 @@ function ListCategoryAdminPage() {
       setIsProccess(true);
 
       const res = await categoryApi.deleteCategory(id);
-      if (res) {
+      if (res.success) {
         handleGetListCategory();
         setIsProccess(false);
-        handleNotiDialog('xóa danh mục thành công', 'success');
+        handleNotiDialog(enqueueSnackbar,'xóa danh mục thành công', 'success');
       }
 
 
@@ -114,7 +101,7 @@ function ListCategoryAdminPage() {
       setIsProccess(true);
 
       const res = await categoryApi.getCategoryById(id);
-      if (res) {
+      if (res.success) {
         setEditCategory({ ...editCategory, isEdit: true, category: res.data });
         setIsProccess(false);
       }
@@ -130,10 +117,10 @@ function ListCategoryAdminPage() {
       setIsProccess(true);
 
       const res = await categoryApi.updateCategory(id, data);
-      if (res) {
+      if (res.success) {
         handleGetListCategory();
         setIsProccess(false);
-        handleNotiDialog('chỉnh sửa danh mục thành công', 'success');
+        handleNotiDialog(enqueueSnackbar,'chỉnh sửa danh mục thành công', 'success');
       }
 
       console.log(res);

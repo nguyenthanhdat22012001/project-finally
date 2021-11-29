@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 //validate
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { categorySchema } from "../../../validates/categoryValidate";
+import { categorySchema } from "validates/adminValidate";
 
 
 

@@ -18,7 +18,7 @@ ReactDOM.render(
   //     horizontal: 'left',
   // }}
   TransitionComponent={Slide}
-  persist={false}
+  // persist={false}
     >
       <React.StrictMode>
         <App />
