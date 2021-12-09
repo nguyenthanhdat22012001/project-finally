@@ -1,91 +1,87 @@
-import * as React from 'react';
+import { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
-import { DataGrid } from '@mui/x-data-grid';
-import Avatar from '@mui/material/Avatar';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import IconButton from '@mui/material/IconButton';
-import { useHistory } from "react-router-dom";
+//noti
+import { useSnackbar } from 'notistack';
+//helper
+import { handleNotiDialog } from "helper/notify";
+// api
+import productApi from "api/productApi";
+//redux
+import { useSelector } from "react-redux";
 
-import ConfirmDialog from 'components/dialog/ConfirmDialog';
+import TableListProduct from '../components/TableListProduct';
+import ProccessDialog from "components/dialog/ProccessDialog";
+import TableSkeleton from "components/skeleton/TableSkeleton";
 
-
-const rows = [
-  { id: 1, avatar: '../assets/img1.jpg', name: 'cây lược', totalQuanty: 35, active: 'Hoạt động', action: 1 },
-];
 
 function ListProductPage() {
-  const history = useHistory();
-  const [dialog, setDeleteDialog] = React.useState({ openDialog: false, message: '' });
+  const user = useSelector(state => state.auth.user);
+  /*****state*******/
+  const [isLoadFetchApiSuccess, setIsLoadFetchApiSuccess] = useState(false);
+  const [listProduct, setListProduct] = useState([]);
+  const [isProccess, setIsProccess] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
-  const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
-    {
-      field: 'avatar',
-      headerName: '',
-      width: 150,
-      renderCell: (params) => (<div><Avatar variant="square" sx={{ width: 56, height: 56 }} alt="" src={params.value} /></div>)
-    },
-    {
-      field: 'name',
-      headerName: 'Tên sản phẩm',
-      width: 150,
-    },
-    {
-      field: 'totalQuanty',
-      headerName: 'Số lượng tồn kho',
-      width: 150,
-    },
-    {
-      field: 'active',
-      headerName: 'Trạng thái',
-      width: 110,
-    },
-    {
-      field: 'action', headerName: '', width: 150,
-      renderCell: (params) => (
-        <strong>
-          <IconButton aria-label="" color="inherit" onClick={() => hanldeDirectEdit(params.value)}>
-            <EditIcon />
-          </IconButton>
-          <IconButton aria-label="" color="inherit" onClick={() => hanldeDelete(params.value)}>
-            <DeleteOutlineIcon />
-          </IconButton>
-        </strong>
-      ),
-    },
-  ];
+  
+  /*************** loading page when get list Product ************/
+  useEffect(async () => {
+    await handleGetListProduct();
+  }, [])
+  /************** handle get list Product ***************/
+  const handleGetListProduct = async () => {
+    try {
 
-  const hanldeDelete = (id) => {
-    hanldeConfirmDialog(true, `Bạn có chắc muốn xóa sản phẩm id ${id} ?`);
-  }
+      if (isLoadFetchApiSuccess) {
+        setIsLoadFetchApiSuccess(false);
+      }
 
-  const hanldeDirectEdit = (id) => {
-    console.log('edit');
-    history.push(`/seller/product/edit/${id}`)
-  }
+      const res = await productApi.getAllProducts();
+      if (res.success) {
+        const newListProduct = res.data.map(item => {
+          return {
+            ...item,
+            action: { pro_id: item.id, pro_name: item.name },
+          }
+        });
 
-  const hanldeConfirmDialog = (boolean, message) => {
-    setDeleteDialog({ ...dialog, openDialog: boolean, message: message });
-  }
+        setListProduct([...newListProduct]);
+        setIsLoadFetchApiSuccess(true);
+      }
+
+    } catch (error) {
+      console.log('error: ' + error);
+    }
+  };
+  
+  /************** handle delete Product ***************/
+  const handleDeleteProduct = async (id) => {
+
+    try {
+      setIsProccess(true);
+
+      const res = await productApi.deleteProduct(id);
+      if (res.success) {
+        handleGetListProduct();
+        handleNotiDialog(enqueueSnackbar, res.message, 'success');
+      }
+      setIsProccess(false);
+
+    } catch (error) {
+      console.log('error: ' + error);
+    }
+  };
 
   return (
     <Grid container spacing={3}>
-
-      <Grid item xs={12} sm={12} md={12}>
-        <div style={{ height: 400, width: '100%' }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={5}
-            rowsPerPageOptions={[5]}
-            disableSelectionOnClick
-          />
-        </div>
-      </Grid>
-
-      {/* dialog */}
-      <ConfirmDialog dialog={dialog} hanldeConfirmDialog={hanldeConfirmDialog} />
+         {isProccess && <ProccessDialog />} {/* proccess page */}
+     {
+          isLoadFetchApiSuccess ?
+            <TableListProduct
+              listProduct={listProduct}
+              handleDeleteProduct={handleDeleteProduct}
+            />
+            : <TableSkeleton />
+        }
 
     </Grid>
   );

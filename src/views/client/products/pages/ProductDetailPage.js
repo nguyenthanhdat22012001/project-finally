@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import LinkBreadcrumbs from '@mui/material/Link';
@@ -13,8 +13,11 @@ import Button from '@mui/material/Button';
 import StoreIcon from '@mui/icons-material/Store';
 import ChatIcon from '@mui/icons-material/Chat';
 import { Tooltip } from '@mui/material';
-
-
+import { useParams } from 'react-router-dom';
+//helper
+import { fCurrency, PriceSale, fPercent } from "helper/FormatNumber";
+// api
+import productApi from 'api/productApi';
 
 import "./ProductDetailPage.scss";
 import TabDetailProduct from "../components/TabDetailProduct";
@@ -22,203 +25,261 @@ import Product2 from "../components/Product2";
 import InputUpDown from "components/inputs/InputUpDown";
 
 
-class ProductDetailPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            showDescCoupon: false
-        };
-    };
+function ProductDetailPage() {
+    const { slug } = useParams();
 
-    images = [
-        {
-            original: 'https://picsum.photos/id/1018/1000/600/',
-            thumbnail: 'https://picsum.photos/id/1018/250/150/',
-        },
-        {
-            original: 'https://picsum.photos/id/1015/1000/600/',
-            thumbnail: 'https://picsum.photos/id/1015/250/150/',
-        },
-        {
-            original: 'https://picsum.photos/id/1019/1000/600/',
-            thumbnail: 'https://picsum.photos/id/1019/250/150/',
-        },
-    ];
+    /*****state*****/
+    const [showDescCoupon, setShowDescCoupon] = useState();
+    const [products, setProducts] = useState([]);
+    const [product, setProduct] = useState({});
+    const [attribute, setAtribute] = React.useState('web');
 
-    handleToggleDescCoupon = () => {
-        if (this.state.showDescCoupon) {
-            this.setState({ showDescCoupon: false });
-            console.log('oke')
-        } else {
-            this.setState({ showDescCoupon: true });
-            console.log('oke')
+    /*******load product relative*******/
+    useEffect(() => {
+        Promise.all([getAllProducts()]);
+    }, [])
+    /*******load product detail*******/
+    useEffect(async () => {
+        await getProductBySlug();
+    }, [slug])
+
+    /*************get all product**************/
+    const getAllProducts = async () => {
+        try {
+            const res = await productApi.getAllProducts();
+            if (res.success) {
+                setProducts([...res.data]);
+            }
+        } catch (error) {
+            console.log('error', error);
         }
     }
+    /*************get  product by slug**************/
+    const getProductBySlug = async () => {
+        try {
+            const res = await productApi.getBySlug(slug);
+            if (res.success) {
+                setProduct({ ...res.data });
+            }
+        } catch (error) {
+            console.log('error', error);
+        }
+    }
+    /*************handle toggle coupon**************/
+    const handleToggleDescCoupon = () => {
+        if (showDescCoupon) {
+            setShowDescCoupon(false)
+        } else {
+            setShowDescCoupon(false)
+        }
+    }
+    /*************handle choose attribute**************/
+    const handleChange = (event, attribute) => {
+        console.log('attribute', attribute)
+        setAtribute(attribute);
+    };
 
-    render() {
-        return (
-            <div>
-                <div role="presentation">
-                    <Breadcrumbs aria-label="breadcrumb">
-                        <LinkBreadcrumbs underline="hover" color="inherit" href="/">
-                            MUI
-                        </LinkBreadcrumbs>
-                        <LinkBreadcrumbs
-                            underline="hover"
-                            color="inherit"
-                            href="/getting-started/installation/"
-                        >
-                            Core
-                        </LinkBreadcrumbs>
-                        <Typography color="text.primary">detai</Typography>
-                    </Breadcrumbs>
-                </div>
-                <div className="row product__detail">
-                    <div className="row product__detail__top">
-                        <div className="product__detail__infor-product">
-                            <div className="product__detail__image-galery">
-                                <ImageGallery
-                                    showFullscreenButton={false}
-                                    showPlayButton={false}
-                                    thumbnailPosition="left"
-                                    showNav={false}
-                                    lazyLoad={true}
-                                    sizes="large"
-                                    slideDuration={1000}
-                                    items={this.images}
-                                    originalHeight={100}
-                                />
-                            </div>
-                            <div className="product__detail__infor">
-                                <h2 className="product__detail__infor__title">Tuong ot chung mnamcho han quoc</h2>
-                                <div className="product__detail__infor__rating-love">
-                                    <p className="product__detail__infor__rating">
-                                        <Rating name="half-rating-read" defaultValue={5} precision={0.5} readOnly />
-                                        <span className="product__detail__infor__text-rating">
-                                            <Link> 163 luot danh gia </Link>
-                                        </span>
-                                        <span className="product__detail__infor__text-buying">
-                                            | 163 Luot mua
-                                        </span>
-                                    </p>
-                                    <div className="product__detail__infor__love">
-                                        <Tooltip title="them san pham yeu thich">
-                                            <IconButton aria-label="delete" color="error" >
-                                                <FavoriteBorderIcon sx={{ fontSize: 30 }} />
-                                            </IconButton>
-                                        </Tooltip>
-                                        <Tooltip title="theo doi cua hang">
-                                            <IconButton aria-label="delete" sx={{ color: "orangered" }} >
-                                                <StoreIcon sx={{ fontSize: 30 }} />
-                                            </IconButton>
-                                        </Tooltip>
-                                        <Tooltip title="chat voi cua hang">
-                                            <IconButton aria-label="delete" color="primary" >
-                                                <ChatIcon sx={{ fontSize: 30 }} />
-                                            </IconButton>
-                                        </Tooltip>
-                                    </div>
-                                </div>
-                                <div className="product__detail__infor__brand">
-                                    Thuong hieu:
-                                    <Link> Amoda </Link>
-                                </div>
-                                <div className="flexBoxColunm product__detail__infor__price">
-                                    <span className="product__detail__infor__price-new">
-                                        56.000 ₫
+    return (
+        <div>
+            <div role="presentation">
+                <Breadcrumbs aria-label="breadcrumb">
+                    <LinkBreadcrumbs underline="hover" color="inherit">
+                        <Link to="/client">
+                            TADAHA
+                        </Link>
+                    </LinkBreadcrumbs>
+                    <LinkBreadcrumbs
+                        underline="hover"
+                        color="inherit"
+                    >
+                        <Link to="/client/product">
+                            Sản Phẩm
+                        </Link>
+                    </LinkBreadcrumbs>
+                    <Typography color="text.primary">{Object.keys(product).length > 0 ? product.name : ''}</Typography>
+                </Breadcrumbs>
+            </div>
+            <div className="row product__detail">
+                <div className="row product__detail__top">
+                    <div className="product__detail__infor-product">
+                        <div className="product__detail__image-galery">
+                            <ImageGallery
+                                showFullscreenButton={false}
+                                showPlayButton={false}
+                                thumbnailPosition="left"
+                                showNav={false}
+                                lazyLoad={true}
+                                sizes="large"
+                                slideDuration={1000}
+                                items={
+                                    Object.keys(product).length > 0 ?
+                                        [...product.listimg].map(item => {
+                                            return {
+                                                original: item,
+                                                thumbnail: item,
+                                            }
+                                        })
+                                        : []
+                                }
+                                originalHeight={100}
+                            />
+                        </div>
+                        <div className="product__detail__infor">
+                            <h2 className="product__detail__infor__title">{Object.keys(product).length > 0 ? product.name : ''}</h2>
+                            <div className="product__detail__infor__rating-love">
+                                <p className="product__detail__infor__rating">
+                                    <Rating name="half-rating-read" defaultValue={5} precision={0.5} readOnly />
+                                    <span className="product__detail__infor__text-rating">
+                                        <Link to="#" > 163 lượt đánh giá </Link>
                                     </span>
-                                    <div className="product__detail__infor__price-old">
-                                        <span>109.000 ₫</span>
-                                        <span>-49%</span>
-                                    </div>
+                                    <span className="product__detail__infor__text-buying">
+                                        | 163 Lượt mua
+                                    </span>
+                                </p>
+                                <div className="product__detail__infor__love">
+                                    <Tooltip title="thêm sản phẩm yêu thích">
+                                        <IconButton aria-label="delete" color="error" >
+                                            <FavoriteBorderIcon sx={{ fontSize: 30 }} />
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Tooltip title="theo dõi cửa hàng">
+                                        <IconButton aria-label="delete" sx={{ color: "orangered" }} >
+                                            <StoreIcon sx={{ fontSize: 30 }} />
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Tooltip title="chat với cửa hàng">
+                                        <IconButton aria-label="delete" color="primary" >
+                                            <ChatIcon sx={{ fontSize: 30 }} />
+                                        </IconButton>
+                                    </Tooltip>
                                 </div>
-                                <div className="product__detail__infor__coupon">
-                                    <h4>Uu dai</h4>
-                                    <Button
-                                        onClick={this.handleToggleDescCoupon}
-                                    >
-                                        <div className="product__detail__infor__tag-coupon" >
-                                            <div
-                                                className="product__detail__infor__tag-coupon-name product__detail__infor__tag-coupon-has-desc"
-                                            >
-                                                chi 1k, nhan ngay 100k tro len la het khong con gi
-                                            </div>
-                                            <div className={this.state.showDescCoupon ? "product__detail__infor__tag-coupon-desc action-coupon" : "product__detail__infor__tag-coupon-desc"}>
-                                                <div className="backgroundColor-white">
-                                                    <h5> chi 1k, nhan ngay 100k tro len la het khong chi 1k, nhan ngay 100k tro len la het</h5>
-                                                    <p>chi 1k, nhan ngay 100k tro len la het khong chi 1k, nhan ngay 100k tro len la het khong chi 1k, nhan ngay 100k tro len la het khongchi 1k, nhan ngay 100k tro len la het khong khongchi 1k, nhan ngay 100k tro len la het khong</p>
-                                                </div>
+                            </div>
+                            <div className="product__detail__infor__brand">
+                                Thương hiệu:
+                                <Link to=""> {Object.keys(product).length > 0 ? product.brand.name : ''} </Link>
+                            </div>
+                            {
+                                Object.keys(product).length > 0 && product.discount > 0 ?
+                                    <div className="flexBoxColunm product__detail__infor__price">
+                                        <span className="product__detail__infor__price-new">
+                                            {PriceSale(product.price, product.discount)}
+                                        </span>
+                                        <div className="product__detail__infor__price-old">
+                                            <span> {fCurrency(product.price)}</span>
+                                            <span>-{fPercent(product.discount)}</span>
+                                        </div>
+                                    </div>
+                                    :
+                                    <div className="flexBoxColunm product__detail__infor__price">
+                                        <span className="product__detail__infor__price-new">
+                                            {fCurrency(product.price)}
+                                        </span>
+                                        <div className="product__detail__infor__price-old">
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                    </div>
+                            }
+                            <div className="product__detail__infor__coupon">
+                                <h4>Ưu đãi</h4>
+                                <Button
+                                    onClick={handleToggleDescCoupon}
+                                >
+                                    <div className="product__detail__infor__tag-coupon" >
+                                        <div
+                                            className="product__detail__infor__tag-coupon-name product__detail__infor__tag-coupon-has-desc"
+                                        >
+                                            chi 1k, nhan ngay 100k tro len la het khong con gi
+                                        </div>
+                                        <div className={showDescCoupon ? "product__detail__infor__tag-coupon-desc action-coupon" : "product__detail__infor__tag-coupon-desc"}>
+                                            <div className="backgroundColor-white">
+                                                <h5> chi 1k, nhan ngay 100k tro len la het khong chi 1k, nhan ngay 100k tro len la het</h5>
+                                                <p>chi 1k, nhan ngay 100k tro len la het khong chi 1k, nhan ngay 100k tro len la het khong chi 1k, nhan ngay 100k tro len la het khongchi 1k, nhan ngay 100k tro len la het khong khongchi 1k, nhan ngay 100k tro len la het khong</p>
                                             </div>
                                         </div>
-                                    </Button>
-                                </div>
-                                <div className="product__detail__infor__attribute">
-                                    <h4>mau sac</h4>
-                                    <ToggleButtonGroup
-                                        value={'left'}
-                                        exclusive
-                                        // onChange={handleAlignment}
-                                        aria-label="text alignment"
-                                        size="small"
-                                    >
-                                        <ToggleButton value="left" aria-label="left aligned">
-                                            Do
-                                        </ToggleButton>
-                                        <ToggleButton value="Den" aria-label="left aligned">
-                                            Den
-                                        </ToggleButton>
-                                        <ToggleButton value="trang" aria-label="left aligned">
-                                            trang
-                                        </ToggleButton>
-                                        <ToggleButton value="vang" aria-label="left aligned">
-                                            vang
-                                        </ToggleButton>
-                                    </ToggleButtonGroup>
-                                </div>
-                                <div className="product__detail__infor__attribute">
-                                    <h4>So luong</h4>
-                                    <InputUpDown />
-                                </div>
-                                <div className="group-btn-cart">
-                                    <Button variant="contained" color="secondary" size="large" sx={{ marginRight: 1 }}>Mua ngay</Button>
-                                    <Button variant="contained" color="primary" size="large">Them vao gio hang</Button>
-                                </div>
+                                    </div>
+                                </Button>
+                            </div>
+                            <div className="product__detail__infor__attribute">
+                                <h4>Thuộc tính</h4>
+                                <ToggleButtonGroup
+                                    color="primary"
+                                    value={attribute}
+                                    exclusive
+                                    onChange={handleChange}
+                                >
+                                    {
+                                        Object.keys(product).length > 0 ?
+                                            [...product.attributes].map(item => {
+                                                return <ToggleButton value={item.id} >{item.name}</ToggleButton>
+                                            })
+
+                                            : ''
+                                    }
+                                </ToggleButtonGroup>
+                            </div>
+                            <div className="product__detail__infor__attribute">
+                                <h4>Số lượng</h4>
+                                <InputUpDown />
+                            </div>
+                            <div className="group-btn-cart">
+                                <Button variant="contained" color="secondary" size="large" sx={{ marginRight: 1 }}>Mua ngay</Button>
+                                <Button variant="contained" color="primary" size="large">Them vao gio hang</Button>
                             </div>
                         </div>
                     </div>
-                    <div className="row product__detail__body">
-                        <article className="product__detail__content">
-                            <TabDetailProduct />
-                            <div className="product__detail__relative">
-                                <h4>san pham cung cua hang</h4>
-                                <div className="product__detail__relative-list">
-                                    <div className="product__detail__relative-item">
-                                        <Product2 />
+                </div>
+                <div className="row product__detail__body">
+                    <article className="product__detail__content">
+                        <TabDetailProduct 
+                        description={Object.keys(product).length > 0 ? product.description : ''} 
+                        product_id={product.id}
+                        />
+                        <div className="product__detail__relative">
+                            <h4>Sản phẩm cùng cửa hàng</h4>
+                            <div className="product__detail__relative-list">
+                                {
+                                    [...products].map(item => {
+                                        return <div className="product__detail__relative-item">
+                                            <Product2 key={item.id} product={item} />
+                                        </div>
+                                    })
+                                }
+                            </div>
+                        </div>
+                        <div className="product__detail__relative">
+                            <h4>Sản phẩm liên quan</h4>
+                            <div className="product__detail__relative-list">
+
+                                {
+                                    [...products].map(item => {
+                                        return <div className="product__detail__relative-item">
+                                            <Product2 key={item.id} product={item} />
+                                        </div>
+                                    })
+                                }
+
+
+                            </div>
+                        </div>
+                    </article>
+                    <div className="product__detail__sidebar">
+                        <div className="row">
+                            <h4 style={{ marginTop: '5px' }}>Quảng cáo sản phẩm</h4>
+                            {
+                                [...products].map(item => {
+                                    return <div className="row">
+                                        <Product2 key={item.id} product={item} />
                                     </div>
-                                </div>
-                            </div>
-                            <div className="product__detail__relative">
-                                <h4>san pham lien quan</h4>
-                                <div className="product__detail__relative-list">
-                                    <div className="product__detail__relative-item">
-                                        <Product2 />
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                        <sidebar className="product__detail__sidebar">
-                            <div className="row">
-                                <h4>Quang cao san pham</h4>
-                                <div className="row">
-                                    <Product2 />
-                                </div>
-                            </div>
-                        </sidebar>
+                                })
+                            }
+
+                        </div>
                     </div>
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 

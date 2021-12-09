@@ -31,6 +31,31 @@ export const LoginUserRedux = (enqueueSnackbar, history, data) => async (dispatc
     }
 
 }
+/**********login user****************/
+export const LoginGoogleRedux = (enqueueSnackbar, history, data) => async (dispatch, getState) => {
+    try {
+        const res = await userApi.LoginGoogle(data);
+
+        if (res.success) {
+            const result = {
+                user: res.data,
+                access_token: res.access_token,
+                expires_in: res.expires_in,
+            }
+            dispatch({ type: typeAuth.LOGIN_USER, payload: result });
+            handleNotiDialog(enqueueSnackbar, res.message, 'success');
+            setUserLocalStorage(result);
+            history.goBack();
+        } else {
+            handleNotiDialog(enqueueSnackbar, res.message, 'error');
+        }
+
+        console.log(res);
+    } catch (error) {
+        console.log('error: ' + error);
+    }
+
+}
 
 /**********login admin****************/
 export const LoginAdminRedux = (enqueueSnackbar, history, data) => async (dispatch, getState) => {
@@ -76,7 +101,7 @@ export const LogOutUserRedux = (enqueueSnackbar,history) => async (dispatch, get
 }
 
 /**********update user****************/
-export const updateUserRedux = () => async (dispatch, getState) => {
+export const updateUserRedux = (history) => async (dispatch, getState) => {
     try {
         const res = await userApi.getProfileUser();
 
@@ -88,6 +113,7 @@ export const updateUserRedux = () => async (dispatch, getState) => {
             }
             dispatch({ type: typeAuth.UPDATE_USER, payload: result });
             setUserLocalStorage(result);
+            history.push('/seller');
         } else {
             console.log(res);
         }

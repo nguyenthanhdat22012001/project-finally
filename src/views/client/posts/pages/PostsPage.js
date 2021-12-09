@@ -9,12 +9,30 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Grid from '@mui/material/Grid';
 import { Link } from 'react-router-dom';
+//api 
+import postApi from "api/postApi";
 
 import "./PostPage.scss";
 import PostItem from "../components/PostItem";
 
 
 function ProductPage() {
+    const [posts, setPosts] = useState([]);
+    useEffect(() => {
+        const getPosts = async () => {
+            try {
+                const res = await postApi.getPostAll();
+                if (res.success) {
+                    setPosts(res.data);
+                }
+
+            } catch (error) {
+                console.log('error', error);
+            }
+        }
+        getPosts();
+    }, [])
+
 
     return (
         <div>
@@ -37,14 +55,14 @@ function ProductPage() {
                 <article className="posts__main">
                     <h2 className="posts__main__title">Danh sách bài viết</h2>
                     <div className="posts__main__header">
-                        <p className="posts__main__countTotal">234234 bài viết tìm thấy </p>
+                        <p className="posts__main__countTotal">{[...posts].length} bài viết tìm thấy </p>
                         <Grid container spacing={1}>
                             <Grid item xs={6}>
                                 <Button variant="contained" color="secondary" size="medium">Bài viết của tôi</Button>
                             </Grid>
                             <Grid item xs={6}>
                                 <Link to="/client/posts/create">
-                                <Button variant="contained" color="primary" size="medium">Đăng bài</Button>
+                                    <Button variant="contained" color="primary" size="medium">Đăng bài</Button>
                                 </Link>
                             </Grid>
                         </Grid>
@@ -59,9 +77,15 @@ function ProductPage() {
                             </Button>
                         </div>
                         <div className="posts__list">
-                            <div className="posts__item">
-                                <PostItem />
-                            </div>
+                            {
+                                [...posts].length > 0 ?
+                                    [...posts].map(item => {
+                                        return <div className="posts__item">
+                                            <PostItem key={item.id} post={item} />
+                                        </div>
+                                    })
+                                    : 'không có bài viết nào'
+                            }
                         </div>
                     </div>
                     <div className="posts__paginion">

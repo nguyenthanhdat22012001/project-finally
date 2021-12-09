@@ -17,12 +17,12 @@ import Froala from "react-froala-wysiwyg";
 
 import "./TextAreaFroala.scss";
 
-export default function TextAreaFroala() {
-
+export default function TextAreaFroala(props) {
+   
     return (
         <Froala
-            model={'sdfsdf'}
-            // onModelChange={handleModelChange}
+            // model={'sdfsdf'}
+            onModelChange={props.handleOnChangeDescription}
             tag="textarea"
             config={{
                 attribution: false,

@@ -9,96 +9,251 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import { Link } from 'react-router-dom';
 //api
 import productApi from "api/productApi";
+//helper
+import {convertPriceSale} from "helper/FormatNumber";
 
 import "./ProductPage.scss";
 import Sidebar from "../components/Sidebar";
 import Product from "../components/Product";
-import Mystore from "../components/Mystore";
-// import ProductSkeleton from "../components/ProductSkeleton";
+
 
 
 function ProductPage() {
+    const [sort, setSort] = useState('NONE');
     const [products, setProducts] = useState([]);
-
+    const [pages, setPages] = useState({
+        limit: 2,
+        currentPage: 1,
+    });
+    const [filterProduct, setFilterProduct] = useState({
+        isFilter: false,
+        attributeFilter: {
+            brand_id: [],
+        },
+        productFiltered: [],
+    });
+    /*************load page**************/
     useEffect(() => {
-        // handleCallApiGetProduct();
-    }, []);
-    /***********handle call api get products*************/
-    const handleCallApiGetProduct = async () => {
+        Promise.all([getAllProducts()]);
+    }, [])
 
+
+    /******display product by page******/
+    let displayProduct = '';
+    if (filterProduct.isFilter) {
+        displayProduct = [...filterProduct.productFiltered].slice((pages.currentPage * pages.limit) - pages.limit, pages.currentPage * pages.limit).map(item => {
+            return (
+                <div className="product__item">
+                    <Product key={item.id} product={item} />
+                </div>
+            )
+        })
+    } else {
+        displayProduct = products.slice((pages.currentPage * pages.limit) - pages.limit, pages.currentPage * pages.limit).map(item => {
+            return (
+                <div className="product__item">
+                    <Product key={item.id} product={item} />
+                </div>
+            )
+        })
+    }
+
+    /*************get all product**************/
+    const getAllProducts = async () => {
         try {
             const res = await productApi.getAllProducts();
-            console.log('getAllProducts', res);
-            setProducts(res);
-        } catch (error) {
+            if (res.success) {
+                setProducts([...res.data]);
+            }
 
+        } catch (error) {
+            console.log('error', error);
+        }
+    }
+    /*************get all product**************/
+    const handleChangePage = (event, value) => {
+
+        setPages({
+            ...pages,
+            currentPage: value,
+        });
+    };
+    /*************handle filter product**************/
+    const handleChangeInput = (event) => {
+        const target = event.target;
+        const name = target.name;
+        const value = target.value;
+
+        const attributeFilter = { ...filterProduct.attributeFilter };
+        let newAttributeFilter = {
+            brand_id: [],
+        };
+        let productFilter = [];
+
+        if (target.type === 'checkbox') {
+            if (target.checked) {
+                if (name == 'brand_id') {
+                    newAttributeFilter = {
+                        brand_id: [...attributeFilter.brand_id, value],
+                    };
+                }
+
+            } else {
+                if (name == 'brand_id') {
+                    newAttributeFilter.brand_id = [...attributeFilter.brand_id].filter(item => item != value);
+                }
+            }
+        }
+
+        if (newAttributeFilter.brand_id.length > 0) {
+            for (const keyFilter in newAttributeFilter) {
+                // console.log(' [...newAttributeFilter[keyFilter]]', newAttributeFilter[keyFilter])
+                newAttributeFilter[keyFilter].map(item => {
+                    const newProducts = [...products].filter(product => product[keyFilter] == item);
+                    productFilter = [...productFilter, ...newProducts];
+                })
+            }
+        }
+
+
+        if (newAttributeFilter.brand_id.length === 0) {
+            setFilterProduct({
+                ...filterProduct,
+                isFilter: false,
+                attributeFilter: {
+                    brand_id: newAttributeFilter.brand_id
+                },
+                productFiltered: productFilter,
+            });
+        } else {
+            setFilterProduct({
+                ...filterProduct,
+                isFilter: true,
+                attributeFilter: {
+                    brand_id: newAttributeFilter.brand_id
+                },
+                productFiltered: productFilter,
+            });
+        }
+        setPages({
+            ...pages,
+            currentPage: 1,
+        })
+
+    };
+    /*************handle sort product**************/
+
+    const handleSortProduct = (e) => {
+        const key = e.target.value;
+        setSort(key);
+        setPages({
+            ...pages,
+            currentPage: 1,
+        })
+        let newProduct = [];
+        switch (key) {
+            case 'A-Z':
+                if (filterProduct.isFilter) {
+                    newProduct = filterProduct.productFiltered.sort((a, b) => convertPriceSale(a.price,a.discount) - convertPriceSale(b.price,b.discount));
+                    setFilterProduct({
+                        ...filterProduct,
+                        productFiltered: newProduct,
+                    });
+                } else {
+                    newProduct = products.sort((a, b) => convertPriceSale(a.price,a.discount) - convertPriceSale(b.price,b.discount));
+                    setProducts(newProduct);
+                }
+                // console.log('newProduct',newProduct);
+                break;
+            case 'Z-A':
+                if (filterProduct.isFilter) {
+                    newProduct = filterProduct.productFiltered.sort((a, b) => convertPriceSale(b.price,b.discount) - convertPriceSale(a.price,a.discount));
+                    setFilterProduct({
+                        ...filterProduct,
+                        productFiltered: newProduct,
+                    });
+                } else {
+                    newProduct = products.sort((a, b) => convertPriceSale(b.price,b.discount) - convertPriceSale(a.price,a.discount));
+                    setProducts(newProduct);
+                }
+                // console.log('newProduct',newProduct);
+                break;
+
+            default:
+                console.log('default');
+                break;
         }
     }
 
     return (
         <div>
+            {console.log('filterProduct', filterProduct)}
             <div role="presentation">
                 <Breadcrumbs aria-label="breadcrumb">
-                    <LinkBreadcrumbs underline="hover" color="inherit" href="/">
-                        MUI
+                    <LinkBreadcrumbs underline="hover" color="inherit">
+                        <Link to="/client">
+                            TADAHA
+                        </Link>
                     </LinkBreadcrumbs>
-                    <LinkBreadcrumbs
-                        underline="hover"
-                        color="inherit"
-                        href="/getting-started/installation/"
-                    >
-                        Core
-                    </LinkBreadcrumbs>
-                    <Typography color="text.primary">Breadcrumbs</Typography>
+                    <Typography color="text.primary">Sản Phẩm</Typography>
                 </Breadcrumbs>
             </div>
             <div className="product__wrapper">
-                <sidebar className="product__sidebar">
-                    <Sidebar />
-                </sidebar>
+                <div className="product__sidebar">
+                    <Sidebar handleChangeInput={handleChangeInput} />
+                </div>
                 <article className="product__main">
-                    <h2 className="product__main__title">Dien thoai di dong</h2>
+                    <h2 className="product__main__title">Tất cả sản phẩm</h2>
                     <div className="product__main__header">
-                        <p className="product__main__countTotal">234234 san pham tim thay trong smartphone</p>
+                        <p className="product__main__countTotal">{filterProduct.isFilter ? [...filterProduct.productFiltered].length : [...products].length} sản phẩm tìm thấy</p>
                         <div className="product__main__sort">
-                            <span className="product__main__sort-title">sap xep theo:</span>
+                            <span className="product__main__sort-title">Sắp xếp theo:</span>
                             <div className="product__main__sort-select">
                                 <Box sx={{ minWidth: 120 }} >
                                     <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">Phu hop nhat</InputLabel>
+                                        <InputLabel id="demo-simple-select-label">Phù hợp nhất</InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
                                             id="demo-simple-select"
-                                            // value={age}
-                                            label="Phu hop nhat"
-                                        // onChange={handleChange}
+                                            value={sort}
+                                            label="Phù hợp nhất"
+                                            onChange={handleSortProduct}
                                         >
-                                            <MenuItem value={10}>Gia tu thap toi cao</MenuItem>
-                                            <MenuItem value={20}>Gia tu cao toi thap</MenuItem>
+                                            <MenuItem value={'NONE'}>Phù hợp nhất</MenuItem>
+                                            <MenuItem value={'A-Z'}>Giá từ thấp tới cao</MenuItem>
+                                            <MenuItem value={'Z-A'}>Giá từ cao tới thấp</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </Box>
                             </div>
                         </div>
-                        <Mystore />
                     </div>
                     <div className="product__main__body">
                         <div className="product__list">
-                            {products.length ?
-                                [...products].map(item => {
-                                    return (<div className="product__item">
-                                        <Product product={item} />
-                                    </div>)
-                                }) :
-                                "khong co san pham nao"
+                            {products.length > 0 ?
+                                displayProduct
+                                :
+                                <Typography
+                                variant="h6"
+                                component="div"
+                                sx={{ textAlign: 'center', margin: '10px 0' }}
+                            >
+                                Không có sản phẩm nào
+                            </Typography>
                             }
                         </div>
                     </div>
                     <div className="product__paginion">
                         <Stack spacing={2}>
-                            <Pagination count={10} color="secondary" />
+                            <Pagination
+                                count={filterProduct.isFilter ? Math.ceil([...filterProduct.productFiltered].length / pages.limit) : Math.ceil([...products].length / pages.limit)}
+                                color="secondary"
+                                page={pages.currentPage}
+                                onChange={handleChangePage}
+                            />
                         </Stack>
                     </div>
                 </article>

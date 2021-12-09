@@ -16,6 +16,7 @@ const commentLazyLoad = React.lazy(() => import('./comment'));
 const messageLazyLoad = React.lazy(() => import('./message'));
 const orderLazyLoad = React.lazy(() => import('./order'));
 const productLazyLoad = React.lazy(() => import('./product'));
+const couponLazyLoad = React.lazy(() => import('./coupon'));
 
 const mdTheme = createTheme();
 
@@ -50,6 +51,7 @@ function Seller(props) {
                             <Route path={`${match.url}/comment`} component={commentLazyLoad} />
                             <Route path={`${match.url}/message`} component={messageLazyLoad} />
                             <Route path={`${match.url}/product`} component={productLazyLoad} />
+                            <Route path={`${match.url}/coupon`} component={couponLazyLoad} />
                         </Switch>
 
                     </Container>

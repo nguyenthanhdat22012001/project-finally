@@ -20,27 +20,7 @@ class HistoryOrderPage extends React.Component {
                         <Sidebar />
                     </div>
                     <div className="user__col-right">
-                        <h2 className="user__title-page">Don hang cua toi</h2>
-                        <div className="user__filter">
-                            <span className="">sap xep theo:</span>
-                            <div>
-                                <Box sx={{ minWidth: 150 }} >
-                                    <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">Phu hop nhat</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            // value={age}
-                                            label="Phu hop nhat"
-                                        // onChange={handleChange}
-                                        >
-                                            <MenuItem value={10}>Gia tu thap toi cao</MenuItem>
-                                            <MenuItem value={20}>Gia tu cao toi thap</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </Box>
-                            </div>
-                        </div>
+                        <h2 className="user__title-page">Đơn hàng của tôi</h2>
                         <div className="row">
                             <TabOrder />
                         </div>

@@ -1,29 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PreviewIcon from '@mui/icons-material/Preview';
 import ModeCommentIcon from '@mui/icons-material/ModeComment';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { Link } from 'react-router-dom';
 
 import "./PostItem.scss";
 
 PostItem.propTypes = {
-
+    post: PropTypes.object,
+}
+PostItem.defaultProps = {
+    post: null,
 }
 
 function PostItem(props) {
+    const { post } = props;
+
     return (
-        <Link to="/client/posts/bai-viet.html">
+        <Link to={`/client/posts/${post ? post.slug : ''}.html`}>
             <div className="post__box">
                 <h4 className="post__title">
-                    Điều gì lam như thế này? Điều gì lam như thế này? Điều gì lam như thế này?
+                    {post ? post.name : ''}
                 </h4>
+                <div className="post__desc-short">
+                    {post ? post.description : ''}
+                </div>
                 <div className="post__view-comment">
                     <div className="post__view-comment__box">
                         <span className="post__view-comment__icon">
-                            <PreviewIcon fontSize="small" />
+                            <ThumbUpAltIcon fontSize="small" />
                         </span>
                         <span className="post__view-comment__text">
-                            143
+                        {post ? post.totalThumb : 0}
                         </span>
                     </div>
                     <div className="post__view-comment__box">
@@ -31,7 +39,7 @@ function PostItem(props) {
                             <ModeCommentIcon fontSize="small" />
                         </span>
                         <span className="post__view-comment__text">
-                            143
+                        {post ? post.totalComment : 0}
                         </span>
                     </div>
                 </div>

@@ -12,6 +12,7 @@ import RateReviewIcon from '@mui/icons-material/RateReview';
 import ForumIcon from '@mui/icons-material/Forum';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import { NavLink } from "react-router-dom";
 
 const baseUrl = "/seller";
@@ -64,6 +65,14 @@ export default function MainListItems({handleChangeTitlepage}) {
             <ShoppingCartIcon />
           </ListItemIcon>
           <ListItemText primary="Đơn hàng" />
+        </ListItem>
+      </NavLink>
+      <NavLink to={`${baseUrl}/coupon`} exact activeClassName="nav-active">
+        <ListItem onClick={() => handleChangeTitlepage('Khuyến mãi')} >
+          <ListItemIcon>
+            <CardGiftcardIcon />
+          </ListItemIcon>
+          <ListItemText primary="Khuyến mãi" />
         </ListItem>
       </NavLink>
       <NavLink to={`${baseUrl}/message`} exact activeClassName="nav-active">

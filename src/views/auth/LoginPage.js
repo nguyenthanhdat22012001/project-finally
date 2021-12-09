@@ -15,7 +15,7 @@ import { useHistory } from "react-router-dom";
 import { useSnackbar } from 'notistack';
 //redux
 import { useDispatch,useSelector} from "react-redux";
-import { LoginUserRedux } from 'redux/actions/AuthAction';
+import { LoginUserRedux ,LoginGoogleRedux} from 'redux/actions/AuthAction';
 
 import imgLogin from "assets/images/img-login.webp";
 import FormLogin from 'components/auth/login/FormLogin';
@@ -53,7 +53,24 @@ useEffect(() => {
   }
   /*************** handle login google ************/
   const handleLoginGoogle = (data) => {
-    console.log(data.profileObj);
+    const values = data.profileObj;
+    const newData = {
+      email:values.email,
+      googleId: values.googleId,
+      name:values.name,
+    }
+
+    try {
+      setIsProccess(true);
+
+      dispatch(LoginGoogleRedux(enqueueSnackbar,history,newData));
+
+      setIsProccess(false);
+
+    } catch (error) {
+      console.log('error: ' + error);
+    }
+  
   }
 
   return (

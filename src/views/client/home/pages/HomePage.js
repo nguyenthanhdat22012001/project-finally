@@ -1,17 +1,24 @@
+import { useEffect, useState } from 'react';
 import ImageGallery from 'react-image-gallery';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
+// api
+import productApi from 'api/productApi';
+import categoryApi from 'api/categoryApi';
 
 import './HomePage.scss';
 import Product from '../../products/components/Product';
 import ListCategory from '../components/ListCategoey';
 import TopListStores from '../components/TopListStores';
+// img banner
+import banner1 from "assets/images/banner-1.jpg";
+
 
 const images = [
     {
-        original: 'https://picsum.photos/id/1018/1000/600/',
+        original: banner1,
         thumbnail: 'https://picsum.photos/id/1018/250/150/',
     },
     {
@@ -42,15 +49,43 @@ const responsive = {
     }
 };
 
-
-
 function HomePage() {
+    const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        Promise.all([getAllProducts(),getAllCategory()]);
+    }, [])
+    /*************get all product**************/
+    const getAllProducts = async () => {
+        try {
+            const res = await productApi.getAllProducts();
+            console.log('res', res);
+            if (res.success) {
+                setProducts([...res.data]);
+            }
+        } catch (error) {
+            console.log('error', error);
+        }
+    }
+    /*************get all category**************/
+    const getAllCategory = async () => {
+        try {
+            const res = await categoryApi.getCategoryAll();
+            console.log('res', res);
+            if (res.success) {
+                setCategories([...res.data]);
+            }
+        } catch (error) {
+            console.log('error', error);
+        }
+    }
 
     return (
         <div className="home">
             <div className="row home__top">
                 <div className="row home__category home__top-item">
-                    <ListCategory />
+                    <ListCategory categories={categories} />
                 </div>
 
                 <div className="row home__banner home__top-item">
@@ -100,18 +135,17 @@ function HomePage() {
                         itemClass="carousel-item-padding-40-px"
                     //  sliderClass="plex-gap-25"
                     >
-                        <Product />
-                        <Product />
-                        <Product />
-                        <Product />
-                        <Product />
-                        <Product />
+                        {
+                            [...products].map(item => {
+                                return <Product key={item.id} product={item} />
+                            })
+                        }
                     </Carousel>
 
                 </div>
             </div>
             <div className="row home__Stores">
-                <h2 className="home__title">Top cua hang</h2>
+                <h2 className="home__title">Top Cửa Hàng</h2>
                 <div className="row home__Stores__list">
                     <TopListStores />
                 </div>
@@ -124,18 +158,13 @@ function HomePage() {
                     </Button>
                 </div>
                 <div className="home__product__sale__list">
-                    <div className="home__product__sale__item">
-                        <Product />
-                    </div>
-                    <div className="home__product__sale__item">
-                        <Product />
-                    </div>
-                    <div className="home__product__sale__item">
-                        <Product />
-                    </div>
-                    <div className="home__product__sale__item">
-                        <Product />
-                    </div>
+                    {
+                        [...products].map(item => {
+                            return <div className="home__product__sale__item">
+                                <Product key={item.id} product={item} />
+                            </div>
+                        })
+                    }
                 </div>
             </div>
 

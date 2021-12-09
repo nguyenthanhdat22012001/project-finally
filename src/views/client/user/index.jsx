@@ -19,7 +19,7 @@ function User(props) {
             <Route path={`${match.url}/change-password`} component={ChangePasswordPage} />
             <Route path={`${match.url}/coupon`} component={CouponPage} />
             <Route exact path={`${match.url}/order`} component={HistoryOrderPage} />
-            <Route path={`${match.url}/order-:id`} component={OrderDetailPage} />
+            <Route path={`${match.url}/order/:id`} component={OrderDetailPage} />
             <Route path={`${match.url}/favorite-follow`} component={FavoriteAndFollowPage} />
         </Switch>
     )

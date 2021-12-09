@@ -15,7 +15,7 @@ class CouponPage extends React.Component {
                         <Sidebar />
                     </div>
                     <div className="user__col-right">
-                        <h2 className="user__title-page">Ma giam gia</h2>
+                        <h2 className="user__title-page">Mã giảm giá</h2>
                         <div className="user__coupon">
                             <table class="table">
                                 <thead>
@@ -32,10 +32,42 @@ class CouponPage extends React.Component {
                                     <tr class="">
                                         <td>  No </td>
                                         <td>  1 </td>
-                                        <td>LAZ13209656499038665d62031 </td>
+                                        <td>LAZ13238665d62031 </td>
                                         <td> 22/11/18 14:56 </td>
                                         <td> 22/11/19 23:59 </td>
-                                        <td> 343.500₫</td>
+                                        <td> 143.500₫</td>
+                                    </tr>
+                                    <tr class="">
+                                        <td>  No </td>
+                                        <td>  2 </td>
+                                        <td>LAZ1499038665d62031 </td>
+                                        <td> 22/11/18 14:56 </td>
+                                        <td> 22/11/19 23:59 </td>
+                                        <td> 543.500₫</td>
+                                    </tr>
+                                    <tr class="">
+                                        <td>  No </td>
+                                        <td>  3 </td>
+                                        <td>LAZ132038665d62031 </td>
+                                        <td> 22/11/18 14:56 </td>
+                                        <td> 22/11/19 23:59 </td>
+                                        <td> 443.500₫</td>
+                                    </tr>
+                                    <tr class="">
+                                        <td>  No </td>
+                                        <td>  4 </td>
+                                        <td>LAZ1320965649903866 </td>
+                                        <td> 22/11/18 14:56 </td>
+                                        <td> 22/11/19 23:59 </td>
+                                        <td> 63.500₫</td>
+                                    </tr>
+                                    <tr class="">
+                                        <td>  No </td>
+                                        <td>  5 </td>
+                                        <td>LAZ13209656499038665d620 </td>
+                                        <td> 22/11/18 14:56 </td>
+                                        <td> 22/11/19 23:59 </td>
+                                        <td> 33.500₫</td>
                                     </tr>
                                 </tbody>
                             </table>

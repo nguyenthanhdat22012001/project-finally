@@ -10,6 +10,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import CategoryIcon from '@mui/icons-material/Category';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import WysiwygIcon from '@mui/icons-material/Wysiwyg';
 import { Link } from "react-router-dom";
 
 class Navbar extends React.Component {
@@ -45,35 +46,43 @@ class Navbar extends React.Component {
         >
             <List>
                 <Link to="/">
-                    <ListItem button key="Trang Chu">
+                    <ListItem button key="Trang Chủ">
                         <ListItemIcon>
                             <HomeIcon />
                         </ListItemIcon>
-                        <ListItemText primary="Trang Chu" />
+                        <ListItemText primary="Trang Chủ" />
                     </ListItem>
                 </Link>
                 <Link  to="/client/product">
-                    <ListItem button key="Danh Muc">
+                    <ListItem button key="Sản Phẩm">
                         <ListItemIcon>
                             <CategoryIcon />
                         </ListItemIcon>
-                        <ListItemText primary="Danh Muc" />
+                        <ListItemText primary="Sản Phẩm" />
                     </ListItem>
                 </Link>
                 <Link  to="/client/vouchers">
-                    <ListItem button key="Suu Tap Voucher">
+                    <ListItem button key="Sưu Tập Voucher">
                         <ListItemIcon>
                             <CardGiftcardIcon />
                         </ListItemIcon>
-                        <ListItemText primary="Suu Tap Voucher" />
+                        <ListItemText primary="Sưu Tập Voucher" />
+                    </ListItem>
+                </Link>
+                <Link  to="/client/posts">
+                    <ListItem button key="Bài viết">
+                        <ListItemIcon>
+                            <WysiwygIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Bài viết" />
                     </ListItem>
                 </Link>
                 <Link  to="/seller">
-                    <ListItem button key="Ban Hang">
+                    <ListItem button key="Bán Hàng">
                         <ListItemIcon>
                             <StorefrontIcon />
                         </ListItemIcon>
-                        <ListItemText primary="Ban Hang" />
+                        <ListItemText primary="Bán Hàng" />
                     </ListItem>
                 </Link>
             </List>

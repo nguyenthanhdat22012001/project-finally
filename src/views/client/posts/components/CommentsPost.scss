@@ -1,0 +1,44 @@
+@import "../../../../mixin";
+@import "../../../../variables";
+
+.posts__cp{
+    &__comments{
+        border: 2px solid $border-clicked;
+        border-radius: 12px;
+        padding: 15px 30px;
+        margin: 20px 0;
+    }
+    &__comment{
+        font-size: 14px;
+        padding: 7px;
+        &__top{
+            @include flexbox(center);
+            margin-bottom: 10px;
+        }
+        &__image{
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+        &__user{
+            display: flex;
+            flex-direction: column;
+            &>span:first-child{
+                font-weight: 500;
+                margin-bottom: 10px;
+            }
+            &>span:last-child{
+                color: gray;
+                @include flexbox(center);
+            }
+        }
+        &__bottom{
+            margin: 5px 0;
+            @include flexbox(center,space-between);
+        }
+    }
+    &__comment-sub{
+        padding-left: 30px;
+        background-color: #ccc;
+    }
+   }

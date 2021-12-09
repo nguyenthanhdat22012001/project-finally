@@ -3,7 +3,9 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
-
+// img banner
+import store1 from "assets/images/store-1.jpg";
+import store2 from "assets/images/store-2.jpg";
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
     position: 'relative',
@@ -78,27 +80,27 @@ class TopListStores extends React.Component {
 
     images = [
         {
-          url: '/static/images/buttons/breakfast.jpg',
+          url: store1,
           title: 'Breakfast',
           width: '20%',
         },
         {
-          url: '/static/images/buttons/burgers.jpg',
+          url: store2,
           title: 'Burgers',
           width: '20%',
         },
         {
-          url: '/static/images/buttons/camera.jpg',
+          url: store1,
           title: 'Camera',
           width: '20%',
         },
         {
-          url: '/static/images/buttons/camera.jpg',
+          url: store2,
           title: 'Camera hama',
           width: '20%',
         },
         {
-          url: '/static/images/buttons/camera.jpg',
+          url: store1,
           title: 'Cameraasd',
           width: '20%',
         },
