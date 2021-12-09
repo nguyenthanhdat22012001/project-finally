@@ -11,7 +11,7 @@
     }
     &__title-page{
         font-size: 24px;
-        font-weight: 600;
+        font-weight: 500;
         margin: 0 0 30px;
     }
     &__col-left{
@@ -55,6 +55,7 @@
             padding: 16px 20px;
             color: #242424;
             border: 1px solid #eff;
+            text-align: center;
         }
         & th{
             font-weight: 500;

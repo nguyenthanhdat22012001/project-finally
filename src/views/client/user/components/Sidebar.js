@@ -40,7 +40,7 @@ function Sidebar(props) {
             </div>
             <NavLink to={`${baseUrl}/order`} exact={`${baseUrl}/order`} activeClassName="nav-active">
                 <ListItem sx={{ paddingLeft: 0 }}>
-                    <h4 className="user__sidebar__title">Dơn hàng của tôi</h4>
+                    <h4 className="user__sidebar__title">Đơn hàng của tôi</h4>
                 </ListItem>
             </NavLink>
             <NavLink to={`${baseUrl}/favorite-follow`} exact={`${baseUrl}/favorite-follow`} activeClassName="nav-active">

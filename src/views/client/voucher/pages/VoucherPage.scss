@@ -20,7 +20,7 @@
 
 .voucher__system{
     @include flexbox(center);
-    width: 340px;
+    width: 400px;
     // height: 172px;
     border-radius: 18px;
     overflow: hidden;
@@ -32,6 +32,7 @@
         overflow: hidden;
         font-weight: 600;
         padding: 0 12px;
+        text-align: center;
     }
     &-content{
         @include flexbox(flex-start,flex-start,nowrap,column);
@@ -63,7 +64,7 @@
         }
     }
     &-desc{
-        @include dotText(1);
+        // @include dotText(1);
         padding: 7px 0;
     }
     &-btn{
@@ -77,7 +78,7 @@
 }
 
 .voucher__store{
-    width: 586px;
+    width: 500px;
     color: rgb(254, 73, 96);
     font-size: 22px;
     border-radius: 18px;
@@ -149,8 +150,5 @@
         color: #fff;
         font-size: 26px;
         cursor: pointer;
-    }
-    &-bottom{
-        @include dotText(1);
     }
 }

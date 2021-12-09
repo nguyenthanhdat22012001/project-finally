@@ -78,7 +78,7 @@ function ProductSearchPage() {
         })
     }
 
-    /*************get all product**************/
+    /*************handle change page**************/
     const handleChangePage = (event, value) => {
 
         setPages({
