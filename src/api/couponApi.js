@@ -21,6 +21,26 @@ const couponApi = {
         const url = `/coupons/${id}`;
         return axisosClient.delete(url);
     },
+    getCouponAdmin: ()=>{
+        const url = `/coupon/0`;
+        return axisosClient.get(url);
+    },
+    getCouponStore: (id)=>{
+        const url = `/coupon/${id}`;
+        return axisosClient.get(url);
+    },
+    getCouponUserCollection: (id)=>{
+        const url = `/collection-coupon/user/${id}`;
+        return axisosClient.get(url);
+    },
+    collectionCoupon: (data)=>{
+        const url = `/collection-coupon`;
+        return axisosClient.post(url,{...data});
+    },
+    deleteCouponUserCollection: (id)=>{
+        const url = `/collection-coupon/${id}`;
+        return axisosClient.delete(url);
+    },
 }
 
 

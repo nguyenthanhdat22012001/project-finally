@@ -7,6 +7,12 @@ export function formatdateYMD(dateObj = new Date()) {
     return formatDate;
 }
 
+export function formatdateDMY(dateString) {
+    const dateObj = new Date(dateString);
+    const formatDate = format(dateObj, 'dd/MM/yyyy',{timeZone: "UTC"})
+    return formatDate;
+}
+
 export function distanceToNow(dateString) {
     const distanceToNow = formatDistanceToNow(
         new Date(dateString),
