@@ -21,6 +21,12 @@
             transition: color 0.25s ease;
         }
     }
+    &__desc-short{
+        margin: 5px 0 0 0;
+        font-size: 14px;
+        @include  dotText();
+        color: grey;
+    }
     &__view-comment{
         @include flexbox(center,space-between);
         margin-top: 15px;

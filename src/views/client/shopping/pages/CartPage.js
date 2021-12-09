@@ -12,10 +12,10 @@ import "./CartPage.scss";
 import Stepper from "../components/Stepper";
 import InputUpDown from "components/inputs/InputUpDown";
 
+const baseUrl = '/client/shopping';
 
-class CartPage extends React.Component {
+function CartPage()  {
 
-  render() {
     return (
       <div>
         <div role="presentation">
@@ -118,14 +118,14 @@ class CartPage extends React.Component {
               </span>
             </div>
             <div className="" style={{ textAlign: 'right' }}>
-              <Link> <Button variant="contained" color="secondary" size="large" sx={{ marginRight: 1 }}>Tiep tuc mua hang</Button> </Link>
-              <Link to="/checkout">  <Button variant="contained" color="primary" size="large">Thanh toan</Button></Link>
+              <Link to={`/client/product`}> <Button variant="contained" color="secondary" size="large" sx={{ marginRight: 1 }}>Tiep tuc mua hang</Button> </Link>
+              <Link to={`${baseUrl}/checkout`}>  <Button variant="contained" color="primary" size="large">Thanh toan</Button></Link>
             </div>
           </div>
         </div>
       </div>
     )
-  }
+  
 }
 
 export default CartPage;

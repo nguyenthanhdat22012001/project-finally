@@ -36,7 +36,7 @@
     bottom: 0;
     right: 50px;
     z-index: 100;
-    transition: width  0.25s ease;
+    transition: width  0.25s ease , height 0.25s ease;
     &__header, &__body{
        @include flexbox(flex-start,flex-start,nowrap, column);
     }

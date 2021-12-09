@@ -19,7 +19,7 @@ import { LogOutUserRedux} from "redux/actions/AuthAction";
 
 import AvatarCircelShortText from "components/avatar/AvatarCircelShortText";
 
-const baseUrl = '/user';
+const baseUrl = '/client/user';
 
 function AvatarMenu(props) {
     const [anchorEl, setAnchorEl] = useState(null);

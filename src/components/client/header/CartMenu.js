@@ -10,11 +10,13 @@ import IconButton from '@mui/material/IconButton';
 import "./CartMenu.scss";
 import imageProduct from "assets/images/img1.jpg";
 
+const baseUrl = '/client/shopping';
+
 function CartMenu(props) {
     return (
         <IconButton size="large" aria-label="" color="inherit" className="cart-menu__icon">
         <Badge badgeContent={4} color="error" >
-            <Link to="/cart">
+            <Link to={`${baseUrl}`}>
                 <ShoppingCartIcon sx={{ color: '#fff', fontSize: '28px' }} />
             </Link>
         </Badge>
@@ -43,7 +45,7 @@ function CartMenu(props) {
                 <span>400.000₫</span>
             </div>
             <div className="cart-menu__btn">
-                <Link to="/checkout" >  <Button variant="contained" color="primary" size="small">Thanh toan</Button></Link>
+                <Link to={`${baseUrl}/checkout`} >  <Button variant="contained" color="primary" size="small">Thanh toan</Button></Link>
             </div>
         </div>
     </IconButton>

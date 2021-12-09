@@ -14,16 +14,16 @@ class OrderDetailPage extends React.Component {
                         <Sidebar />
                     </div>
                     <div className="user__col-right">
-                        <h2 className="user__title-page">Chi tiet don hang</h2>
+                        <h2 className="user__title-page">Chi tiết đơn hàng</h2>
                         <div className="">
                             <ul className="user__order__list">
                                 <li className="user__order__item">
                                     <div className="user__order__head">
                                         <div className="user__order__store">
-                                            da dat hang ngay 13 thg 9
+                                        Đã đặt hàng ngày 13 thg 9
                                         </div>
                                         <div className="user__order__date">
-                                            da giao hang ngay 13 thg 9
+                                        Đã giao hàng ngày 24 thg 9
                                         </div>
                                     </div>
                                     <div className="user__order__body">
@@ -41,16 +41,16 @@ class OrderDetailPage extends React.Component {
                                     <div className="user__order__bottom">
                                         <div className="user__order__col-2">
                                             <p>
-                                                <span>Ho ten:</span>
+                                                <span>Họ tên:</span>
                                                 <span>Nguyen dat</span>
                                             </p>
                                             <p>
-                                                <span>so dien thoai:</span>
+                                                <span>Số điện thoại:</span>
                                                 <span>01232435</span>
                                             </p>
                                             <p>
-                                                <span>Dia chi:</span>
-                                                <span>123 bach dang, p24 quan binh thanh TP.HCM</span>
+                                                <span>Địa chỉ:</span>
+                                                <span>123 Bạch đằng, p24 quận Bình thạnh TP.HCM</span>
                                             </p>
                                         </div>
                                         <div className="user__order__col-2">
@@ -76,7 +76,7 @@ class OrderDetailPage extends React.Component {
                                                 <span className="text-18 text-trong">74.000 ₫</span>
                                             </p>
                                             <p>
-                                                <span>Phuong yhuc thanh toán:</span>
+                                                <span>Phương thức thanh toán:</span>
                                                 <span>Thanh toán khi nhận hàng</span>
                                             </p>
                                         </div>

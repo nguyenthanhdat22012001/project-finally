@@ -4,33 +4,21 @@ import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import LinkBreadcrumbs from '@mui/material/Link';
 
-import Header from "components/client/header/Header";
-import Footer from "components/client/footer/Footer";
-import ScrollToTop from "components/client/header/ScrollToTop";
-import Chat from "components/client/chat/Chat";
 import "./VoucherPage.scss";
+
+import imgStore1 from "assets/images/store-1.jpg";
+import imgStore2 from "assets/images/store-2.jpg";
 
 class VoucherPage extends React.Component {
     render() {
         return (
-            <div className="client">
-                <ScrollToTop />
-                <Chat />
-                <Header />
-                <main className="client__inner">
+            <div>
                     <div role="presentation">
                         <Breadcrumbs aria-label="breadcrumb">
                             <LinkBreadcrumbs underline="hover" color="inherit" href="/">
-                                MUI
+                            TADAHA
                             </LinkBreadcrumbs>
-                            <LinkBreadcrumbs
-                                underline="hover"
-                                color="inherit"
-                                href="/getting-started/installation/"
-                            >
-                                Core
-                            </LinkBreadcrumbs>
-                            <Typography color="text.primary">detai</Typography>
+                            <Typography color="text.primary">Voucher</Typography>
                         </Breadcrumbs>
                     </div>
                     <div className="wrapper_inner voucher">
@@ -59,18 +47,18 @@ class VoucherPage extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <h2 className="voucher__title">voucher cac cua hang</h2>
+                        <h2 className="voucher__title">voucher các cửa hàng</h2>
                         <div className="voucher__list">
                             <div className="voucher__item">
                                 <div className="voucher__store">
                                     <div className="voucher__store-top">
                                         <Link>
-                                            <img src="../assets/img1.jpg" alt="" />
-                                            <span>Jinshu Shop voucher cac cua hang voucher cac cua hang voucher cac cua hang</span>
+                                            <img src={imgStore1} alt="" />
+                                            <span>Jinshu Shop voucher</span>
                                         </Link>
                                     </div>
                                     <div className="voucher__store-body">
-                                        <img src="../assets/img1.jpg" alt="" />
+                                        <img src={imgStore1} alt="" />
                                         <div className="flexBoxColunm">
                                             <div className="voucher__store-price">
                                             <span>30.000</span>
@@ -93,12 +81,12 @@ class VoucherPage extends React.Component {
                                 <div className="voucher__store">
                                     <div className="voucher__store-top">
                                         <Link>
-                                            <img src="../assets/img1.jpg" alt="" />
+                                            <img src={imgStore1} alt="" />
                                             <span>Jinshu Shop voucher cac cua hang voucher cac cua hang voucher cac cua hang</span>
                                         </Link>
                                     </div>
                                     <div className="voucher__store-body">
-                                        <img src="../assets/img1.jpg" alt="" />
+                                        <img src={imgStore1} alt="" />
                                         <div className="flexBoxColunm">
                                             <div className="voucher__store-price">
                                             <span>30.000</span>
@@ -119,8 +107,6 @@ class VoucherPage extends React.Component {
                             </div>
                         </div>
                     </div>
-                </main>
-                <Footer />
             </div>
         );
     };

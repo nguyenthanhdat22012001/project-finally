@@ -16,16 +16,9 @@ class CheckoutSuccessPage extends React.Component {
                 <div role="presentation">
                     <Breadcrumbs aria-label="breadcrumb" sx={{ marginBottom: 2 }}>
                         <LinkBreadcrumbs underline="hover" color="inherit" href="/">
-                            MUI
+                            TADAHA
                         </LinkBreadcrumbs>
-                        <LinkBreadcrumbs
-                            underline="hover"
-                            color="inherit"
-                            href="/getting-started/installation/"
-                        >
-                            Core
-                        </LinkBreadcrumbs>
-                        <Typography color="text.primary">detai</Typography>
+                        <Typography color="text.primary">Đơn hàng</Typography>
                     </Breadcrumbs>
                 </div>
                 <div className="row wrapper_inner">
@@ -36,8 +29,8 @@ class CheckoutSuccessPage extends React.Component {
                             <i>02/10/2021</i>
                         </p>
                         <p className="payment-order__date">
-                            <b className="text-trong">Phuong thuc thanh toan: </b>
-                            <i>chuyen khoan</i>
+                            <b className="text-trong">Phương thức thanh toán: </b>
+                            <i>Thanh toán khi nhận hàng</i>
                         </p>
                         <h1 className="payment-order__title">Thông tin đơn hàng</h1>
                         <div class="payment-order__info table-responsive">
@@ -85,7 +78,7 @@ class CheckoutSuccessPage extends React.Component {
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td>Tam tinh</td>
+                                        <td>Tạm tính</td>
                                         <td>300,000đ</td>
                                     </tr>
                                     <tr className="payment-order__store">
@@ -121,7 +114,7 @@ class CheckoutSuccessPage extends React.Component {
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td>Tam tinh</td>
+                                        <td>Tạm tính</td>
                                         <td>300,000đ</td>
                                     </tr>
                                 </tbody>
@@ -130,7 +123,7 @@ class CheckoutSuccessPage extends React.Component {
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td>Phi ship</td>
+                                        <td>Phí ship</td>
                                         <td>15,000đ</td>
                                     </tr>
                                     <tr>
@@ -144,7 +137,7 @@ class CheckoutSuccessPage extends React.Component {
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td>Tong tien</td>
+                                        <td>Tổng tiền</td>
                                         <td>515,000đ</td>
                                     </tr>
                                 </tfoot>
@@ -157,7 +150,7 @@ class CheckoutSuccessPage extends React.Component {
                             </span>
                         </div>
                         <div className="" style={{ textAlign: 'right' }}>
-                            <Link to="/my-order">  <Button variant="contained" color="primary" size="large">Don hang cua toi</Button></Link>
+                            <Link to="/my-order">  <Button variant="contained" color="primary" size="large">Đơn hàng của tối</Button></Link>
                         </div>
                     </div>
                 </div>

@@ -1,28 +1,28 @@
 import axisosClient from "./axisosClient";
 
-const categoryApi = {
-    getCategoryAll: ()=>{
-        const url = `/admin/category`;
+const couponApi = {
+    getCouponAll: ()=>{
+        const url = `/coupons`;
         return axisosClient.get(url);
     },
-    getCategoryById: (id)=>{
-        const url = `/admin/category/${id}`;
+    getCouponById: (id)=>{
+        const url = `/coupons/${id}`;
         return axisosClient.get(url);
     },
-    addCategory: (data)=>{
-        const url = `/admin/category/`;
+    addCoupon: (data)=>{
+        const url = `/coupons`;
         return axisosClient.post(url,{...data});
     },
-    updateCategory: (id,data)=>{
-        const url = `/admin/category/${id}`;
+    updateCoupon: (id,data)=>{
+        const url = `/coupons/${id}`;
         return axisosClient.put(url,{...data});
     },
-    deleteCategory: (id)=>{
-        const url = `/admin/category/${id}`;
+    deleteCoupon: (id)=>{
+        const url = `/coupons/${id}`;
         return axisosClient.delete(url);
     },
 }
 
 
 
-export default categoryApi;
+export default couponApi;

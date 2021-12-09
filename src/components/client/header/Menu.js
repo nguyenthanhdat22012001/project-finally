@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useHistory } from "react-router-dom";
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -30,44 +31,49 @@ const Search = styled('div')(({ theme }) => ({
     },
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-}));
-
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
         // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+        paddingRight: `calc(1em + ${theme.spacing(1)})`,
+        paddingLeft: `calc(1em + ${theme.spacing(1)})`,
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('md')]: {
-            width: '30ch',
+            width: '50ch',
         },
     },
 }));
 
 export default function Menu() {
+    const history = useHistory();
+    /******state*****/
     const [openNavbar, setOpenNavbar] = React.useState(false);
+    const [search, setSearch] = React.useState(false);
 
     const handleOpenNavbar = (boolean) => {
         setOpenNavbar(boolean);
     };
 
+    const handleOnSearch = () =>{
+        if(search === ""){
+            return;
+        }
+       history.push(`/client/product/search/${search}`)
+    }
+
+    const handleChangeInput = (e) =>{
+        const value = e.target.value;
+        setSearch(value);
+    }
 
     return (
         <div>
             <Box sx={{ flexGrow: 1 }}>
-                <AppBar 
-                position="static" 
-                sx={{backgroundImage: `linear-gradient(to right,#ec2f4b,#009fff)`}}>
+                <AppBar
+                    position="static"
+                    sx={{ backgroundImage: `linear-gradient(to right,#ec2f4b,#009fff)` }}>
                     <Toolbar>
                         <IconButton
                             size="large"
@@ -79,15 +85,21 @@ export default function Menu() {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <img src={Logo} alt="" style={{width: '80px'}} />
-                        <Search>
-                            <SearchIconWrapper>
-                                <SearchIcon />
-                            </SearchIconWrapper>
+                        <img src={Logo} alt="" style={{ width: '80px' }} />
+                        <Search >
                             <StyledInputBase
-                                placeholder="Search…"
+                                placeholder="Tìm kiếm"
                                 inputProps={{ 'aria-label': 'search' }}
+                                onChange={handleChangeInput}
                             />
+                            <IconButton
+                                type="submit"
+                                color="inherit"
+                                // sx={{ mr: 2, ml: '10px' }}
+                                onClick={handleOnSearch}
+                            >
+                                <SearchIcon />
+                            </IconButton>
                         </Search>
                         <Box sx={{ flexGrow: 1 }} />
                         <Box sx={{ display: { xs: 'flex', md: 'flex' } }}>

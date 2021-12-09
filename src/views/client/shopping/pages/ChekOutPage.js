@@ -52,16 +52,9 @@ class ChekOutPage extends React.Component {
                 <div role="presentation">
                     <Breadcrumbs aria-label="breadcrumb" sx={{ marginBottom: 2 }}>
                         <LinkBreadcrumbs underline="hover" color="inherit" href="/">
-                            MUI
+                            TADAHA
                         </LinkBreadcrumbs>
-                        <LinkBreadcrumbs
-                            underline="hover"
-                            color="inherit"
-                            href="/getting-started/installation/"
-                        >
-                            Core
-                        </LinkBreadcrumbs>
-                        <Typography color="text.primary">detai</Typography>
+                        <Typography color="text.primary">Thanh Toán</Typography>
                     </Breadcrumbs>
                 </div>
                 <div className="row wrapper_inner">

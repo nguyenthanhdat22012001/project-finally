@@ -4,7 +4,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useHistory } from "react-router-dom";
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import IconButton from '@mui/material/IconButton';
-import ErrorIcon from '@mui/icons-material/Error';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import Chip from '@mui/material/Chip';
 
 
@@ -54,7 +54,7 @@ function ListOrderAdminPage() {
             renderCell: (params) => (
                 <strong>
                     <IconButton aria-label="" color="inherit" onClick={() => hanldeDirectEdit(params.value)}>
-                        <ErrorIcon />
+                        <VisibilityIcon />
                     </IconButton>
                     <IconButton aria-label="" color="inherit" onClick={() => hanldeDelete(params.value)}>
                         <DeleteOutlineIcon />

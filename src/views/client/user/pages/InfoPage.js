@@ -16,22 +16,22 @@ function InfoPage(props) {
                     <Sidebar />
                 </div>
                 <div className="user__col-right">
-                    <h2 className="user__title-page">Thong tin tai khoan</h2>
+                    <h2 className="user__title-page">Thông tin tài khoản</h2>
                     <div className="user__info">
                         <div className="user__col-2">
-                            <h3 className="user__field">Ho ten</h3>
-                            <p className="user__value">Nguyen dat</p>
+                            <h3 className="user__field">Họ tên</h3>
+                            <p className="user__value">Nguyễn đạt</p>
                         </div>
                         <div className="user__col-2">
-                            <h3 className="user__field">So dien thoai</h3>
+                            <h3 className="user__field">Số điện thoại</h3>
                             <p className="user__value">012425345</p>
                         </div>
                         <div className="user__col-2">
-                            <h3 className="user__field">Dia chi</h3>
-                            <p className="user__value">123 bach dang quan binh thanh</p>
+                            <h3 className="user__field">Địa chỉ</h3>
+                            <p className="user__value">123 bạch đằng quận Bình thạnh, TP.HCM</p>
                         </div>
                         <div className="user__col-2">
-                            <h3 className="user__field">email</h3>
+                            <h3 className="user__field">Email</h3>
                             <p className="user__value">Nguyendat@gmail.com</p>
                         </div>
                         <div className="group-btn-cart mt-5rem">

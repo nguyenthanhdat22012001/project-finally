@@ -38,8 +38,7 @@ function CreateStore() {
       const res = await storeApi.createStore(newData);
 
       if (res.success) {
-        dispatch(updateUserRedux());
-        history.push('/seller');
+        dispatch(updateUserRedux(history));
       } else {
         handleNotiDialog(enqueueSnackbar, res.message, 'error');
       }

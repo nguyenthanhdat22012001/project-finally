@@ -9,6 +9,10 @@ const userApi = {
         const url = `/login`;
         return axisosClient.post(url,{...data});
     },
+    LoginGoogle: (data)=>{
+        const url = `/loginGoogle`;
+        return axisosClient.post(url,{...data});
+    },
     forgotPassword: (data)=>{
         const url = `/forgot-password`;
         return axisosClient.post(url,{...data});

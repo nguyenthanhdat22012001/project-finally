@@ -24,6 +24,8 @@
     &__title{
         font-size: 16px;
         font-weight: 600;
+        height: 44px;
+        overflow: hidden;
         line-height: 1.4;
         color: $text-primary;
         @include dotText();
@@ -44,9 +46,22 @@
         height: 2.5rem;
         width: 2.5rem;
     }
+    &__price{
+        font-size: 16px;
+        margin: 10px 15px;
+        @include flexbox(center,space-between);
+        &>span:first-child{
+            color: $text-price;
+            font-weight: 500;
+        }
+        &>span:last-child{
+            color: gray;
+            text-decoration: line-through;
+        }
+    }
     &__btn{
         padding-top: 15px;
-         @include flexbox(center,space-between);
+         @include flexbox(center,center);
     }
     &__buyRating{
         @include flexbox(center,space-between);

@@ -33,7 +33,6 @@ function FormCreateStore(props) {
 
     const handleChangeImage = (e) => {
         let fileImage = e.target.files[0];
-        setImage(fileImage);
         createImage(fileImage);
     }
 
