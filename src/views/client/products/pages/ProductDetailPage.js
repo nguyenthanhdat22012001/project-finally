@@ -4,6 +4,7 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import LinkBreadcrumbs from '@mui/material/Link';
 import ImageGallery from 'react-image-gallery';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import IconButton from '@mui/material/IconButton';
 import Rating from '@mui/material/Rating';
 import { Link } from 'react-router-dom';
@@ -11,26 +12,39 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Button from '@mui/material/Button';
 import StoreIcon from '@mui/icons-material/Store';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import ChatIcon from '@mui/icons-material/Chat';
 import { Tooltip } from '@mui/material';
 import { useParams } from 'react-router-dom';
+// notify
+import { useSnackbar } from 'notistack';
 //helper
 import { fCurrency, PriceSale, fPercent } from "helper/FormatNumber";
+import { handleNotiDialog } from 'helper/notify';
 // api
 import productApi from 'api/productApi';
+import storeApi from 'api/storeApi';
+//redux
+import { useSelector } from 'react-redux';
 
 import "./ProductDetailPage.scss";
 import TabDetailProduct from "../components/TabDetailProduct";
 import Product2 from "../components/Product2";
 import InputUpDown from "components/inputs/InputUpDown";
 
+const baseUrl = '/client/product/';
 
 function ProductDetailPage() {
     const { slug } = useParams();
-
+    const user = useSelector(state => state.auth.user);
+    const { enqueueSnackbar } = useSnackbar();
     /*****state*****/
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [isFollow, setIsFollow] = useState(false);
     const [showDescCoupon, setShowDescCoupon] = useState();
     const [products, setProducts] = useState([]);
+    const [productRelativeCategory, setProductRelativeCategory] = useState([]);
+    const [productRelativeStore, setProductRelativeStore] = useState([]);
     const [product, setProduct] = useState({});
     const [attribute, setAtribute] = React.useState('web');
 
@@ -54,13 +68,83 @@ function ProductDetailPage() {
             console.log('error', error);
         }
     }
+    /*************get product have category relative**************/
+    const getProductCategoryRelative = async (id) => {
+        try {
+            const res = await productApi.getProductByBrandOrCateOrStore('cate', id);
+            if (res.success) {
+                setProductRelativeCategory([...res.data]);
+            }
+        } catch (error) {
+            console.log('error', error);
+        }
+    }
+    /*************get product have category relative**************/
+    const getProductStoreRelative = async (id) => {
+        try {
+            const res = await productApi.getProductByBrandOrCateOrStore('store', id);
+            if (res.success) {
+                setProductRelativeStore([...res.data]);
+            }
+        } catch (error) {
+            console.log('error', error);
+        }
+    }
     /*************get  product by slug**************/
     const getProductBySlug = async () => {
         try {
             const res = await productApi.getBySlug(slug);
             if (res.success) {
                 setProduct({ ...res.data });
+                Promise.all([
+                    hanldeCheckUserFollowStore(res.data.store_id),
+                    hanldeCheckUserFavoriteProduct(res.data.id),
+                    getProductCategoryRelative(res.data.cate.id),
+                    getProductStoreRelative(res.data.store.id)
+                ]);
+                // await hanldeCheckUserFollowStore(res.data.store_id);
+                // await hanldeCheckUserFavoriteProduct(res.data.id);
             }
+        } catch (error) {
+            console.log('error', error);
+        }
+    }
+    /***************handle check user follow store****************/
+    const hanldeCheckUserFollowStore = async (store_id) => {
+        if (!user) {
+            return;
+        }
+
+        try {
+            const params = {
+                user_id: user.id,
+                store_id: store_id,
+            };
+            const res = await storeApi.checkUserFollowStore(params);
+            if (res.success) {
+                setIsFollow(true);
+            }
+
+        } catch (error) {
+            console.log('error', error);
+        }
+    }
+    /***************handle check user follow store****************/
+    const hanldeCheckUserFavoriteProduct = async (product_id) => {
+        if (!user) {
+            return;
+        }
+
+        try {
+            const params = {
+                user_id: user.id,
+                product_id: product_id,
+            };
+            const res = await productApi.checkUserFavoriteProduct(params);
+            if (res.success) {
+                setIsFavorite(true);
+            }
+
         } catch (error) {
             console.log('error', error);
         }
@@ -77,6 +161,64 @@ function ProductDetailPage() {
     const handleChange = (event, attribute) => {
         console.log('attribute', attribute)
         setAtribute(attribute);
+    };
+    /************** handle toggle collection product  ***************/
+    const handleAddProductUserCollection = async (boolean, product_id) => {
+
+        if (!user) {
+            handleNotiDialog(enqueueSnackbar, 'Bạn chưa đăng nhập', 'error');
+            return;
+        }
+
+        const newData = {
+            product_id: product_id,
+            user_id: user.id
+        }
+
+        try {
+            let res = null;
+            if (boolean) {
+                res = await productApi.collectionProduct(newData);
+            } else {
+                res = await productApi.deleteProductUserCollection(newData);
+            }
+
+            if (res.success) {
+                handleNotiDialog(enqueueSnackbar, res.message, 'success');
+                setIsFavorite(boolean);
+            } else {
+                handleNotiDialog(enqueueSnackbar, res.message, 'error');
+            }
+
+
+        } catch (error) {
+            console.log('error: ' + error);
+        }
+    };
+    /************** handle collection store ***************/
+    const handleCollectionStore = async (store_id) => {
+        if (!user) {
+            handleNotiDialog(enqueueSnackbar, 'Bạn chưa đăng nhập', 'error');
+            return;
+        }
+
+        try {
+            const newData = {
+                store_id: store_id,
+                user_id: user.id,
+            }
+
+            const res = await storeApi.collectionStore(newData);
+            if (res.success) {
+                handleNotiDialog(enqueueSnackbar, res.message, 'success');
+                setIsFollow(true);
+            } else {
+                handleNotiDialog(enqueueSnackbar, res.message, 'error');
+            }
+
+        } catch (error) {
+            console.log('error: ' + error);
+        }
     };
 
     return (
@@ -137,16 +279,49 @@ function ProductDetailPage() {
                                     </span>
                                 </p>
                                 <div className="product__detail__infor__love">
-                                    <Tooltip title="thêm sản phẩm yêu thích">
-                                        <IconButton aria-label="delete" color="error" >
-                                            <FavoriteBorderIcon sx={{ fontSize: 30 }} />
-                                        </IconButton>
-                                    </Tooltip>
-                                    <Tooltip title="theo dõi cửa hàng">
-                                        <IconButton aria-label="delete" sx={{ color: "orangered" }} >
-                                            <StoreIcon sx={{ fontSize: 30 }} />
-                                        </IconButton>
-                                    </Tooltip>
+
+                                    {
+                                        isFavorite ?
+                                            <Tooltip title="Đã thêm vào danh sách yêu thích">
+                                                <IconButton
+                                                    aria-label="delete"
+                                                    color="error"
+                                                    onClick={() => handleAddProductUserCollection(false, product.id)}
+                                                >
+                                                    <FavoriteIcon sx={{ fontSize: 30 }} />
+                                                </IconButton>
+                                            </Tooltip>
+                                            :
+                                            <Tooltip title="Chưa thêm vào danh sách yêu thích">
+                                                <IconButton
+                                                    aria-label="delete"
+                                                    sx={{ color: "gray" }}
+                                                    onClick={() => handleAddProductUserCollection(true, product.id)}
+                                                >
+                                                    <FavoriteBorderIcon sx={{ fontSize: 30 }} />
+                                                </IconButton>
+                                            </Tooltip>
+                                    }
+                                    {
+                                        isFollow ?
+                                            <Link to={`${baseUrl}store/${product.store.slug}`}>
+                                                <Tooltip title="Đã theo dõi cửa hàng">
+                                                    <IconButton aria-label="delete" sx={{ color: "orangered" }} >
+                                                        <StoreIcon sx={{ fontSize: 30 }} />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </Link>
+                                            :
+                                            <Tooltip title="theo dõi cửa hàng">
+                                                <IconButton
+                                                    aria-label="delete"
+                                                    sx={{ color: "gray" }}
+                                                    onClick={() => handleCollectionStore(product.store_id)}
+                                                >
+                                                    <AddBusinessIcon sx={{ fontSize: 30 }} />
+                                                </IconButton>
+                                            </Tooltip>
+                                    }
                                     <Tooltip title="chat với cửa hàng">
                                         <IconButton aria-label="delete" color="primary" >
                                             <ChatIcon sx={{ fontSize: 30 }} />
@@ -231,19 +406,21 @@ function ProductDetailPage() {
                 </div>
                 <div className="row product__detail__body">
                     <article className="product__detail__content">
-                        <TabDetailProduct 
-                        description={Object.keys(product).length > 0 ? product.description : ''} 
-                        product_id={product.id}
+                        <TabDetailProduct
+                            description={Object.keys(product).length > 0 ? product.description : ''}
+                            product_id={product.id}
                         />
                         <div className="product__detail__relative">
                             <h4>Sản phẩm cùng cửa hàng</h4>
                             <div className="product__detail__relative-list">
                                 {
-                                    [...products].map(item => {
-                                        return <div className="product__detail__relative-item">
-                                            <Product2 key={item.id} product={item} />
-                                        </div>
-                                    })
+                                    [...productRelativeStore].length > 0 ?
+                                        [...productRelativeStore].map(item => {
+                                            return <div className="product__detail__relative-item">
+                                                <Product2 key={item.id} product={item} />
+                                            </div>
+                                        })
+                                        : ""
                                 }
                             </div>
                         </div>
@@ -252,11 +429,13 @@ function ProductDetailPage() {
                             <div className="product__detail__relative-list">
 
                                 {
-                                    [...products].map(item => {
-                                        return <div className="product__detail__relative-item">
-                                            <Product2 key={item.id} product={item} />
-                                        </div>
-                                    })
+                                    [...productRelativeCategory].length > 0 ?
+                                        [...productRelativeCategory].map(item => {
+                                            return <div className="product__detail__relative-item">
+                                                <Product2 key={item.id} product={item} />
+                                            </div>
+                                        })
+                                        : ""
                                 }
 
 

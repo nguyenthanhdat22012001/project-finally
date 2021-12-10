@@ -13,9 +13,9 @@ const productApi = {
         const url = `/product/store/${slug}`;
         return axisosClient.get(url);
     },
-    getProductBy: (param)=>{
-        const url = `/oderby/product`;
-        return axisosClient.get(url,{param});
+    getProductByBrandOrCateOrStore: (key,id)=>{
+        const url = `/oderby/product/${key}/${id}`;
+        return axisosClient.get(url);
     },
     getById: (id)=>{
         const url = `/products/${id}`;
@@ -48,6 +48,22 @@ const productApi = {
     addCommentRating: (data)=>{
         const url = `/comments`;
         return axisosClient.post(url,{...data});
+    },
+    getProductUserCollection: (id)=>{
+        const url = `/collection-product/user/${id}`;
+        return axisosClient.get(url);
+    },
+    collectionProduct: (data)=>{
+        const url = `/collection-product`;
+        return axisosClient.post(url,{...data});
+    },
+    deleteProductUserCollection: (params)=>{
+        const url = `/collection-product`;
+        return axisosClient.delete(url,{params});
+    },
+    checkUserFavoriteProduct: (params)=>{
+        const url = `/collection-product/user-favorite-product`;
+        return axisosClient.get(url,{params});
     },
 }
 

@@ -20,8 +20,10 @@ import ProccessDialog from "components/dialog/ProccessDialog";
 
 function AddPostPage(props) {
     const user = useSelector(state => state.auth.user);
-    const [isProccess, setIsProccess] = useState(false);
     const { enqueueSnackbar } = useSnackbar();
+    /*********state*********/
+    const [isProccess, setIsProccess] = useState(false);
+    const [posts, setPosts] = useState([]);
 
     useEffect(async () => {
         await handleGetPost();
@@ -39,6 +41,7 @@ function AddPostPage(props) {
             const res = await postApi.addPost(newData);
             if (res.success) {
                 handleNotiDialog(enqueueSnackbar, res.message, 'success');
+               await handleGetPost();
             }
             setIsProccess(false);
 
@@ -50,7 +53,10 @@ function AddPostPage(props) {
     const handleGetPost = async () => {
         try {
             const res = await postApi.getPostAll();
-            console.log('res', res);
+            if (res.success) {
+                setPosts(res.data);
+            }
+
         } catch (error) {
             console.log('error', error);
         }
@@ -83,9 +89,17 @@ function AddPostPage(props) {
                 </article>
                 <div className="posts__app__sidebar">
                     <div className="posts__app__list">
-                        <div className="posts__app__item">
-                            <PostItem />
-                        </div>
+                        {
+                            [...posts].length > 0 ?
+                                [...posts].map(item => {
+                                    return (
+                                        <div key={item.id} className="posts__app__item">
+                                            <PostItem post={item} />
+                                        </div>
+                                    )
+                                })
+                                : ""
+                        }
                     </div>
                 </div>
             </div>

@@ -46,7 +46,7 @@ function PostDetailPage(props) {
 
     /***************load page****************/
     useEffect(() => {
-        Promise.all([getPostAndComment(), getPosts()]);
+        Promise.all([getPostDetail(), getPosts()]);
     }, [slug])
     /***************get post****************/
     const getPosts = async () => {
@@ -60,18 +60,44 @@ function PostDetailPage(props) {
             console.log('error', error);
         }
     }
-    /***************get post detail and comments****************/
-    const getPostAndComment = async () => {
+    /***************get post detail ****************/
+    const getPostDetail = async () => {
         try {
-            const res_post = await postApi.getPostBySlug(slug);
-            if (res_post.success) {
-                const res_comments = await postApi.getComments(res_post.data.id);
-                await hanldeCheckUserLikePost(res_post.data.id);
-                setPost(res_post.data);
-                setComments(res_comments.data);
+            const res = await postApi.getPostBySlug(slug);
+            if (res.success) {
+                setPost(res.data);
+                await hanldeCheckUserLikePost(res.data.id);
+                await getThumsUpOfPost(res.data.id);
+                await getCommentOfPost(res.data.id);
+            }
+        } catch (error) {
+            console.log('error', error);
+        }
+    }
+    /***************get list comment of post ****************/
+    const getCommentOfPost = async (post_id) => {
+        try {
+            const res = await postApi.getComments(post_id);
+            if (res.success) {
+              
+                setComments(res.data.listComment);
                 setSummaryPost({
-                    totalComment: res_post.data.totalComment,
-                    totalThumb: res_post.data.totalThumb,
+                    ...summaryPost,
+                    totalComment: res.data.totalComment,
+                })
+            }
+        } catch (error) {
+            console.log('error', error);
+        }
+    }
+    /***************get thumsUp of post ****************/
+    const getThumsUpOfPost = async (post_id) => {
+        try {
+            const res = await postApi.getThumsUbByPost(post_id);
+            if (res.success) {
+                setSummaryPost({
+                    ...summaryPost,
+                    totalThumb: res.data.totalThumbsUp,
                 })
             }
         } catch (error) {
@@ -92,7 +118,7 @@ function PostDetailPage(props) {
             }
             const res = await postApi.addComments(data);
             if (res.success) {
-                setComments([res.data, ...comments]);
+                await getCommentOfPost(post.id);
                 setTextComment('');
                 handleNotiDialog(enqueueSnackbar, res.message, 'success');
             }
@@ -160,7 +186,8 @@ function PostDetailPage(props) {
             } else {
                 await postApi.removeLikePost(data);
             }
-            setLikePost(islike);
+            setLikePost(true);
+            getThumsUpOfPost(post.id);
 
         } catch (error) {
             console.log('error', error);
@@ -169,7 +196,7 @@ function PostDetailPage(props) {
     }
     /***************handle check user like post****************/
     const hanldeCheckUserLikePost = async (post_id) => {
-        if(validateObjEmpty(user)){
+        if (validateObjEmpty(user)) {
             return;
         }
         try {
@@ -178,7 +205,7 @@ function PostDetailPage(props) {
                 post_id: post_id,
             };
             const res = await postApi.checkUserLikePost(params);
-            if(res.success){
+            if (res.success) {
                 setLikePost(true);
             }
 
@@ -189,6 +216,7 @@ function PostDetailPage(props) {
 
     return (
         <div>
+            {console.log('summaryPost',summaryPost)}
             <ReplyCommentDialog
                 openDialogReplyComment={openDialogReplyComment}
                 handleToggleDialogReplyCommen={handleToggleDialogReplyCommen}
@@ -218,7 +246,7 @@ function PostDetailPage(props) {
                     </div>
                     <div className="posts__pdp__main__body">
                         <div className="posts__pdp__main__content">
-                            {post ? post.description : ''}
+                            <div dangerouslySetInnerHTML={{ __html: post ? post.description : '' }} />
                         </div>
                         <Grid container justifyContent="space-between" alignItems="center">
                             <Button

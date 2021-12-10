@@ -4,7 +4,7 @@
 .posts__app{
     &__wrapper{
         display: grid;
-        grid-template-columns: 4fr 1fr;
+        grid-template-columns: 75% 25%;
         grid-column-gap: 20px;
         padding-top: 20px;
     }

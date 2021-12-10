@@ -17,6 +17,14 @@ const postApi = {
         const url = `/posts_comment/${id}`;
         return axisosClient.get(url);
     },
+    addComments: (data)=>{
+        const url = `/posts_comment`;
+        return axisosClient.post(url,{...data});
+    },
+    getThumsUbByPost: (post_id)=>{
+        const url = `/posts/thumb-up/${post_id}`;
+        return axisosClient.get(url);
+    },
     likePost: (data)=>{
         const url = `/like-post`;
         return axisosClient.post(url,{...data});

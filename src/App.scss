@@ -71,3 +71,8 @@
   display: block;
   background-image: linear-gradient(to right,$color-primary,$color-second);
 }
+
+.fr-wrapper{
+  height: 500px;
+  overflow-y: auto;
+}

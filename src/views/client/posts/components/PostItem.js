@@ -23,7 +23,7 @@ function PostItem(props) {
                     {post ? post.name : ''}
                 </h4>
                 <div className="post__desc-short">
-                    {post ? post.description : ''}
+                <div dangerouslySetInnerHTML={{ __html: post ? post.description : '' }} />
                 </div>
                 <div className="post__view-comment">
                     <div className="post__view-comment__box">
