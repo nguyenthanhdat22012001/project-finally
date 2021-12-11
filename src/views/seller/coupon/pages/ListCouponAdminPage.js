@@ -36,9 +36,10 @@ function ListCouponAdminPage() {
         setIsLoadFetchApiSuccess(false);
       }
 
-      const res = await couponApi.getCouponAll();
+      const res = await couponApi.getCouponStore(user.store_id);
       if (res.success) {
-        const newListCoupon = res.data.map(item => {
+        console.log('res.data',res.data)
+        const newListCoupon = [...res.data].map(item => {
           return {
             ...item,
             action: { cou_id: item.id, cou_name: item.name },

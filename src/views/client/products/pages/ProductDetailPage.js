@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import LinkBreadcrumbs from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
 import ImageGallery from 'react-image-gallery';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -19,10 +20,11 @@ import { useParams } from 'react-router-dom';
 // notify
 import { useSnackbar } from 'notistack';
 //helper
-import { fCurrency, PriceSale, fPercent } from "helper/FormatNumber";
+import { fCurrency, PriceSale, fPercent, fCurrencyVN } from "helper/FormatNumber";
 import { handleNotiDialog } from 'helper/notify';
 // api
 import productApi from 'api/productApi';
+import couponApi from 'api/couponApi';
 import storeApi from 'api/storeApi';
 //redux
 import { useSelector } from 'react-redux';
@@ -42,6 +44,7 @@ function ProductDetailPage() {
     const [isFavorite, setIsFavorite] = useState(false);
     const [isFollow, setIsFollow] = useState(false);
     const [showDescCoupon, setShowDescCoupon] = useState();
+    const [coupons, setCoupons] = useState([]);
     const [products, setProducts] = useState([]);
     const [productRelativeCategory, setProductRelativeCategory] = useState([]);
     const [productRelativeStore, setProductRelativeStore] = useState([]);
@@ -100,11 +103,22 @@ function ProductDetailPage() {
                     hanldeCheckUserFollowStore(res.data.store_id),
                     hanldeCheckUserFavoriteProduct(res.data.id),
                     getProductCategoryRelative(res.data.cate.id),
-                    getProductStoreRelative(res.data.store.id)
+                    getProductStoreRelative(res.data.store.id),
+                    getCouponOfStore(res.data.store_id),
                 ]);
-                // await hanldeCheckUserFollowStore(res.data.store_id);
-                // await hanldeCheckUserFavoriteProduct(res.data.id);
             }
+        } catch (error) {
+            console.log('error', error);
+        }
+    }
+    /*************get coupons store**************/
+    const getCouponOfStore = async (store_id) => {
+        try {
+            const res = await couponApi.getCouponStore(store_id);
+            if (res.success) {
+                setCoupons([...res.data]);
+            }
+            console.log('res', res);
         } catch (error) {
             console.log('error', error);
         }
@@ -147,14 +161,6 @@ function ProductDetailPage() {
 
         } catch (error) {
             console.log('error', error);
-        }
-    }
-    /*************handle toggle coupon**************/
-    const handleToggleDescCoupon = () => {
-        if (showDescCoupon) {
-            setShowDescCoupon(false)
-        } else {
-            setShowDescCoupon(false)
         }
     }
     /*************handle choose attribute**************/
@@ -212,6 +218,33 @@ function ProductDetailPage() {
             if (res.success) {
                 handleNotiDialog(enqueueSnackbar, res.message, 'success');
                 setIsFollow(true);
+            } else {
+                handleNotiDialog(enqueueSnackbar, res.message, 'error');
+            }
+
+        } catch (error) {
+            console.log('error: ' + error);
+        }
+    };
+    /*************handle toggle coupon**************/
+    const handleToggleDescCoupon = () => {
+        setShowDescCoupon(!showDescCoupon)
+    }
+    /************** handle add coupon ***************/
+    const handleAddCouponUserCollection = async (coupon_id) => {
+        console.log('colllection',coupon_id);
+        if (!user) {
+            handleNotiDialog(enqueueSnackbar, 'Bạn chưa đăng nhập', 'error');
+            return;
+        }
+        const newData = {
+            coupon_id: coupon_id,
+            user_id: user.id
+        }
+        try {
+            const res = await couponApi.collectionCoupon(newData);
+            if (res.success) {
+                handleNotiDialog(enqueueSnackbar, res.message, 'success');
             } else {
                 handleNotiDialog(enqueueSnackbar, res.message, 'error');
             }
@@ -357,23 +390,40 @@ function ProductDetailPage() {
                             }
                             <div className="product__detail__infor__coupon">
                                 <h4>Ưu đãi</h4>
-                                <Button
-                                    onClick={handleToggleDescCoupon}
-                                >
-                                    <div className="product__detail__infor__tag-coupon" >
-                                        <div
-                                            className="product__detail__infor__tag-coupon-name product__detail__infor__tag-coupon-has-desc"
-                                        >
-                                            chi 1k, nhan ngay 100k tro len la het khong con gi
-                                        </div>
-                                        <div className={showDescCoupon ? "product__detail__infor__tag-coupon-desc action-coupon" : "product__detail__infor__tag-coupon-desc"}>
-                                            <div className="backgroundColor-white">
-                                                <h5> chi 1k, nhan ngay 100k tro len la het khong chi 1k, nhan ngay 100k tro len la het</h5>
-                                                <p>chi 1k, nhan ngay 100k tro len la het khong chi 1k, nhan ngay 100k tro len la het khong chi 1k, nhan ngay 100k tro len la het khongchi 1k, nhan ngay 100k tro len la het khong khongchi 1k, nhan ngay 100k tro len la het khong</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Button>
+                                {
+                                    [...coupons].length > 0 ?
+                                        [...coupons].map(item => {
+                                            return (
+                                                <Button
+                                                    onClick={handleToggleDescCoupon}
+                                                >
+                                                    <div className="product__detail__infor__tag-coupon" >
+                                                        <div
+                                                            className="product__detail__infor__tag-coupon-name product__detail__infor__tag-coupon-has-desc"
+                                                        >
+                                                            {item.name}
+                                                        </div>
+                                                        <div className={showDescCoupon ? "product__detail__infor__tag-coupon-desc action-coupon" : "product__detail__infor__tag-coupon-desc"}>
+                                                            <div className="backgroundColor-white">
+                                                                <h5>{item.name}</h5>
+                                                                <p>Giảm: <span>{fCurrencyVN(item.price)}</span> tổng đơn hàng </p>
+                                                                <p>Áp dụng cho đơn hàng từ: <span>100.000đ</span></p>
+                                                                <Grid sx={{ padding: "0 5px" }} container justifyContent="space-between" alignItems="center">
+                                                                    <span style={{ color: "gray", fontSize: '10px' }}>HSD: 24/01/2021</span>
+                                                                    <Button
+                                                                        size='small'
+                                                                        sx={{ color: 'orangered' }}
+                                                                        onClick={() => handleAddCouponUserCollection(item.id)}
+                                                                    >Sưu tập</Button>
+                                                                </Grid>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </Button>
+                                            )
+                                        })
+                                        : ''
+                                }
                             </div>
                             <div className="product__detail__infor__attribute">
                                 <h4>Thuộc tính</h4>
@@ -399,7 +449,7 @@ function ProductDetailPage() {
                             </div>
                             <div className="group-btn-cart">
                                 <Button variant="contained" color="secondary" size="large" sx={{ marginRight: 1 }}>Mua ngay</Button>
-                                <Button variant="contained" color="primary" size="large">Them vao gio hang</Button>
+                                <Button variant="contained" color="primary" size="large">Thêm vào giỏ hàng</Button>
                             </div>
                         </div>
                     </div>

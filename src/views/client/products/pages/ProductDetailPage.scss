@@ -1,4 +1,5 @@
 @import "../../../../mixin";
+@import "../../../../variables";
 @import "~react-image-gallery/styles/scss/image-gallery.scss";
 
 @include hideSpinInputNumber();
@@ -67,7 +68,7 @@
             margin-top: 25px;
             &-new{
                 font-size: 30px;
-                color: #f57224;
+                color: $text-price;
             }
             &-old{
                 @include flexbox();
@@ -123,7 +124,7 @@
             position: absolute;
             top: 100%;
             left: 0;
-            max-width: 400px;
+            width: 140%;
             overflow: hidden;
             padding: 10px;
             background-color: #ccc;
@@ -139,7 +140,7 @@
                overflow: hidden;
             }
             & p{
-                color: gray;
+                color: $text-price;
             }
         }
     }

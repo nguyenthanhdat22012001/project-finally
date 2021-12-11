@@ -35,7 +35,8 @@ function ListProductPage() {
         setIsLoadFetchApiSuccess(false);
       }
 
-      const res = await productApi.getAllProducts();
+      const res = await productApi.getProductByBrandOrCateOrStore('store',user.store_id);
+
       if (res.success) {
         const newListProduct = res.data.map(item => {
           return {
