@@ -51,10 +51,11 @@ const responsive = {
 
 function HomePage() {
     const [products, setProducts] = useState([]);
+    const [productsSale, setProductsSale] = useState([]);
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        Promise.all([getAllProducts(),getAllCategory()]);
+        Promise.all([getAllProducts(), getProductSale(), getAllCategory()]);
     }, [])
     /*************get all product**************/
     const getAllProducts = async () => {
@@ -63,6 +64,18 @@ function HomePage() {
             console.log('res', res);
             if (res.success) {
                 setProducts([...res.data]);
+            }
+        } catch (error) {
+            console.log('error', error);
+        }
+    }
+    /*************get product sale**************/
+    const getProductSale = async () => {
+        try {
+            const res = await productApi.getProductTopSale();
+            console.log('res', res);
+            if (res.success) {
+                setProductsSale([...res.data]);
             }
         } catch (error) {
             console.log('error', error);
@@ -159,11 +172,13 @@ function HomePage() {
                 </div>
                 <div className="home__product__sale__list">
                     {
-                        [...products].map(item => {
-                            return <div className="home__product__sale__item">
-                                <Product key={item.id} product={item} />
-                            </div>
-                        })
+                        [...productsSale].length > 0 ?
+                            [...productsSale].map(item => {
+                                return <div className="home__product__sale__item">
+                                    <Product key={item.id} product={item} />
+                                </div>
+                            })
+                            : ""
                     }
                 </div>
             </div>

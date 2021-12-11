@@ -312,7 +312,6 @@ export default function BasicTabs(props) {
 
   return (
     <Box sx={{ width: '100%' }}>
-      {console.log('product_id', product_id)}
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Mô tả sản phẩm" {...a11yProps(0)} />
