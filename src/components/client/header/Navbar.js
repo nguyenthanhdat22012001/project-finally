@@ -8,10 +8,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
 import CategoryIcon from '@mui/icons-material/Category';
-import LoginIcon from '@mui/icons-material/Login';
-import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import WysiwygIcon from '@mui/icons-material/Wysiwyg';
 import { Link } from "react-router-dom";
 
 class Navbar extends React.Component {
@@ -24,6 +23,7 @@ class Navbar extends React.Component {
 
     static getDerivedStateFromProps(props, state) {
         if (state.openNavbar !== props.openNavbar) {
+            console.log('getDerivedStateFromProps navbar')
             return { openNavbar: props.openNavbar }
         };
     };
@@ -46,57 +46,47 @@ class Navbar extends React.Component {
         >
             <List>
                 <Link to="/">
-                    <ListItem button key="Trang Chu">
+                    <ListItem button key="Trang Chủ">
                         <ListItemIcon>
                             <HomeIcon />
                         </ListItemIcon>
-                        <ListItemText primary="Trang Chu" />
+                        <ListItemText primary="Trang Chủ" />
                     </ListItem>
                 </Link>
-                <Link  to="/product">
-                    <ListItem button key="Danh Muc">
+                <Link  to="/client/product">
+                    <ListItem button key="Sản Phẩm">
                         <ListItemIcon>
                             <CategoryIcon />
                         </ListItemIcon>
-                        <ListItemText primary="Danh Muc" />
+                        <ListItemText primary="Sản Phẩm" />
                     </ListItem>
                 </Link>
-                <Link  to="/vouchers">
-                    <ListItem button key="Suu Tap Voucher">
+                <Link  to="/client/vouchers">
+                    <ListItem button key="Sưu Tập Voucher">
                         <ListItemIcon>
                             <CardGiftcardIcon />
                         </ListItemIcon>
-                        <ListItemText primary="Suu Tap Voucher" />
+                        <ListItemText primary="Sưu Tập Voucher" />
+                    </ListItem>
+                </Link>
+                <Link  to="/client/posts">
+                    <ListItem button key="Bài viết">
+                        <ListItemIcon>
+                            <WysiwygIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Bài viết" />
                     </ListItem>
                 </Link>
                 <Link  to="/seller">
-                    <ListItem button key="Ban Hang">
+                    <ListItem button key="Bán Hàng">
                         <ListItemIcon>
                             <StorefrontIcon />
                         </ListItemIcon>
-                        <ListItemText primary="Ban Hang" />
+                        <ListItemText primary="Bán Hàng" />
                     </ListItem>
                 </Link>
             </List>
             <Divider />
-            <List>
-                <Link  to="/login">
-                    <ListItem button key="Dang Nhap">
-                        <ListItemIcon>
-                            <LoginIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Dang Nhap" />
-                    </ListItem>
-                </Link>
-                <Link  to="/register">
-                    <ListItem button key="Dang Ki">
-                        <ListItemIcon>
-                            <AppRegistrationIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Dang Ki" />
-                    </ListItem>
-                </Link>
-            </List>
         </Box>
     );
 

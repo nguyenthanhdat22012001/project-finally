@@ -1,0 +1,92 @@
+@import "../../../../mixin";
+.shopping{
+    padding: 0px 45px 30px 45px;
+}
+
+.checkout{
+    margin-top: 25px;
+    @include flexbox();
+    &__col{
+        width: calc(33.3% - 25px);
+        margin-right: 25px;
+    }
+    &__title{
+        padding: 10px;
+        background-color: #958457;
+        font-size: 14px;
+        text-transform: uppercase;
+        color: #ffffff;
+    }
+    &__content{
+        padding: 10px;
+        min-height: 600px;
+        border: 1px solid #dddddd;
+    }
+    &__order-info{
+        width: 100%;
+        height: 420px;
+        overflow-y: auto;
+        margin-bottom: 10px;
+    }
+    &__order-store{
+        @include flexbox(center);
+        font-weight: 600;
+        &>span{
+            margin-left: 7px;
+        }
+    }
+    &__sub-title{
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #958457;
+    }
+    &__order{
+        @include flexbox();
+        padding: 5px 0;
+        border-bottom: 1px solid #eaeaea;
+       
+    }
+    &__order-img{
+        width: 60px;
+        height: 60px;
+        margin-right: 10px;
+        overflow: hidden;
+        &>img{
+            border-radius: 0;
+        }
+    }
+    &__order-content{
+        flex: 1;
+    }
+    &__order-name{
+       height: 36px;
+       @include dotText();
+    }
+    &__order-bottom{
+        @include flexbox(center, space-between);
+        margin-top: 5px;
+    }
+    &__payment{
+        @include flexbox(center, space-between);
+        font-weight: 600;
+        padding: 10px 0;
+        border-bottom: 1px solid #eaeaea;
+    }
+    &__used-coupon{
+        text-decoration: line-through;
+        color: grey;
+    }
+    &__total-payment{
+        @include flexbox(center, space-between);
+        font-size: 16px;
+        &>span:last-child{
+            color: #958457;
+        }
+    }
+    &__btn{
+        text-align: right;
+        margin-top: 15px;
+    }
+}
+
+

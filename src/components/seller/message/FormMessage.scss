@@ -1,0 +1,60 @@
+@import "../../../mixin";
+
+.FormMessage{
+    &__box{
+        height: 400px;
+        overflow-y: auto;
+        margin-bottom: 25px;
+    }
+    &__load{
+        height: 40px;
+        @include flexbox(center,center);
+    }
+    &__content{
+        padding-left: 6px;
+        padding-right: 12px;
+        padding-bottom: 20px;
+        @include flexbox();
+    }
+    &__date{
+        font-size: 13px;
+        color: #9299a2;
+        margin-bottom: 15px;
+        text-align: center;
+        flex: 1;
+    }
+    &__content-reverse{
+        flex-direction:row-reverse;
+    }
+    &__avatar{
+        margin: 0 5px;
+    }
+    &__message{
+        padding: 10px 12px;
+        font-size: 14px;
+        color: #fff;
+        background-color: #1976d2;
+        border-radius: 24px;
+    }
+    &__box-form{
+        width: 100%;
+        @include flexbox(center);
+    }
+    &__input-form{
+        width: 90%;
+        border: 1px solid grey;
+        border-radius: 20px;
+        padding: 2px 6px 2px 22px;
+        @include flexbox(center);
+        &>textarea{
+            border: none;
+            line-height: 20px;
+            font-size: 14px;
+            color: #212121;
+            outline: none;
+            padding: 0 3px 0 4px;
+            margin-right: 4px;
+            resize: none;
+        }
+    }
+}
