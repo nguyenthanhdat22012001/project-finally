@@ -106,7 +106,11 @@ export default function BasicTabs(props) {
       const res = await productApi.getCommentRating(product_id);
       if (res.success) {
         console.log('res', res);
-        setListComment(res.data);
+        setListComment({
+          ...listComment,
+          listComment: res.data.listComment,
+          totalComment: res.data.totalComment,
+        });
       }
     } catch (error) {
       console.log('error', error);
@@ -191,33 +195,6 @@ export default function BasicTabs(props) {
               <div className="tab-comment__review-content">
                 {item.comment}
               </div>
-              <div className="tab-comment__review-bottom">
-                <IconButton aria-label="thumbUp" sx={{ fontSize: 1 }}>
-                  <ThumbUpIcon color="disabled" sx={{ marginRight: 1 }} /> <span style={{ fontSize: 16 }}>3</span>
-                </IconButton>
-                <IconButton
-                  // id="button-report-comment"
-                  arial-controls="menu-report-comment"
-                  aria-haspopup="true"
-                  aria-label="thumbUp"
-                  size="small"
-                  onClick={handleOpenReprotComment}
-                >
-                  <MoreVertIcon color="disabled" />
-                </IconButton>
-                <Menu
-                  id="menu-report-comment"
-                  anchorEl={openReprotComment}
-                  open={Boolean(openReprotComment)}
-                  onClose={handleCloseReprotComment}
-                  MenuListProps={{
-                    'aria-labelledby': 'button-report-comment',
-                  }}
-                >
-                  <MenuItem onClick={handleCloseReprotComment}>không hữu ích</MenuItem>
-                  <MenuItem onClick={handleCloseReprotComment}>Báo cáo lạm dụng</MenuItem>
-                </Menu>
-              </div>
             </div>
             {
               [...item.sub_comments].map(item => {
@@ -230,33 +207,6 @@ export default function BasicTabs(props) {
                     <div className="tab-comment__review-middle"></div>
                     <div className="tab-comment__review-content">
                       {item.comment}
-                    </div>
-                    <div className="tab-comment__review-bottom">
-                      <IconButton aria-label="thumbUp" sx={{ fontSize: 1 }}>
-                        <ThumbUpIcon color="disabled" sx={{ marginRight: 1 }} /> <span style={{ fontSize: 16 }}>3</span>
-                      </IconButton>
-                      <IconButton
-                        // id="button-report-comment"
-                        arial-controls="menu-report-comment"
-                        aria-haspopup="true"
-                        aria-label="thumbUp"
-                        size="small"
-                        onClick={handleOpenReprotComment}
-                      >
-                        <MoreVertIcon color="disabled" />
-                      </IconButton>
-                      <Menu
-                        id="menu-report-comment"
-                        anchorEl={openReprotComment}
-                        open={Boolean(openReprotComment)}
-                        onClose={handleCloseReprotComment}
-                        MenuListProps={{
-                          'aria-labelledby': 'button-report-comment',
-                        }}
-                      >
-                        <MenuItem onClick={handleCloseReprotComment}>Bỏ đánh dấu "không hữu ích"</MenuItem>
-                        <MenuItem onClick={handleCloseReprotComment}>Báo cáo lạm dụng</MenuItem>
-                      </Menu>
                     </div>
                   </div>
                 )
@@ -275,7 +225,7 @@ export default function BasicTabs(props) {
             <div className="tab-comment__review-content">
               {item.comment}
             </div>
-            <div className="tab-comment__review-bottom">
+            {/* <div className="tab-comment__review-bottom">
               <IconButton aria-label="thumbUp" sx={{ fontSize: 1 }}>
                 <ThumbUpIcon color="disabled" sx={{ marginRight: 1 }} /> <span style={{ fontSize: 16 }}>3</span>
               </IconButton>
@@ -301,7 +251,7 @@ export default function BasicTabs(props) {
                 <MenuItem onClick={handleCloseReprotComment}>không hữu ích</MenuItem>
                 <MenuItem onClick={handleCloseReprotComment}>Báo cáo lạm dụng</MenuItem>
               </Menu>
-            </div>
+            </div> */}
           </div>
         )
       }

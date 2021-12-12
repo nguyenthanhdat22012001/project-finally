@@ -33,6 +33,7 @@ import "./ProductDetailPage.scss";
 import TabDetailProduct from "../components/TabDetailProduct";
 import Product2 from "../components/Product2";
 import InputUpDown from "components/inputs/InputUpDown";
+import Coupon from "../components/Coupon";
 
 const baseUrl = '/client/product/';
 
@@ -43,7 +44,6 @@ function ProductDetailPage() {
     /*****state*****/
     const [isFavorite, setIsFavorite] = useState(false);
     const [isFollow, setIsFollow] = useState(false);
-    const [showDescCoupon, setShowDescCoupon] = useState();
     const [coupons, setCoupons] = useState([]);
     const [products, setProducts] = useState([]);
     const [productRelativeCategory, setProductRelativeCategory] = useState([]);
@@ -226,13 +226,10 @@ function ProductDetailPage() {
             console.log('error: ' + error);
         }
     };
-    /*************handle toggle coupon**************/
-    const handleToggleDescCoupon = () => {
-        setShowDescCoupon(!showDescCoupon)
-    }
+
     /************** handle add coupon ***************/
     const handleAddCouponUserCollection = async (coupon_id) => {
-        console.log('colllection',coupon_id);
+        console.log('colllection', coupon_id);
         if (!user) {
             handleNotiDialog(enqueueSnackbar, 'Bạn chưa đăng nhập', 'error');
             return;
@@ -390,40 +387,21 @@ function ProductDetailPage() {
                             }
                             <div className="product__detail__infor__coupon">
                                 <h4>Ưu đãi</h4>
-                                {
-                                    [...coupons].length > 0 ?
-                                        [...coupons].map(item => {
-                                            return (
-                                                <Button
-                                                    onClick={handleToggleDescCoupon}
-                                                >
-                                                    <div className="product__detail__infor__tag-coupon" >
-                                                        <div
-                                                            className="product__detail__infor__tag-coupon-name product__detail__infor__tag-coupon-has-desc"
-                                                        >
-                                                            {item.name}
-                                                        </div>
-                                                        <div className={showDescCoupon ? "product__detail__infor__tag-coupon-desc action-coupon" : "product__detail__infor__tag-coupon-desc"}>
-                                                            <div className="backgroundColor-white">
-                                                                <h5>{item.name}</h5>
-                                                                <p>Giảm: <span>{fCurrencyVN(item.price)}</span> tổng đơn hàng </p>
-                                                                <p>Áp dụng cho đơn hàng từ: <span>100.000đ</span></p>
-                                                                <Grid sx={{ padding: "0 5px" }} container justifyContent="space-between" alignItems="center">
-                                                                    <span style={{ color: "gray", fontSize: '10px' }}>HSD: 24/01/2021</span>
-                                                                    <Button
-                                                                        size='small'
-                                                                        sx={{ color: 'orangered' }}
-                                                                        onClick={() => handleAddCouponUserCollection(item.id)}
-                                                                    >Sưu tập</Button>
-                                                                </Grid>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </Button>
-                                            )
-                                        })
-                                        : ''
-                                }
+                                <div className="product__detail__infor__list-coupon">
+                                    {
+                                        [...coupons].length > 0 ?
+                                            [...coupons].map(item => {
+                                                return (
+                                                    <Coupon
+                                                        key={item.id}
+                                                        coupon={item}
+                                                        handleAddCouponUserCollection={handleAddCouponUserCollection}
+                                                    />
+                                                )
+                                            })
+                                            : ''
+                                    }
+                                </div>
                             </div>
                             <div className="product__detail__infor__attribute">
                                 <h4>Thuộc tính</h4>

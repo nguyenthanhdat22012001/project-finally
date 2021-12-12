@@ -96,7 +96,7 @@ function VoucherPage() {
                                                         <span>{fCurrencyVN(item.price)}</span>
                                                     </div>
                                                     <div className="voucher__system-desc">
-                                                        Đơn hàng từ 30.000₫
+                                                        Đơn hàng từ {fCurrencyVN(item.condition)}
                                                     </div>
                                                     <div className="voucher__system-expired">
                                                         Áp dụng: {formatdateDMY(item.date_begin)} - {formatdateDMY(item.date_end)}
@@ -140,7 +140,7 @@ function VoucherPage() {
                                                             {/* <span>₫</span> */}
                                                         </div>
                                                         <div className="voucher__store-condition">
-                                                            Đơn hàng từ  499.000₫
+                                                            Đơn hàng từ  {fCurrencyVN(item.condition)}
                                                         </div>
                                                     </div>
                                                     <div 

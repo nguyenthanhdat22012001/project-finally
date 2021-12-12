@@ -86,15 +86,15 @@ function FormAddCoupon(props) {
                     error={errors.price && true}
                 />
                 <TextField
-                    id="outlined-multiline-static"
+                    required
                     fullWidth
+                    type="number"
+                    id="outlined-required"
+                    label="Áp dụng cho tổng đơn hàng có giá:"
                     margin="normal"
-                    label="Mô tả"
-                    multiline
-                    rows={4}
-                    {...register("description")}
-                    helperText={errors.description && `${errors.description?.message}`}
-                    error={errors.description && true}
+                    {...register("condition")}
+                    helperText={errors.condition && `${errors.condition?.message}`}
+                    error={errors.condition && true}
                 />
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <TextField

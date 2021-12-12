@@ -61,15 +61,15 @@ export default function Header() {
     setOpenSideBar(!openSideBar);
   };
 
-    /***********hanlde change title page************/
-    const handleChangeTitlepage = (titlePage) => {
-      setTitlePage(titlePage)
-    }
+  /***********hanlde change title page************/
+  const handleChangeTitlepage = (titlePage) => {
+    setTitlePage(titlePage)
+  }
 
   return (
-    <Box sx={{ zIndex: '10'}}>
-      
-      <AppBar position="absolute" open={openSideBar} sx={{backgroundColor: '#ec2f4b'}}>
+    <Box sx={{ zIndex: '10' }}>
+
+      <AppBar position="absolute" open={openSideBar} sx={{ backgroundColor: '#ec2f4b' }}>
         <Toolbar
           sx={{
             pr: '24px', // keep right padding when drawer closed
@@ -141,38 +141,24 @@ export default function Header() {
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           >
             <MenuItem>
-              <Avatar /> Profile
-            </MenuItem>
-            <MenuItem>
-              <Avatar /> My account
+              <Avatar /> Thông tin cửa hàng
             </MenuItem>
             <Divider />
-            <MenuItem>
-              <ListItemIcon>
-                <PersonAdd fontSize="small" />
-              </ListItemIcon>
-              Add another account
-            </MenuItem>
-            <MenuItem>
-              <ListItemIcon>
-                <Settings fontSize="small" />
-              </ListItemIcon>
-              Settings
-            </MenuItem>
+
             <MenuItem>
               <ListItemIcon>
                 <Logout fontSize="small" />
               </ListItemIcon>
-              Logout
+              Thoát
             </MenuItem>
           </Menu>
         </Toolbar>
       </AppBar>
 
-      <Sidebar 
-      openSideBar={openSideBar} 
-      toggleSideBar={toggleSideBar} 
-      handleChangeTitlepage={handleChangeTitlepage} 
+      <Sidebar
+        openSideBar={openSideBar}
+        toggleSideBar={toggleSideBar}
+        handleChangeTitlepage={handleChangeTitlepage}
       />
     </Box>
   );

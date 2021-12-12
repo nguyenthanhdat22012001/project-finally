@@ -53,6 +53,10 @@ const productApi = {
         const url = `/comments`;
         return axisosClient.post(url,{...data});
     },
+    deleteCommentRating: (id)=>{
+        const url = `/comments/${id}`;
+        return axisosClient.delete(url);
+    },
     getProductUserCollection: (id)=>{
         const url = `/collection-product/user/${id}`;
         return axisosClient.get(url);
