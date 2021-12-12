@@ -36,7 +36,7 @@ function ListCouponAdminPage() {
         setIsLoadFetchApiSuccess(false);
       }
 
-      const res = await couponApi.getCouponAll();
+      const res = await couponApi.getCouponAdmin();
       if (res.success) {
         const newListCoupon = res.data.map(item => {
           return {

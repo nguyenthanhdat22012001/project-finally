@@ -1,14 +1,15 @@
-import * as React from 'react';
+import React, { useState,useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import { DataGrid } from '@mui/x-data-grid';
 import Avatar from '@mui/material/Avatar';
 import CommentIcon from '@mui/icons-material/Comment';
 import Button from '@mui/material/Button';
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Rating from '@mui/material/Rating';
-
-
-import ConfirmDialog from 'components/dialog/ConfirmDialog';
+//api
+import productApi from "api/productApi";
+//redux
+import { useSelector } from "react-redux";
 
 
 const rows = [
@@ -16,51 +17,63 @@ const rows = [
 ];
 
 function ListRatingPage() {
-  const history = useHistory();
-  const [dialog, setDeleteDialog] = React.useState({ openDialog: false, message: '' });
+  const user = useSelector(state => state.auth.user);
+  /******state******/
+  const [products, setProduct] = useState([]);
+
+  useEffect(() => {
+    Promise.all([getProductStoreId()])
+  }, [])
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
+    // { field: 'id', hide: true  ,headerName: 'ID', width: 90 },
     {
-      field: 'pr_avatar',
+      field: 'img',
       headerName: '',
       width: 150,
       renderCell: (params) => (<div><Avatar variant="square" sx={{ width: 56, height: 56 }} alt="" src={params.value} /></div>)
     },
     {
-      field: 'pr_name',
+      field: 'name',
       headerName: 'Sản phẩm',
       width: 150,
     },
     {
-      field: 'pr_rating',
+      field: 'totalRating',
       headerName: 'Tổng sao',
       width: 150,
       renderCell: (params) => (<Rating size="small" name="read-only" value={params.value} readOnly />)
     },
     {
-      field: 'pr_comment',
+      field: 'totalComment',
       headerName: 'Số bình luận',
       width: 150,
     },
     {
-      field: 'action', headerName: '', width: 200,
+      field: 'id', headerName: '', width: 200,
       renderCell: (params) => (
-        <Button variant="outlined" startIcon={<CommentIcon />} onClick={() => hanldeDirectEdit(params.value)} >
-          Xem bình luận
-        </Button>
+        <Link to={`/seller/comment/rating/${params.value}`}>
+          <Button variant="outlined" startIcon={<CommentIcon />} >
+            Xem bình luận
+          </Button>
+        </Link>
       ),
     },
   ];
 
-  const hanldeDirectEdit = (id) => {
-    console.log('edit');
-    history.push(`/seller/comment/rating/${id}`)
+  const getProductStoreId = async () => {
+    try {
+      const res = await productApi.getProductByBrandOrCateOrStore('store', user.store_id);
+      if (res.success) {
+        setProduct(res.data);
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+
   }
 
-  const hanldeConfirmDialog = (boolean, message) => {
-    setDeleteDialog({ ...dialog, openDialog: boolean, message: message });
-  }
+
 
   return (
     <Grid container spacing={3}>
@@ -68,7 +81,7 @@ function ListRatingPage() {
       <Grid item xs={12} sm={12} md={12}>
         <div style={{ height: 400, width: '100%' }}>
           <DataGrid
-            rows={rows}
+            rows={products}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
@@ -76,9 +89,6 @@ function ListRatingPage() {
           />
         </div>
       </Grid>
-
-      {/* dialog */}
-      <ConfirmDialog dialog={dialog} hanldeConfirmDialog={hanldeConfirmDialog} />
 
     </Grid>
   );

@@ -6,7 +6,8 @@
        margin: 12px;
     }
    &__item{
-    margin: 0 25px 25px 0;
+
+    margin: 0 15px 25px 0;
    }
    &__title{
     font-size: 24px;
@@ -20,7 +21,7 @@
 
 .voucher__system{
     @include flexbox(center);
-    width: 400px;
+    width: 348px;
     // height: 172px;
     border-radius: 18px;
     overflow: hidden;
@@ -66,6 +67,9 @@
     &-desc{
         // @include dotText(1);
         padding: 7px 0;
+    }
+    &-expired{
+        font-size: 14px;
     }
     &-btn{
         padding: 12px 15px;

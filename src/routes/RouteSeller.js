@@ -18,7 +18,7 @@ function RouteSeller() {
             <Route path="/seller" component={Seller} >
                 {
                 !user ? <Redirect to="/login" /> 
-                : user.store_id === null ? <Redirect to="/create-store" /> : <Seller />
+                : user.role > 0 ? <Redirect to="/" /> : user.store_id === null ? <Redirect to="/create-store" /> : <Seller />
                 }
             </Route>
         </div >

@@ -97,17 +97,17 @@ function FormEditCoupon(props) {
                     helperText={errors.price && `${errors.price?.message}`}
                     error={errors.price && true}
                 />
-                <TextField
-                    id="outlined-multiline-static"
+             <TextField
+                    required
                     fullWidth
+                    type="number"
+                    id="outlined-required"
+                    label="Áp dụng cho tổng đơn hàng có giá:"
                     margin="normal"
-                    label="Mô tả"
-                    multiline
-                    rows={4}
-                    defaultValue={coupon.description}
-                    {...register("description")}
-                    helperText={errors.description && `${errors.description?.message}`}
-                    error={errors.description && true}
+                    defaultValue={coupon.condition}
+                    {...register("condition")}
+                    helperText={errors.condition && `${errors.condition?.message}`}
+                    error={errors.condition && true}
                 />
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <TextField
