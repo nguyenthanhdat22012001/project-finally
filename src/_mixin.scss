@@ -45,8 +45,9 @@
 }
 
 @mixin centerInput($width,$height,$fontSize) {
-    text-align: center;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: $width;
     height: $height;
     border-radius:3px; 
@@ -75,6 +76,12 @@
     @include flexbox(flex-start,flex-start,nowrap,column);
 }
 
+// .inputUpDown{
+//     @include flexbox(center,center);
+//     &__input{
+//         @include centerInput(50px,30px,1rem);
+//     }
+// }
 .inputUpDown{
     @include flexbox(center,center);
     &__input{

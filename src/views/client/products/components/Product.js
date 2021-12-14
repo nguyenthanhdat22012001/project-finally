@@ -123,7 +123,7 @@ function Product(props) {
                 }
 
                 <div className="product__btn">
-                    <ButtonAddCart title="Mua ngay" />
+                    <ButtonAddCart title="Mua ngay" slug={product.slug} />
                 </div>
                 <div className="product__buyRating">
                     <span className="product__buy">Đã bán: 1200</span>

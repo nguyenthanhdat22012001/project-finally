@@ -91,7 +91,7 @@ ColorlibStepIcon.propTypes = {
   icon: PropTypes.node,
 };
 
-const steps = ['Gio hang', 'Thanh toan', 'Hoan tat'];
+const steps = ['Giỏ hàng', 'Thanh toán', 'Hoàn tất'];
 
 export default function CustomizedSteppers({stepCart}) {
 
