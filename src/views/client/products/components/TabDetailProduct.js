@@ -199,7 +199,7 @@ export default function BasicTabs(props) {
             {
               [...item.sub_comments].map(item => {
                 return (
-                  <div className="tab-comment__reply-comment">
+                  <div key={item.id} className="tab-comment__reply-comment">
                     <div className="tab-comment__review-top">
                       <div className="tab-comment__name-seller"><StorefrontIcon /> phản hồi từ nhà bán</div>
                       <span>{distanceToNow(item.created_at)}</span>
@@ -216,7 +216,7 @@ export default function BasicTabs(props) {
         )
       } else {
         return (
-          <div className="tab-comment__review-comment">
+          <div key={item.id} className="tab-comment__review-comment">
             <div className="tab-comment__review-top">
               <Rating name="half-rating-read" value={item.point} precision={1} size="small" readOnly />
               <span>{distanceToNow(item.created_at)}</span>
