@@ -27,6 +27,11 @@
         }
     }
     &__product{
+        &-item{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
         &__image{
             vertical-align: middle;
             text-align: center;

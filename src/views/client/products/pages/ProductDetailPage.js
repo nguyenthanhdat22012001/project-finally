@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import LinkBreadcrumbs from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import ImageGallery from 'react-image-gallery';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -27,13 +26,15 @@ import productApi from 'api/productApi';
 import couponApi from 'api/couponApi';
 import storeApi from 'api/storeApi';
 //redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { handleAddCartRedux } from "redux/actions/cartAction";
 
 import "./ProductDetailPage.scss";
 import TabDetailProduct from "../components/TabDetailProduct";
 import Product2 from "../components/Product2";
-import InputUpDown from "components/inputs/InputUpDown";
 import Coupon from "../components/Coupon";
+import InputQuantity from "../components/InputQuantity";
+import ProccessDialog from "components/dialog/ProccessDialog";
 
 const baseUrl = '/client/product/';
 
@@ -41,7 +42,9 @@ function ProductDetailPage() {
     const { slug } = useParams();
     const user = useSelector(state => state.auth.user);
     const { enqueueSnackbar } = useSnackbar();
+    const dispatch = useDispatch();
     /*****state*****/
+    const [isProccess, setIsProccess] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
     const [isFollow, setIsFollow] = useState(false);
     const [coupons, setCoupons] = useState([]);
@@ -49,7 +52,11 @@ function ProductDetailPage() {
     const [productRelativeCategory, setProductRelativeCategory] = useState([]);
     const [productRelativeStore, setProductRelativeStore] = useState([]);
     const [product, setProduct] = useState({});
-    const [attribute, setAtribute] = React.useState('web');
+    const [attribute, setAtribute] = useState({
+        id: null,
+        maxQuantity: null,
+        quantity: 1,
+    });
 
     /*******load product relative*******/
     useEffect(() => {
@@ -59,6 +66,31 @@ function ProductDetailPage() {
     useEffect(async () => {
         await getProductBySlug();
     }, [slug])
+
+    /*************get  product by slug**************/
+    const getProductBySlug = async () => {
+        try {
+            const res = await productApi.getBySlug(slug);
+            if (res.success) {
+                setProduct({ ...res.data });
+                const initAttribute = [...res.data.attributes].find(item => item.quantity > 0);
+                setAtribute({
+                    ...attribute,
+                    id: initAttribute.id,
+                    maxQuantity: initAttribute.quantity,
+                })
+                Promise.all([
+                    hanldeCheckUserFollowStore(res.data.store_id),
+                    hanldeCheckUserFavoriteProduct(res.data.id),
+                    getProductCategoryRelative(res.data.cate.id),
+                    getProductStoreRelative(res.data.store.id),
+                    getCouponOfStore(res.data.store_id),
+                ]);
+            }
+        } catch (error) {
+            console.log('error', error);
+        }
+    }
 
     /*************get all product**************/
     const getAllProducts = async () => {
@@ -93,24 +125,7 @@ function ProductDetailPage() {
             console.log('error', error);
         }
     }
-    /*************get  product by slug**************/
-    const getProductBySlug = async () => {
-        try {
-            const res = await productApi.getBySlug(slug);
-            if (res.success) {
-                setProduct({ ...res.data });
-                Promise.all([
-                    hanldeCheckUserFollowStore(res.data.store_id),
-                    hanldeCheckUserFavoriteProduct(res.data.id),
-                    getProductCategoryRelative(res.data.cate.id),
-                    getProductStoreRelative(res.data.store.id),
-                    getCouponOfStore(res.data.store_id),
-                ]);
-            }
-        } catch (error) {
-            console.log('error', error);
-        }
-    }
+
     /*************get coupons store**************/
     const getCouponOfStore = async (store_id) => {
         try {
@@ -163,11 +178,6 @@ function ProductDetailPage() {
             console.log('error', error);
         }
     }
-    /*************handle choose attribute**************/
-    const handleChange = (event, attribute) => {
-        console.log('attribute', attribute)
-        setAtribute(attribute);
-    };
     /************** handle toggle collection product  ***************/
     const handleAddProductUserCollection = async (boolean, product_id) => {
 
@@ -229,7 +239,6 @@ function ProductDetailPage() {
 
     /************** handle add coupon ***************/
     const handleAddCouponUserCollection = async (coupon_id) => {
-        console.log('colllection', coupon_id);
         if (!user) {
             handleNotiDialog(enqueueSnackbar, 'Bạn chưa đăng nhập', 'error');
             return;
@@ -250,9 +259,49 @@ function ProductDetailPage() {
             console.log('error: ' + error);
         }
     };
+    /*************handle choose attribute**************/
+    const handleChangeAttribute = (event, id) => {
+        if (id) {
+            const newAttribute = [...product.attributes].find(item => item.id == id);
+
+            setAtribute({
+                ...attribute,
+                id: newAttribute.id,
+                maxQuantity: newAttribute.quantity,
+            })
+        }
+    };
+    /*************handle up down quantity attribute**************/
+    function handldeSetQuantityAttribute(quantity) {
+        setAtribute({
+            ...attribute,
+            quantity: quantity
+        })
+    }
+
+    /*************handle add cart**************/
+    const handleAddCart = () => {
+
+        try {
+            setIsProccess(true);
+            const newData = {
+                product_id: product.id,
+                attribute_id: attribute.id,
+                quantity: attribute.quantity,
+            };
+
+            dispatch(handleAddCartRedux(enqueueSnackbar, newData));
+
+            setIsProccess(false);
+
+        } catch (error) {
+            console.log('error: ' + error);
+        }
+    }
 
     return (
         <div>
+            {isProccess && <ProccessDialog />} {/* proccess page */}
             <div role="presentation">
                 <Breadcrumbs aria-label="breadcrumb">
                     <LinkBreadcrumbs underline="hover" color="inherit">
@@ -407,27 +456,39 @@ function ProductDetailPage() {
                                 <h4>Thuộc tính</h4>
                                 <ToggleButtonGroup
                                     color="primary"
-                                    value={attribute}
+                                    value={attribute.id}
                                     exclusive
-                                    onChange={handleChange}
+                                    onChange={handleChangeAttribute}
                                 >
                                     {
                                         Object.keys(product).length > 0 ?
                                             [...product.attributes].map(item => {
-                                                return <ToggleButton value={item.id} >{item.name}</ToggleButton>
+                                                return <ToggleButton
+                                                    key={item.id}
+                                                    value={item.id}
+                                                    disabled={item.quantity > 0 ? false : true}
+                                                >{item.name}</ToggleButton>
                                             })
-
                                             : ''
                                     }
                                 </ToggleButtonGroup>
                             </div>
                             <div className="product__detail__infor__attribute">
                                 <h4>Số lượng</h4>
-                                <InputUpDown />
+                                <InputQuantity
+                                    handldeSetQuantityAttribute={handldeSetQuantityAttribute}
+                                    quantity={attribute.quantity}
+                                    maxQuantity={attribute.maxQuantity}
+                                />
                             </div>
                             <div className="group-btn-cart">
                                 <Button variant="contained" color="secondary" size="large" sx={{ marginRight: 1 }}>Mua ngay</Button>
-                                <Button variant="contained" color="primary" size="large">Thêm vào giỏ hàng</Button>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    size="large"
+                                    onClick={handleAddCart}
+                                >Thêm vào giỏ hàng</Button>
                             </div>
                         </div>
                     </div>
@@ -444,7 +505,7 @@ function ProductDetailPage() {
                                 {
                                     [...productRelativeStore].length > 0 ?
                                         [...productRelativeStore].map(item => {
-                                            return <div className="product__detail__relative-item">
+                                            return <div key={item.id} className="product__detail__relative-item">
                                                 <Product2 key={item.id} product={item} />
                                             </div>
                                         })
@@ -459,7 +520,7 @@ function ProductDetailPage() {
                                 {
                                     [...productRelativeCategory].length > 0 ?
                                         [...productRelativeCategory].map(item => {
-                                            return <div className="product__detail__relative-item">
+                                            return <div key={item.id} className="product__detail__relative-item">
                                                 <Product2 key={item.id} product={item} />
                                             </div>
                                         })

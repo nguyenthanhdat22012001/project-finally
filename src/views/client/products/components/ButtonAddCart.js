@@ -2,6 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import ButtonUnstyled, { buttonUnstyledClasses } from '@mui/core/ButtonUnstyled';
 import { styled } from '@mui/system';
+import { Link } from 'react-router-dom';
 
 const ButtonRoot = React.forwardRef(function ButtonRoot(props, ref) {
   const { children, ...other } = props;
@@ -108,6 +109,8 @@ const SvgButton = React.forwardRef(function SvgButton(props, ref) {
   return <ButtonUnstyled {...props} component={CustomButtonRoot} ref={ref} />;
 });
 
-export default function UnstyledButtonCustom({title}) {
-  return <SvgButton>{title}</SvgButton>;
+const baseUrl = '/client';
+
+export default function UnstyledButtonCustom({title,slug}) {
+  return <Link to={`${baseUrl}/product/${slug}.html`}><SvgButton>{title}</SvgButton></Link>;
 }
