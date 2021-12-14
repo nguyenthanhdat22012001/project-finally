@@ -25,8 +25,8 @@ export default function ConfirmDialog(props) {
   const {dialogDelete, hanldeReportDeleteDialog, hanldeAcceptDelete } = props;
   return (
     <Dialog
-      open={dialogDelete && dialogDelete.openDialog}
-      onClose={() => hanldeReportDeleteDialog && hanldeReportDeleteDialog(false)}
+      open={dialogDelete ? dialogDelete.openDialog : false}
+      onClose={() => hanldeReportDeleteDialog ? hanldeReportDeleteDialog(false) : ''}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
@@ -36,8 +36,8 @@ export default function ConfirmDialog(props) {
         </Typography>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => hanldeReportDeleteDialog && hanldeReportDeleteDialog(false) } autoFocus>Hủy</Button>
-        <Button onClick={() => hanldeAcceptDelete && hanldeAcceptDelete()} >
+        <Button onClick={() => hanldeReportDeleteDialog ? hanldeReportDeleteDialog(false) : '' } autoFocus>Hủy</Button>
+        <Button onClick={() => hanldeAcceptDelete ? hanldeAcceptDelete() : ''} >
           Đồng ý
         </Button>
       </DialogActions>

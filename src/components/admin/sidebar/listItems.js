@@ -9,55 +9,62 @@ import CategoryIcon from '@mui/icons-material/Category';
 import GroupIcon from '@mui/icons-material/Group';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
-import { useHistory } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const baseUrl = "/admin";
 
-export default function MainListItems() {
-  const history = useHistory();
-
-  const handleRedirect = (url) =>{
-    history.push(baseUrl + url)
-  }
+export default function MainListItems({handleChangeTitlepage}) {
 
   return (
     <List>
-      <ListItem button onClick={()=> handleRedirect('/')}>
-        <ListItemIcon>
-          <DashboardIcon />
-        </ListItemIcon>
-        <ListItemText primary="Tổng quan" />
-      </ListItem>
-      <ListItem button  onClick={()=> handleRedirect('/category')}>
-        <ListItemIcon>
-          <CategoryIcon />
-        </ListItemIcon>
-        <ListItemText primary="Danh mục" />
-      </ListItem>
-      <ListItem button  onClick={()=> handleRedirect('/brand')}>
-        <ListItemIcon>
-          <LocalOfferIcon />
-        </ListItemIcon>
-        <ListItemText primary="Thương hiệu" />
-      </ListItem>
-      <ListItem button  onClick={()=> handleRedirect('/order')}>
-        <ListItemIcon>
-          <ShoppingCartIcon />
-        </ListItemIcon>
-        <ListItemText primary="Đơn hàng" />
-      </ListItem>
-      <ListItem button  onClick={()=> handleRedirect('/coupon')}>
-        <ListItemIcon>
-          <CardGiftcardIcon />
-        </ListItemIcon>
-        <ListItemText primary="Khuyến mãi" />
-      </ListItem>
-      <ListItem button  onClick={()=> handleRedirect('/member')}>
-        <ListItemIcon>
-          <GroupIcon />
-        </ListItemIcon>
-        <ListItemText primary="Thành viên" />
-      </ListItem>
+      <NavLink to={`${baseUrl}`} exact activeClassName="nav-active">
+        <ListItem  onClick={() => handleChangeTitlepage('Tổng quan')}>
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText primary="Tổng quan" />
+        </ListItem>
+      </NavLink>
+      <NavLink to={`${baseUrl}/category`} exact activeClassName="nav-active">
+        <ListItem onClick={() => handleChangeTitlepage('Danh mục')}>
+          <ListItemIcon>
+            <CategoryIcon />
+          </ListItemIcon>
+          <ListItemText primary="Danh mục" />
+        </ListItem>
+      </NavLink>
+      <NavLink to={`${baseUrl}/brand`} exact activeClassName="nav-active">
+        <ListItem  onClick={() => handleChangeTitlepage('Thương hiệu')}>
+          <ListItemIcon>
+            <LocalOfferIcon />
+          </ListItemIcon>
+          <ListItemText primary="Thương hiệu" />
+        </ListItem>
+      </NavLink>
+      <NavLink to={`${baseUrl}/order`} exact activeClassName="nav-active">
+        <ListItem  onClick={() => handleChangeTitlepage('Đơn hàng')}>
+          <ListItemIcon>
+            <ShoppingCartIcon />
+          </ListItemIcon>
+          <ListItemText primary="Đơn hàng" />
+        </ListItem>
+      </NavLink>
+      <NavLink to={`${baseUrl}/coupon`} exact activeClassName="nav-active">
+        <ListItem  onClick={() => handleChangeTitlepage('Khuyến mãi')}>
+          <ListItemIcon>
+            <CardGiftcardIcon />
+          </ListItemIcon>
+          <ListItemText primary="Khuyến mãi" />
+        </ListItem>
+      </NavLink>
+      <NavLink to={`${baseUrl}/member`} exact activeClassName="nav-active">
+        <ListItem  onClick={() => handleChangeTitlepage('Thành viên')}>
+          <ListItemIcon>
+            <GroupIcon />
+          </ListItemIcon>
+          <ListItemText primary="Thành viên" />
+        </ListItem>
+      </NavLink>
     </List>
   );
 };

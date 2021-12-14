@@ -12,30 +12,28 @@ import RateReviewIcon from '@mui/icons-material/RateReview';
 import ForumIcon from '@mui/icons-material/Forum';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import { useHistory } from "react-router-dom";
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import { NavLink } from "react-router-dom";
 
 const baseUrl = "/seller";
 
-export default function MainListItems() {
-  const history = useHistory();
-  const [open, setOpen] = React.useState(true);
+export default function MainListItems({handleChangeTitlepage}) {
+  const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
     setOpen(!open);
   };
 
-  const handleRedirect = (url) =>{
-    history.push(baseUrl + url)
-  }
-
   return (
     <List>
-      <ListItem button onClick={()=> handleRedirect('/')}>
-        <ListItemIcon>
-          <DashboardIcon />
-        </ListItemIcon>
-        <ListItemText primary="Tổng quan" />
-      </ListItem>
+      <NavLink to={`${baseUrl}`} exact activeClassName="nav-active">
+        <ListItem onClick={() => handleChangeTitlepage('Tổng quan')} >
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText primary="Tổng quan" />
+        </ListItem>
+      </NavLink>
       <ListItemButton onClick={handleClick}>
         <ListItemIcon>
           <InboxIcon />
@@ -45,36 +43,54 @@ export default function MainListItems() {
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}  onClick={()=> handleRedirect('/product')} >
-            <ListItemIcon>
-            </ListItemIcon>
-            <ListItemText primary="Quản lí sản phẩm" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}  onClick={()=> handleRedirect('/product/add')} >
-            <ListItemIcon>
-            </ListItemIcon>
-            <ListItemText primary="Thêm sản phẩm" />
-          </ListItemButton>
+          <NavLink to={`${baseUrl}/product`} exact activeClassName="nav-active">
+            <ListItemButton sx={{ pl: 4 }}  onClick={() => handleChangeTitlepage('Quản lí sản phẩm')} >
+              <ListItemIcon>
+              </ListItemIcon>
+              <ListItemText primary="Quản lí sản phẩm" />
+            </ListItemButton>
+          </NavLink>
+          <NavLink to={`${baseUrl}/product/add`} exact activeClassName="nav-active">
+            <ListItemButton sx={{ pl: 4 }}  onClick={() => handleChangeTitlepage('Thêm sản phẩm')} >
+              <ListItemIcon>
+              </ListItemIcon>
+              <ListItemText primary="Thêm sản phẩm" />
+            </ListItemButton>
+          </NavLink>
         </List>
       </Collapse>
-      <ListItem button  onClick={()=> handleRedirect('/order')}>
-        <ListItemIcon>
-          <ShoppingCartIcon />
-        </ListItemIcon>
-        <ListItemText primary="Đơn hàng" />
-      </ListItem>
-      <ListItem button  onClick={()=> handleRedirect('/message')}>
-        <ListItemIcon>
-          <ForumIcon />
-        </ListItemIcon>
-        <ListItemText primary="Tin nhắn" />
-      </ListItem>
-      <ListItem button  onClick={()=> handleRedirect('/rating')}>
-        <ListItemIcon>
-          <RateReviewIcon />
-        </ListItemIcon>
-        <ListItemText primary="Đánh Giá Sản Phẩm" />
-      </ListItem>
+      <NavLink to={`${baseUrl}/order`} exact activeClassName="nav-active">
+        <ListItem onClick={() => handleChangeTitlepage('Đơn hàng')} >
+          <ListItemIcon>
+            <ShoppingCartIcon />
+          </ListItemIcon>
+          <ListItemText primary="Đơn hàng" />
+        </ListItem>
+      </NavLink>
+      <NavLink to={`${baseUrl}/coupon`} exact activeClassName="nav-active">
+        <ListItem onClick={() => handleChangeTitlepage('Khuyến mãi')} >
+          <ListItemIcon>
+            <CardGiftcardIcon />
+          </ListItemIcon>
+          <ListItemText primary="Khuyến mãi" />
+        </ListItem>
+      </NavLink>
+      <NavLink to={`${baseUrl}/message`} exact activeClassName="nav-active">
+        <ListItem onClick={() => handleChangeTitlepage('Tin nhắn')} >
+          <ListItemIcon>
+            <ForumIcon />
+          </ListItemIcon>
+          <ListItemText primary="Tin nhắn" />
+        </ListItem>
+      </NavLink>
+      <NavLink to={`${baseUrl}/comment`} exact activeClassName="nav-active">
+        <ListItem onClick={() => handleChangeTitlepage('Đánh Giá Sản Phẩm')} >
+          <ListItemIcon>
+            <RateReviewIcon />
+          </ListItemIcon>
+          <ListItemText primary="Đánh Giá Sản Phẩm" />
+        </ListItem>
+      </NavLink>
     </List>
   );
 };

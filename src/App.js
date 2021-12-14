@@ -1,22 +1,38 @@
 
-import React from 'react';
+import {Suspense } from 'react';
+import { BrowserRouter } from "react-router-dom";
 
 import './App.scss';
-import RouteClient from './routes/RouteClient'
+import RouteClient from './routes/RouteClient';
+import RouteSeller from './routes/RouteSeller';
+import RouteAdmin from './routes/RouteAdmin';
+import RouteAuth from './routes/RouteAuth';
 
-class App extends React.Component {
+//loading screen
+import LoaderDialog from "./components/dialog/LoaderDialog";
 
-  render() {
-    return (
-      <div className="wrapper">
-        
+function App() {
+return (
+  <div className="wrapper">
+    { console.log('App')}
+    <Suspense fallback={<LoaderDialog />}>
+      <BrowserRouter>
+        {/* <Switch> */}
+        {/* seller  */}
+        <RouteSeller />
+        {/* auth  */}
+        <RouteAuth />
         {/* client  */}
         <RouteClient />
-        {/* auth */}
+        {/* admin  */}
+        <RouteAdmin />
+        {/* </Switch> */}
+      </BrowserRouter>
+    </Suspense>
+  </div>
+)
+}
 
-      </div>
-    );
-  };
-};
 
-export default App;
+export default App
+

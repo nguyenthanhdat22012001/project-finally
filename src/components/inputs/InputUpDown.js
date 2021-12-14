@@ -17,7 +17,6 @@ function InputUpDown(props) {
     const [qty , setQty] = useState(props.quanty);
 
     function handldeUp() {
-        console.log('qty ',qty);
         setQty(qty + 1);
     }
 

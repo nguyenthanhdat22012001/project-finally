@@ -9,8 +9,8 @@ import StorefrontIcon from '@mui/icons-material/Storefront';
 // import PropTypes from 'prop-types';
 
 import './ListComment.scss';
-import ReportComment from "../../../components/dialog/ReportComment";
-import ReplyCommentDialog from "../../../components/dialog/ReplyCommentDialog";
+import ReportComment from "components/dialog/ReportComment";
+import ReplyCommentDialog from "components/dialog/ReplyCommentDialog";
 
 function ListComment(props) {
     const [reprotComment, setReprotComment] = React.useState({

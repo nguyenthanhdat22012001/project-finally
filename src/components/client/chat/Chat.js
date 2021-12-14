@@ -7,6 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import ForumIcon from '@mui/icons-material/Forum';
 
 import "./Chat.scss";
+import imageProduct from "assets/images/img1.jpg";
 
 class Chat extends React.Component {
     constructor(props) {
@@ -34,7 +35,7 @@ class Chat extends React.Component {
                     <div className="chat__list-store">
                         <div className="chat__list-item">
                             <div className="chat__list-img">
-                                <img src="../assets/img1.jpg" alt="" />
+                                <img src={imageProduct} alt="" />
                             </div>
                             <div className="chat__list-desc">
                                 <div className="chat__desc-box">
@@ -86,7 +87,7 @@ class Chat extends React.Component {
                         </div>
                         <div className="chat__content">
                             <div className="chat__avatar">
-                                <img src="../assets/img1.jpg" alt="" />
+                                <img src={imageProduct} alt="" />
                             </div>
                             <div className="chat__message">
                                 Unknown message type, please check it on App.Unknown message type, please check it on App. Unknown message type, please check it on App.
@@ -94,7 +95,7 @@ class Chat extends React.Component {
                         </div>
                         <div className="chat__content chat__content-reverse">
                             <div className="chat__avatar">
-                                <img src="../assets/img1.jpg" alt="" />
+                                <img src={imageProduct} alt="" />
                             </div>
                             <div className="chat__message">
                                 Unknown message type, please check it on App.

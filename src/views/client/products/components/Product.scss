@@ -1,0 +1,110 @@
+@import "../../../../mixin";
+@import "../../../../variables";
+
+.product{
+    &__box{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+    }
+    &__image{
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        border-radius: 12px;
+    }
+    &__content{
+        padding: 15px 10px 30px 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    &__title{
+        font-size: 16px;
+        font-weight: 600;
+        height: 44px;
+        overflow: hidden;
+        line-height: 1.4;
+        color: $text-primary;
+        @include dotText();
+        &:hover{
+            color: $text-second;
+            transition: color 0.25s ease;
+        }
+    }
+    &__favorit{
+       position: absolute;
+       top: 0;
+       right: 0;
+    }
+    &__sale{
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 2.5rem;
+        width: 2.5rem;
+    }
+    &__price{
+        font-size: 16px;
+        margin: 10px 15px;
+        @include flexbox(center,space-between);
+        &>span:first-child{
+            color: $text-price;
+            font-weight: 500;
+        }
+        &>span:last-child{
+            color: gray;
+            text-decoration: line-through;
+        }
+    }
+    &__btn{
+        padding-top: 15px;
+         @include flexbox(center,center);
+    }
+    &__buyRating{
+        @include flexbox(center,space-between);
+        padding-top: 15px;
+        color: gray;
+        font-size: 14px;
+      
+    }
+   }
+
+   .saleIcon {
+	position: relative;
+	display: inline-block;
+	background: orange;
+	color: white;
+	height: 100%;
+	width: 100%;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 2.5rem;
+	transform: rotate(-20deg);
+	animation: beat 1s ease infinite alternate;
+	&:before,
+	&:after {
+		content:"";
+		position: absolute;
+		background: inherit;
+		height: inherit;
+		width: inherit;
+		top: 0;
+		left: 0;
+		z-index: -1;
+		transform: rotate(30deg);
+	}
+	&:after {
+		transform: rotate(60deg);
+	}
+}
+
+@keyframes beat {
+	from {	transform: rotate(-20deg) scale(1); }
+	to {	transform: rotate(-20deg) scale(1.1); }
+}
+
+
+
