@@ -86,8 +86,8 @@
             font-weight: 500;
         }
         &__date{
-            color: green;
             margin-left: 1rem;
+           font-weight: 400;
         }
         &__body{
             @include flexbox(center,center);
@@ -111,6 +111,7 @@
             & p{
                 @include flexbox(center,space-between);
                 margin: 5px 0;
+                font-size: 14px
             }
         }
         &__title-product{

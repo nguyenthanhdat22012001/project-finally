@@ -1,10 +1,11 @@
 
-import ChatIcon from '@mui/icons-material/Chat';
+import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 // material
 import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
 // utils
 import { fShortenNumber } from 'helper/FormatNumber';
+import PropTypes from 'prop-types';
 
 // ----------------------------------------------------------------------
 
@@ -33,15 +34,23 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 const TOTAL = 714000;
 
-export default function Visitors() {
+RankStore.propTypes = {
+  rankStore: PropTypes.number,
+}
+RankStore.defaultProps = {
+  rankStore: 0,
+}
+
+export default function RankStore(props) {
+  const {rankStore} = props;
   return (
     <RootStyle>
       <IconWrapperStyle>
-        <ChatIcon width={24} height={24} />
+        <MilitaryTechIcon width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
+      <Typography variant="h3">{fShortenNumber(rankStore)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Lượt Ghé Thăm
+        Top cửa hàng
       </Typography>
     </RootStyle>
   );

@@ -8,7 +8,7 @@ import Avatar from '@mui/material/Avatar';
 import { useHistory } from "react-router-dom";
 
 //helper
-import { fCurrencyVN } from "helper/FormatNumber";
+import { fCurrencyVN,fPercent } from "helper/FormatNumber";
 
 import ConfirmDialog from 'components/dialog/ConfirmDialog';
 
@@ -32,13 +32,13 @@ function TableListProduct(props) {
         {
             field: 'img',
             headerName: '',
-            width: 150,
+            width: 110,
             renderCell: (params) => (<div><Avatar variant="square" sx={{ width: 56, height: 56 }} alt="" src={params.value} /></div>)
         },
         {
             field: 'name',
             headerName: 'Tên sản phẩm',
-            width: 150,
+            width: 200,
         },
         // {
         //     field: 'totalQuanty',
@@ -46,13 +46,31 @@ function TableListProduct(props) {
         //     width: 150,
         // },
         {
-            field: 'price', headerName: 'Giá sản phẩm', width: 150,
+            field: 'price', headerName: 'Giá sản phẩm', width: 110,
             renderCell: (params) => {
                 return fCurrencyVN(params.value);
             }
         },
         {
-            field: 'hide', headerName: 'Trạng thái', width: 80,
+            field: 'discount', headerName: 'Giảm giá', width: 110,
+            renderCell: (params) => {
+                return fPercent(params.value);
+            }
+        },
+        {
+            field: 'cate', headerName: 'Danh mục', width: 110,
+            renderCell: (params) => {
+                return (<p>{params.value.name}</p>)
+            }
+        },
+        {
+            field: 'brand', headerName: 'Thương hiệu', width: 110,
+            renderCell: (params) => {
+                return (<p>{params.value.name}</p>)
+            }
+        },
+        {
+            field: 'hide', headerName: 'Trạng thái', width: 110,
             renderCell: (params) => {
                 if (params.value === 1) {
                     return <p>Ẩn</p>

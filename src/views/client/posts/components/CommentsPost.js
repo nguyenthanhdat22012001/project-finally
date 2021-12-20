@@ -4,6 +4,8 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import Button from '@mui/material/Button';
 //helper
 import { distanceToNow } from "helper/FormatDate";
+//redux
+import { useSelector } from 'react-redux';
 
 import AvatarCircelShortText from "components/avatar/AvatarCircelShortText";
 import "./CommentsPost.scss";
@@ -17,6 +19,7 @@ CommentsPost.defaultProps = {
 }
 
 function CommentsPost(props) {
+    const user = useSelector(state => state.auth.user);
     const { comments, handleToggleDialogReplyCommen } = props;
 
     return (
@@ -33,7 +36,7 @@ function CommentsPost(props) {
                                         <AvatarCircelShortText name={item.user.name} />
                                     </div>
                                     <div className="posts__cp__comment__user">
-                                        <span>{item.user.name}</span>
+                                        <span>{user && user.id === item.user_id ? "Bạn" : item.user.name}</span>
                                         <span><AccessTimeIcon fontSize="small" /> {item ? distanceToNow(item.created_at) : ''}</span>
                                     </div>
                                 </div>
@@ -41,9 +44,13 @@ function CommentsPost(props) {
                                     {item.comment}
                                 </div>
                                 <div className="posts__cp__comment__bottom">
-                                    <Button size="small" onClick={() => handleToggleDialogReplyCommen(true, item.id)} >
-                                        Trả lời
-                                    </Button>
+                                    {
+                                        !user || user.id !== item.user_id ?
+                                            <Button size="small" onClick={() => handleToggleDialogReplyCommen(true, item.id)} >
+                                                Trả lời
+                                            </Button>
+                                            : ""
+                                    }
                                 </div>
                                 {
                                     [...item.sub_comments].map(item => {
@@ -53,7 +60,7 @@ function CommentsPost(props) {
                                                     <AvatarCircelShortText name={item.user.name} />
                                                 </div>
                                                 <div className="posts__cp__comment__user">
-                                                    <span>{item.user.name}</span>
+                                                    <span>{user && user.id === item.user_id ? "Bạn" : item.user.name}</span>
                                                     <span><AccessTimeIcon fontSize="small" />  {item ? distanceToNow(item.created_at) : ''}</span>
                                                 </div>
                                             </div>
@@ -61,9 +68,13 @@ function CommentsPost(props) {
                                                 {item.comment}
                                             </div>
                                             <div className="posts__cp__comment__bottom">
-                                                <Button size="small" onClick={() => handleToggleDialogReplyCommen(true, item.id)}>
-                                                    Trả lời
-                                                </Button>
+                                                {
+                                                    !user || user.id !== item.user_id ?
+                                                        <Button size="small" onClick={() => handleToggleDialogReplyCommen(true, item.id)}>
+                                                            Trả lời
+                                                        </Button>
+                                                        : ""
+                                                }
                                             </div>
                                         </li>
                                     })
@@ -78,7 +89,7 @@ function CommentsPost(props) {
                                         <AvatarCircelShortText name={item.user.name} />
                                     </div>
                                     <div className="posts__cp__comment__user">
-                                        <span>{item.user.name}</span>
+                                        <span>{user && user.id === item.user_id ? "Bạn" : item.user.name}</span>
                                         <span><AccessTimeIcon fontSize="small" />  {item ? distanceToNow(item.created_at) : ''}</span>
                                     </div>
                                 </div>
@@ -86,9 +97,13 @@ function CommentsPost(props) {
                                     {item.comment}
                                 </div>
                                 <div className="posts__cp__comment__bottom">
-                                    <Button size="small" onClick={() => handleToggleDialogReplyCommen(true, item.id)} >
-                                        Trả lời
-                                    </Button>
+                                    {
+                                        !user || user.id !== item.user_id ?
+                                            <Button size="small" onClick={() => handleToggleDialogReplyCommen(true, item.id)} >
+                                                Trả lời
+                                            </Button>
+                                            : ""
+                                    }
                                 </div>
                             </li>
                         }

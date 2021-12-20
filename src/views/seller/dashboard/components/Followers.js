@@ -1,10 +1,11 @@
 
-import ChatIcon from '@mui/icons-material/Chat';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 // material
 import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
 // utils
 import { fShortenNumber } from 'helper/FormatNumber';
+import PropTypes from 'prop-types';
 
 // ----------------------------------------------------------------------
 
@@ -31,15 +32,21 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const TOTAL = 714000;
+Followers.propTypes = {
+  numberFollow: PropTypes.number,
+}
+Followers.defaultProps = {
+  numberFollow: 0,
+}
 
-export default function Followers() {
+export default function Followers(props) {
+  const {numberFollow} = props;
   return (
     <RootStyle>
       <IconWrapperStyle>
-        <ChatIcon width={24} height={24} />
+        <FavoriteIcon width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
+      <Typography variant="h3">{fShortenNumber(numberFollow)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         Lượt Theo Dõi
       </Typography>

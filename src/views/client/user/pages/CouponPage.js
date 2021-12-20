@@ -66,7 +66,7 @@ function CouponPage() {
     })
 
 
-    /******* get all coupon********/
+    /******* get all coupon user collecttion********/
     const getCouponUserCollection = async () => {
         try {
             const res = await couponApi.getCouponUserCollection(user.id);

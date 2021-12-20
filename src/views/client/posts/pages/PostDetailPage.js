@@ -17,7 +17,6 @@ import { useSelector } from 'react-redux';
 // helper
 import { handleNotiDialog } from 'helper/notify';
 import { distanceToNow } from "helper/FormatDate";
-import { validateObjEmpty } from "helper/validates";
 // notify
 import { useSnackbar } from 'notistack';
 
@@ -32,7 +31,8 @@ function PostDetailPage(props) {
     const user = useSelector(state => state.auth.user);
     const { enqueueSnackbar } = useSnackbar();
     /********state *******/
-    const [summaryPost, setSummaryPost] = useState({ totalComment: 0, totalThumb: 0 });
+    const [totalThumb, setTotalThumb] = useState(0);
+    const [totalComment, setTotalComment] = useState(0);
     const [likePost, setLikePost] = useState(false);
     const [idPostReply, setIdPostReply] = useState(null);
     const [openDialogReplyComment, setOpenDialogReplyComment] = useState(false);
@@ -46,7 +46,7 @@ function PostDetailPage(props) {
 
     /***************load page****************/
     useEffect(() => {
-        Promise.all([getPostDetail(), getPosts()]);
+        Promise.all([getPosts(),getPostDetail()]);
     }, [slug])
     /***************get post****************/
     const getPosts = async () => {
@@ -67,8 +67,8 @@ function PostDetailPage(props) {
             if (res.success) {
                 setPost(res.data);
                 await hanldeCheckUserLikePost(res.data.id);
-                await getThumsUpOfPost(res.data.id);
                 await getCommentOfPost(res.data.id);
+                await getThumsUpOfPost(res.data.id);
             }
         } catch (error) {
             console.log('error', error);
@@ -79,12 +79,8 @@ function PostDetailPage(props) {
         try {
             const res = await postApi.getComments(post_id);
             if (res.success) {
-              
                 setComments(res.data.listComment);
-                setSummaryPost({
-                    ...summaryPost,
-                    totalComment: res.data.totalComment,
-                })
+                setTotalComment(res.data.totalComment);
             }
         } catch (error) {
             console.log('error', error);
@@ -95,10 +91,7 @@ function PostDetailPage(props) {
         try {
             const res = await postApi.getThumsUbByPost(post_id);
             if (res.success) {
-                setSummaryPost({
-                    ...summaryPost,
-                    totalThumb: res.data.totalThumbsUp,
-                })
+                setTotalThumb(res.data.totalThumb);
             }
         } catch (error) {
             console.log('error', error);
@@ -106,6 +99,10 @@ function PostDetailPage(props) {
     }
     /***************handle add commnet****************/
     const hanldeAddComment = async () => {
+        if(!user){
+            handleNotiDialog(enqueueSnackbar,"Bạn chưa đăng nhập", 'error');
+            return;
+        }
         if (textComment === '') {
             return
         }
@@ -141,6 +138,10 @@ function PostDetailPage(props) {
     }
     /***************handle reply comment****************/
     const hanldeReplyComment = async (textComment) => {
+        if(!user){
+            handleNotiDialog(enqueueSnackbar,"Bạn chưa đăng nhập", 'error');
+            return;
+        }
         if (textComment === '') {
             return
         }
@@ -174,6 +175,10 @@ function PostDetailPage(props) {
     }
     /***************handle toggle like post****************/
     const hangleToggleLikePost = async () => {
+        if(!user){
+            handleNotiDialog(enqueueSnackbar,"Bạn chưa đăng nhập", 'error');
+            return;
+        }
         const islike = !likePost;
         const data = {
             user_id: user.id,
@@ -196,7 +201,7 @@ function PostDetailPage(props) {
     }
     /***************handle check user like post****************/
     const hanldeCheckUserLikePost = async (post_id) => {
-        if (validateObjEmpty(user)) {
+        if (!user) {
             return;
         }
         try {
@@ -216,7 +221,6 @@ function PostDetailPage(props) {
 
     return (
         <div>
-            {console.log('summaryPost',summaryPost)}
             <ReplyCommentDialog
                 openDialogReplyComment={openDialogReplyComment}
                 handleToggleDialogReplyCommen={handleToggleDialogReplyCommen}
@@ -255,10 +259,10 @@ function PostDetailPage(props) {
                                 sx={{ color: `${likePost ? '#1976d2' : 'gray'}` }}
                                 onClick={hangleToggleLikePost}
                             >
-                                Thích {summaryPost.totalThumb}
+                                Thích {totalThumb}
                             </Button>
                             <div className="posts__pdp__total-comments">
-                                <h4>{summaryPost.totalComment} bình luận</h4>
+                                <h4>{totalComment} bình luận</h4>
                             </div>
                         </Grid>
                         <div>

@@ -25,12 +25,11 @@ function ListCategory(props) {
 
   return (
     <List sx={style} component="nav" aria-label="mailbox folders">
-      {console.log('categories',categories)}
       {
         [...categories].length > 0 ?
           [...categories].map(item => {
             return (
-              <Link to={`${baseUrl}/product/category/${item.slug}`}>
+              <Link key={item.id} to={`${baseUrl}/product/category/${item.slug}`}>
                 <ListItem button divider>
                   <ListItemText primary={item.name} />
                 </ListItem>

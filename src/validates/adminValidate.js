@@ -72,103 +72,17 @@ export const productSchema = yup.object().shape({
 });
 
 
-// const defaultValue = {
-//     name: "",
-//     age: ""
-//   };
-
-//   function App() {
-//     const [friends, setFriends] = useState([]);
-//     const {
-//       register,
-//       errors,
-//       handleSubmit,
-//       setValue,
-//       getValues,
-//       clearError
-//     } = useForm({
-//       mode: "onChange",
-//       reValidateMode: "onChange",
-//       validationSchema: friendsSchema
-//     });
-
-//     const onSubmit = data => {
-//       console.log("submit", data);
-//     };
-
-//     const addFriend = async () => {
-//       setFriends([...friends, defaultValue]);
-//     };
-
-//     const removeFriend = index => () => {
-//       // get values
-//       const { friends } = getValues({ nest: true });
-
-//       // create a copy
-//       const newFriends = [...friends];
-
-//       // remove by index
-//       newFriends.splice(index, 1);
-
-//       // update values
-//       setFriends(newFriends);
-
-//       for (let i = 0; i < newFriends.length; i++) {
-//         setValue(`friends[${i}].name`, newFriends[i].name);
-//         setValue(`friends[${i}].age`, newFriends[i].age);
-//       }
-//     };
-
-//     const clearFriends = () => {
-//       setFriends([]);
-//       clearError();
-//     };
-
-//     return (
-//       <form onSubmit={handleSubmit(onSubmit)}>
-//         {friends.map((_, index) => {
-//           const fieldName = `friends[${index}]`;
-
-//           return (
-//             <fieldset name={fieldName} key={fieldName}>
-//               <label>
-//                 Name {index}:
-//                 <input type="text" name={`${fieldName}.name`} ref={register} />
-//               </label>
-//               <ErrorMessage
-//                 errors={errors}
-//                 type="required"
-//                 name={`${fieldName}.name`}
-//               />
-
-//               <label>
-//                 Age {index}:
-//                 <input type="number" name={`${fieldName}.age`} ref={register} />
-//               </label>
-//               <ErrorMessage
-//                 errors={errors}
-//                 type="required"
-//                 name={`${fieldName}.age`}
-//               />
-
-//               <button type="button" onClick={removeFriend(index)}>
-//                 Remove Friend
-//               </button>
-//             </fieldset>
-//           );
-//         })}
-
-//         <ErrorMessage errors={errors} type="min" name="friends" />
-//         <ErrorMessage errors={errors} type="required" name="friends" />
-//         <div className="action">
-//           <button type="button" onClick={addFriend}>
-//             Add Friend
-//           </button>
-//           <button type="button" onClick={clearFriends}>
-//             Clear Friends
-//           </button>
-//         </div>
-//         <button type="submit">Submit</button>
-//       </form>
-//     );
-//   }
+export const paymentSchema = yup.object().shape({
+    name: yup
+        .string()
+        .max(255, 'Tối đa 255 kí tự')
+        .trim()
+        .required("Không được để trống"),
+    fee_shipping: yup
+        .number()
+        .typeError('Phải là số')
+        .min(1, 'phải lớn hơn 0')
+        .required("Không được để trống"),
+    hide: yup
+        .string()
+});

@@ -1,10 +1,11 @@
 
-import ChatIcon from '@mui/icons-material/Chat';
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 // material
 import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
 // utils
 import { fShortenNumber } from 'helper/FormatNumber';
+import PropTypes from 'prop-types';
 
 // ----------------------------------------------------------------------
 
@@ -31,15 +32,22 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const TOTAL = 714000;
 
-export default function OrderToday() {
+OrderToday.propTypes = {
+  numberOrdersToday: PropTypes.number,
+}
+OrderToday.defaultProps = {
+  numberOrdersToday: 0,
+}
+
+export default function OrderToday(props) {
+  const {numberOrdersToday} = props;
   return (
     <RootStyle>
       <IconWrapperStyle>
-        <ChatIcon width={24} height={24} />
+        <ShoppingBasketIcon width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
+      <Typography variant="h3">{fShortenNumber(numberOrdersToday)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         Đơn Hàng Hôm Nay
       </Typography>

@@ -8,7 +8,7 @@ import {
     Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import faker from 'faker';
+import PropTypes from 'prop-types';
 
 ChartJS.register(
     CategoryScale,
@@ -37,29 +37,24 @@ const options = {
     },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+const labels = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9','Tháng 10', 'Tháng 11', 'Tháng 12'];
 
-const data = {
-    labels,
-    datasets: [
-        {
-            label: 'Dataset 1',
-            data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-            backgroundColor: 'rgb(255, 99, 132)',
-        },
-        {
-            label: 'Dataset 2',
-            data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-            backgroundColor: 'rgb(75, 192, 192)',
-        },
-        {
-            label: 'Dataset 3',
-            data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-            backgroundColor: 'rgb(53, 162, 235)',
-        },
-    ],
-};
 
-export default function ProductHotTrend() {
+ProductHotTrend.propTypes = {
+    revenueProductHotTrend: PropTypes.array,
+}
+ProductHotTrend.defaultProps = {
+    revenueProductHotTrend: null,
+}
+
+
+export default function ProductHotTrend(props) {
+    const { revenueProductHotTrend } = props;
+
+    const data = {
+        labels: labels,
+        datasets: revenueProductHotTrend ? revenueProductHotTrend : [],
+    };
+
     return <Bar options={options} data={data} />;
-  }
+}
