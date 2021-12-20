@@ -1,4 +1,5 @@
 @import "../../../../mixin";
+@import "../../../../variables";
 .shopping{
     padding: 0px 45px 30px 45px;
 }
@@ -12,7 +13,7 @@
     }
     &__title{
         padding: 10px;
-        background-color: #958457;
+        background-color: $color-second;
         font-size: 14px;
         text-transform: uppercase;
         color: #ffffff;
@@ -30,7 +31,7 @@
     }
     &__order-store{
         @include flexbox(center);
-        font-weight: 600;
+        font-weight: 500;
         &>span{
             margin-left: 7px;
         }
@@ -38,7 +39,7 @@
     &__sub-title{
             font-size: 16px;
             margin-bottom: 5px;
-            color: #958457;
+            color: $color-second;
     }
     &__order{
         @include flexbox();
@@ -57,20 +58,27 @@
     }
     &__order-content{
         flex: 1;
+        font-size: 12px;
     }
     &__order-name{
-       height: 36px;
        @include dotText();
+    }
+    &__order-quanty{
+        color: gray; 
+    }
+    &__order-price{
+        font-weight: 500;
     }
     &__order-bottom{
         @include flexbox(center, space-between);
-        margin-top: 5px;
+        margin-top: 10px;
     }
     &__payment{
         @include flexbox(center, space-between);
-        font-weight: 600;
+        font-weight: 500;
         padding: 10px 0;
         border-bottom: 1px solid #eaeaea;
+        font-size: 15px;
     }
     &__used-coupon{
         text-decoration: line-through;
@@ -80,7 +88,7 @@
         @include flexbox(center, space-between);
         font-size: 16px;
         &>span:last-child{
-            color: #958457;
+            color: $color-second;
         }
     }
     &__btn{

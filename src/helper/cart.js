@@ -108,7 +108,12 @@ export const handleUpdateTotalCartInLocalStorage = () => {
                 });
                 //sub price, quantity product
                 product.subQuantity = subQuantity;
-                product.subPrice = subQuantity * product.product.price;
+                // if have coupon
+                if (store.coupon && Object.keys(store.coupon).length > 0) {
+                    product.subPrice = (subQuantity * product.product.price) - store.coupon.price;
+                } else {
+                    product.subPrice = subQuantity * product.product.price;
+                }
             });
 
         });
@@ -126,15 +131,27 @@ export const handleUpdateTotalCartInLocalStorage = () => {
             store.totalPrice = totalPrice;
         });
 
-        // //total price final
+        //total price final
         cartLocalStorage.totalPrice = [...cartLocalStorage.stores].reduce((previous, current) => {
             return previous + current.totalPrice;
         }, 0);
+        //if coupon system existing update totalPrice
+        if (cartLocalStorage.coupon && Object.keys(cartLocalStorage.coupon).length > 0) {
+            cartLocalStorage.totalPrice = cartLocalStorage.totalPrice - cartLocalStorage.coupon.price;
+        };
+        //if payment existing update totalPrice, fee ship
+        if (cartLocalStorage.payment && Object.keys(cartLocalStorage.payment).length > 0) {
+            cartLocalStorage.feeShip = [...cartLocalStorage.stores].length * cartLocalStorage.payment.fee_shipping;
+            cartLocalStorage.totalPrice = cartLocalStorage.totalPrice + cartLocalStorage.feeShip;
+        }else{
+            cartLocalStorage.feeShip = 0;
+            cartLocalStorage.totalPrice = cartLocalStorage.totalPrice - cartLocalStorage.feeShip;
+        }
         //total price quantity
         cartLocalStorage.totalQuantity = [...cartLocalStorage.stores].reduce((previous, current) => {
             return previous + current.totalQuantity;
         }, 0);
-    }
+    };
     setCartLocalStorage(cartLocalStorage);
 }
 
@@ -181,7 +198,7 @@ export const handleUpdateQuantityProductInLocalStorage = (store_id, product_id, 
                 [...stor.products].forEach(prd => {
                     if (prd.product.id === product_id) {
 
-                        [...prd.attributes].forEach(attribute => { 
+                        [...prd.attributes].forEach(attribute => {
                             if (attribute.id === attribute_id) {
                                 //if quantity > 0 , update quantity
                                 if (quantity > 0) {
@@ -209,6 +226,69 @@ export const handleUpdateQuantityProductInLocalStorage = (store_id, product_id, 
                 })
             }
         })
+        setCartLocalStorage(cartLocalStorage);
+    }
+
+}
+
+export const handleUseCouponStoreInLocalStorage = (store_id, coupon) => {
+    const cartLocalStorage = getCartLocalStorage();
+    let isUseCoupon = false;
+
+    if (cartLocalStorage) {
+        [...cartLocalStorage.stores].forEach(stor => {
+            if (stor.store.id == store_id) {
+                if (coupon) {
+                    if (stor.totalPrice >= coupon.condition) {
+                        stor.coupon = coupon;
+                        isUseCoupon = true;
+                    }
+                } else {
+                    stor.coupon = {}
+                    isUseCoupon = true;
+                }
+            };
+        });
+
+        setCartLocalStorage(cartLocalStorage);
+        return isUseCoupon;
+    }
+
+}
+
+export const handleUseCouponSystemInLocalStorage = (coupon) => {
+    const cartLocalStorage = getCartLocalStorage();
+    let isUseCoupon = false;
+
+    if (cartLocalStorage) {
+
+        if (coupon) {
+            if (cartLocalStorage.totalPrice >= coupon.condition) {
+                cartLocalStorage.coupon = coupon;
+                isUseCoupon = true;
+            }
+        } else {
+            cartLocalStorage.coupon = {}
+            isUseCoupon = true;
+        }
+
+
+        setCartLocalStorage(cartLocalStorage);
+        return isUseCoupon;
+    }
+
+}
+
+
+export const handlePaymentInLocalStorage = (payment) => {
+    const cartLocalStorage = getCartLocalStorage();
+
+    if (cartLocalStorage) {
+        if (payment) {
+            cartLocalStorage.payment = payment;
+        } else {
+            cartLocalStorage.payment = {};
+        }
         setCartLocalStorage(cartLocalStorage);
     }
 

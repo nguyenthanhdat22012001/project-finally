@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 // api
 import productApi from 'api/productApi';
+import storeApi from 'api/storeApi';
 import categoryApi from 'api/categoryApi';
 
 import './HomePage.scss';
@@ -49,21 +50,24 @@ const responsive = {
     }
 };
 
+const baseUrl = "/client/product";
+
 function HomePage() {
-    const [products, setProducts] = useState([]);
+    const [productBuy, setProductBuy] = useState([]);
     const [productsSale, setProductsSale] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [storesTopFollow, setStoresTopFollow] = useState([]);
 
     useEffect(() => {
-        Promise.all([getAllProducts(), getProductSale(), getAllCategory()]);
+        Promise.all([getProductBuy(), getProductSale(), getAllCategory(), getStoresFollow()]);
     }, [])
     /*************get all product**************/
-    const getAllProducts = async () => {
+    const getProductBuy = async () => {
         try {
-            const res = await productApi.getAllProducts();
+            const res = await productApi.getProductTopBuy();
             console.log('res', res);
             if (res.success) {
-                setProducts([...res.data]);
+                setProductBuy([...res.data]);
             }
         } catch (error) {
             console.log('error', error);
@@ -76,6 +80,18 @@ function HomePage() {
             console.log('res', res);
             if (res.success) {
                 setProductsSale([...res.data]);
+            }
+        } catch (error) {
+            console.log('error', error);
+        }
+    }
+    /*************get product sale**************/
+    const getStoresFollow = async () => {
+        try {
+            const res = await storeApi.getStoreTopFollow();
+            console.log('res', res);
+            if (res.success) {
+                setStoresTopFollow([...res.data]);
             }
         } catch (error) {
             console.log('error', error);
@@ -149,7 +165,7 @@ function HomePage() {
                     //  sliderClass="plex-gap-25"
                     >
                         {
-                            [...products].map(item => {
+                            [...productBuy].map(item => {
                                 return <Product key={item.id} product={item} />
                             })
                         }
@@ -160,15 +176,17 @@ function HomePage() {
             <div className="row home__Stores">
                 <h2 className="home__title">Top Cửa Hàng</h2>
                 <div className="row home__Stores__list">
-                    <TopListStores />
+                    <TopListStores storesTopFollow={storesTopFollow} />
                 </div>
             </div>
             <div className="row home__product home__product__sale">
                 <div className="home__product__header">
                     <h2 className="home__title">Sản Phẩm Sale</h2>
-                    <Button variant="outlined" color="secondary" size="small">
-                        Xem tat ca
-                    </Button>
+                    <Link to={`${baseUrl}`}>
+                        <Button variant="outlined" color="secondary" size="small">
+                            Xem Tất cả
+                        </Button>
+                    </Link>
                 </div>
                 <div className="home__product__sale__list">
                     {

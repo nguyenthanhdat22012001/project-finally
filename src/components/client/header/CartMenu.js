@@ -40,7 +40,7 @@ function CartMenu(props) {
     return (
         <IconButton size="large" aria-label="" color="inherit" className="cart-menu__icon">
             <Badge badgeContent={4} color="error" >
-                <Link to={`${baseUrl}`}>
+                <Link to={`${baseUrl}/shopping`}>
                     <ShoppingCartIcon sx={{ color: '#fff', fontSize: '28px' }} />
                 </Link>
             </Badge>
@@ -53,7 +53,7 @@ function CartMenu(props) {
                                 return [...stor.products].map(prd => {
                                     return [...prd.attributes].map(attribute => {
                                         return (
-                                            <div className="cart-menu__item-product">
+                                            <div key={attribute.id} className="cart-menu__item-product">
                                                 <div className="cart-menu__col-img">
                                                     <IconButton
                                                         size="small"

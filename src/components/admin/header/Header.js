@@ -9,16 +9,18 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Toolbar from '@mui/material/Toolbar';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
+import {useHistory } from 'react-router-dom';
+// notify
+import { useSnackbar } from 'notistack';
 //redux
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { LogOutUserRedux } from "redux/actions/AuthAction";
 
 import Sidebar from '../sidebar/Sidebar';
 import AvatarCircelShortText from "components/avatar/AvatarCircelShortText";
@@ -45,7 +47,11 @@ const AppBar = styled(MuiAppBar, {
 
 
 export default function Header() {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
   const user = useSelector(state => state.auth.user);
+  /*******state********/
   const [titlePage, setTitlePage] = React.useState('Thống Kê');
   const [openSideBar, setOpenSideBar] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -61,15 +67,25 @@ export default function Header() {
     setOpenSideBar(!openSideBar);
   };
 
-    /***********hanlde change title page************/
-    const handleChangeTitlepage = (titlePage) => {
-      setTitlePage(titlePage)
+  /***********hanlde change title page************/
+  const handleChangeTitlepage = (titlePage) => {
+    setTitlePage(titlePage)
+  }
+  /***********handle logout user**********/
+  const handleLogoutUser = async () => {
+    try {
+      dispatch(LogOutUserRedux(enqueueSnackbar, history));
+
+    } catch (error) {
+      console.log('error', error);
     }
+  };
+
 
   return (
-    <Box sx={{ zIndex: '10'}}>
-      
-      <AppBar position="absolute" open={openSideBar} sx={{backgroundColor: '#ec2f4b'}}>
+    <Box sx={{ zIndex: '10' }}>
+
+      <AppBar position="absolute" open={openSideBar} sx={{ backgroundColor: '#ec2f4b' }}>
         <Toolbar
           sx={{
             pr: '24px', // keep right padding when drawer closed
@@ -141,38 +157,24 @@ export default function Header() {
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           >
             <MenuItem>
-              <Avatar /> Profile
-            </MenuItem>
-            <MenuItem>
-              <Avatar /> My account
+              <Avatar /> Thông tin cửa hàng
             </MenuItem>
             <Divider />
-            <MenuItem>
-              <ListItemIcon>
-                <PersonAdd fontSize="small" />
-              </ListItemIcon>
-              Add another account
-            </MenuItem>
-            <MenuItem>
-              <ListItemIcon>
-                <Settings fontSize="small" />
-              </ListItemIcon>
-              Settings
-            </MenuItem>
-            <MenuItem>
+
+            <MenuItem onClick={handleLogoutUser}>
               <ListItemIcon>
                 <Logout fontSize="small" />
               </ListItemIcon>
-              Logout
+              Thoát
             </MenuItem>
           </Menu>
         </Toolbar>
       </AppBar>
 
-      <Sidebar 
-      openSideBar={openSideBar} 
-      toggleSideBar={toggleSideBar} 
-      handleChangeTitlepage={handleChangeTitlepage} 
+      <Sidebar
+        openSideBar={openSideBar}
+        toggleSideBar={toggleSideBar}
+        handleChangeTitlepage={handleChangeTitlepage}
       />
     </Box>
   );

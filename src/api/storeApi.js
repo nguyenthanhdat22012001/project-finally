@@ -9,6 +9,10 @@ const storeApi = {
         const url = `/stores/${id}`;
         return axisosClient.get(url);
     },
+    getStoreTopFollow: () => {
+        const url = `/store/topfollow`;
+        return axisosClient.get(url);
+    },
     getStoreUserCollection: (id)=>{
         const url = `/collection-store/user/${id}`;
         return axisosClient.get(url);

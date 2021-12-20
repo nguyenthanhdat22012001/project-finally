@@ -14,8 +14,7 @@ export const createStoreSchema = yup.object().shape({
         .required("Không được để trống"),
     phone: yup
         .string()
-        .max(255,'Tối đa 255 kí tự')
-        .trim()
+        .matches(/(84|0[3|5|7|8|9])+([0-9]{8})\b/g, 'không đúng định dạng')
         .required("Không được để trống"),
 });
 
@@ -25,7 +24,6 @@ export const couponSchema = yup.object().shape({
         .string()
         .max(255,'Tối đa 255 kí tự')
         .trim()
-        .max(255,'Tối đa 255 kí tự')
         .required("Không được để trống"),
     sku: yup
         .string()

@@ -11,12 +11,16 @@ import Grid from '@mui/material/Grid';
 import { Link } from 'react-router-dom';
 //api 
 import postApi from "api/postApi";
+//redux
+import { useSelector } from 'react-redux';
 
 import "./PostPage.scss";
 import PostItem from "../components/PostItem";
 
 
 function ProductPage() {
+    const user = useSelector(state => state.auth.user);
+    /*******state********/
     const [posts, setPosts] = useState([]);
     useEffect(() => {
         const getPosts = async () => {
@@ -38,15 +42,10 @@ function ProductPage() {
         <div>
             <div role="presentation">
                 <Breadcrumbs aria-label="breadcrumb">
-                    <LinkBreadcrumbs underline="hover" color="inherit" href="/">
-                        MUI
-                    </LinkBreadcrumbs>
-                    <LinkBreadcrumbs
-                        underline="hover"
-                        color="inherit"
-                        href="/getting-started/installation/"
-                    >
-                        Core
+                    <LinkBreadcrumbs underline="hover" color="inherit">
+                        <Link to="/client">
+                            TADAHA
+                        </Link>
                     </LinkBreadcrumbs>
                     <Typography color="text.primary">Bài viết</Typography>
                 </Breadcrumbs>
@@ -56,16 +55,21 @@ function ProductPage() {
                     <h2 className="posts__main__title">Danh sách bài viết</h2>
                     <div className="posts__main__header">
                         <p className="posts__main__countTotal">{[...posts].length} bài viết tìm thấy </p>
-                        <Grid container spacing={1}>
-                            <Grid item xs={6}>
-                                <Button variant="contained" color="secondary" size="medium">Bài viết của tôi</Button>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Link to="/client/posts/create">
-                                    <Button variant="contained" color="primary" size="medium">Đăng bài</Button>
-                                </Link>
-                            </Grid>
-                        </Grid>
+                        {
+                            user ?
+                                <Grid container spacing={1}>
+                                    <Grid item xs={6}>
+                                        <Button variant="contained" color="secondary" size="medium">Bài viết của tôi</Button>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Link to="/client/posts/create">
+                                            <Button variant="contained" color="primary" size="medium">Đăng bài</Button>
+                                        </Link>
+                                    </Grid>
+                                </Grid>
+                                : ""
+                        }
+
                     </div>
                     <div className="posts__main__body">
                         <div className="posts__search">

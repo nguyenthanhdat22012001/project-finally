@@ -108,31 +108,6 @@ function Sidebar(props) {
                     }
                 </FormGroup>
             </div>
-            <div className="row product__sidebar__rating">
-                <h4 className="product__sidebar__title">Đánh giá</h4>
-                {
-                    [...rating].map(item => {
-                        return (
-                            <Box
-                                sx={{
-                                    width: 200,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                }}
-                            >
-                                <Checkbox value={item} />
-                                <Rating
-                                    name="text-feedback"
-                                    value={item}
-                                    readOnly
-                                    precision={1}
-                                    emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-                                />
-                            </Box>
-                        )
-                    })
-                }
-            </div>
         </div>
     );
 }
