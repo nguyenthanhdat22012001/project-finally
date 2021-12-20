@@ -9,6 +9,10 @@ const productApi = {
         const url = `/product/topsale`;
         return axisosClient.get(url);
     },
+    getProductTopBuy: ()=>{
+        const url = `/product/topbuy`;
+        return axisosClient.get(url);
+    },
     getProductsBySlugCategory: (slug)=>{
         const url = `/product/category/${slug}`;
         return axisosClient.get(url);

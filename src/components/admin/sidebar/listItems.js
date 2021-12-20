@@ -9,6 +9,7 @@ import CategoryIcon from '@mui/icons-material/Category';
 import GroupIcon from '@mui/icons-material/Group';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import PaymentIcon from '@mui/icons-material/Payment';
 import { NavLink } from "react-router-dom";
 
 const baseUrl = "/admin";
@@ -39,6 +40,14 @@ export default function MainListItems({handleChangeTitlepage}) {
             <LocalOfferIcon />
           </ListItemIcon>
           <ListItemText primary="Thương hiệu" />
+        </ListItem>
+      </NavLink>
+      <NavLink to={`${baseUrl}/payment`} exact activeClassName="nav-active">
+        <ListItem  onClick={() => handleChangeTitlepage('Thanh toán')}>
+          <ListItemIcon>
+            <PaymentIcon />
+          </ListItemIcon>
+          <ListItemText primary="Thanh toán" />
         </ListItem>
       </NavLink>
       <NavLink to={`${baseUrl}/order`} exact activeClassName="nav-active">

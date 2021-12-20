@@ -12,7 +12,7 @@ function Shopping(props) {
         <Switch>
             <Route exact path={`${match.url}`} component={CartPage} />
             <Route path={`${match.url}/checkout`} component={ChekOutPage} />
-            <Route path={`${match.url}/checkout-success`} component={CheckoutSuccessPage} />
+            <Route path={`${match.url}/checkout-success/:id`} component={CheckoutSuccessPage} />
         </Switch>
     )
 }

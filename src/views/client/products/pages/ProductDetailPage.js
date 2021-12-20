@@ -349,12 +349,12 @@ function ProductDetailPage() {
                             <h2 className="product__detail__infor__title">{Object.keys(product).length > 0 ? product.name : ''}</h2>
                             <div className="product__detail__infor__rating-love">
                                 <p className="product__detail__infor__rating">
-                                    <Rating name="half-rating-read" defaultValue={5} precision={0.5} readOnly />
+                                    <Rating name="half-rating-read" value={Object.keys(product).length > 0 ? product.totalRating : 0} precision={1} readOnly />
                                     <span className="product__detail__infor__text-rating">
-                                        <Link to="#" > 163 lượt đánh giá </Link>
+                                        <Link to="#" >  {Object.keys(product).length > 0 ? product.totalComment : ""} lượt đánh giá </Link>
                                     </span>
                                     <span className="product__detail__infor__text-buying">
-                                        | 163 Lượt mua
+                                        | {Object.keys(product).length > 0 ? product.order_count : ""} Lượt mua
                                     </span>
                                 </p>
                                 <div className="product__detail__infor__love">
