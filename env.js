@@ -58,7 +58,7 @@ window.env = {
   "PSModulePath": "C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules",
   "PUBLIC": "C:\\Users\\Public",
   "REACT_APP_GOOGLE_CLIENT_ID": "157666575914-p60mkf52d2vaaq65vi4bc7iaj7r07ia4.apps.googleusercontent.com",
-  "REACT_APP_URL_SERVER_API": "http://backend.tahadada.online/api",
+  "REACT_APP_URL_SERVER_API": "https://backend.tahadada.online/api",
   "SESSIONNAME": "Console",
   "SystemDrive": "C:",
   "SystemRoot": "C:\\Windows",
