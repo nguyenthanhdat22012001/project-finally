@@ -15,8 +15,6 @@ import "froala-editor/css/third_party/embedly.min.css";
 import Froala from "react-froala-wysiwyg";
 // import FroalaEditorView from "react-froala-wysiwyg/FroalaEditorView";
 
-import "./TextAreaFroala.scss";
-
 TextAreaFroala.propTypes = {
     handleOnChangeDescription: PropTypes.func,
     description: PropTypes.string,

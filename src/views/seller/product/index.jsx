@@ -5,7 +5,6 @@ import ListProductPage from "./pages/ListProductPage";
 import AddProductPage from "./pages/AddProductPage";
 import EditProductPage from "./pages/EditProductPage";
 
-
 function Product(props) {
     const match = useRouteMatch();
     return (

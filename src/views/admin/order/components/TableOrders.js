@@ -73,12 +73,12 @@ function TableOrders(props) {
         <Grid container spacing={3}>
 
             <Grid item xs={12} sm={12} md={12}>
-                <div style={{ height: 400, width: '100%' }}>
+                <div style={{ height: 500, width: '100%' }}>
                     <DataGrid
                         rows={orders}
                         columns={columns}
-                        pageSize={5}
-                        rowsPerPageOptions={[5]}
+                        pageSize={10}
+                        rowsPerPageOptions={[10]}
                         disableSelectionOnClick
                     />
                 </div>

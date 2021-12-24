@@ -8,11 +8,6 @@ import ShowMoreText from "react-show-more-text";
 import Rating from '@mui/material/Rating';
 import { TextField } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
@@ -62,21 +57,23 @@ function a11yProps(index) {
 
 BasicTabs.propTypes = {
   product_id: PropTypes.number,
+  totalRating: PropTypes.number,
   description: PropTypes.string,
 };
 BasicTabs.defaultProps = {
   product_id: null,
+  totalRating: 0,
   description: '',
 };
 
 
 export default function BasicTabs(props) {
-  const { description, product_id } = props;
+  const { description, product_id,totalRating } = props;
   const user = useSelector(state => state.auth.user);
   const { enqueueSnackbar } = useSnackbar();
   /*****state******/
   const [pages, setPages] = useState({
-    limit: 2,
+    limit: 5,
     currentPage: 1,
   });
   const [listComment, setListComment] = useState({
@@ -90,7 +87,6 @@ export default function BasicTabs(props) {
   });
   const [btnLoadingComment, setBtnLoadingComment] = useState(false);
   const [value, setValue] = React.useState(0);
-  const [openReprotComment, setopenReprotComment] = React.useState(null);
   /***************load page****************/
   useEffect(() => {
     Promise.all([handleGetListComments()]);
@@ -105,7 +101,6 @@ export default function BasicTabs(props) {
     try {
       const res = await productApi.getCommentRating(product_id);
       if (res.success) {
-        console.log('res', res);
         setListComment({
           ...listComment,
           listComment: res.data.listComment,
@@ -133,13 +128,6 @@ export default function BasicTabs(props) {
     console.log(isExpanded);
   }
 
-  const handleOpenReprotComment = (event) => {
-    setopenReprotComment(event.currentTarget);
-  };
-  const handleCloseReprotComment = () => {
-    setopenReprotComment(null);
-  };
-
   /***************handle change comment****************/
   const handleChangeTextComment = (e) => {
     setCommentObject({
@@ -155,8 +143,12 @@ export default function BasicTabs(props) {
     });
   }
   /***************handle add commnet****************/
-  const hanldeAddComment = async (user_id = null, product_id = null) => {
-    if (commentObject.comment === '' || user_id === null || product_id === null) {
+  const hanldeAddComment = async ( product_id = null) => {
+    if (!user) {
+      handleNotiDialog(enqueueSnackbar,"Bạn chưa đăng nhập", 'error');
+      return
+    }
+    if (commentObject.comment === '' || product_id === null) {
       return
     }
     setBtnLoadingComment(true);
@@ -164,7 +156,7 @@ export default function BasicTabs(props) {
     try {
       const newData = {
         ...commentObject,
-        user_id: user_id,
+        user_id: user.id,
         product_id: product_id,
       }
       const res = await productApi.addCommentRating(newData);
@@ -225,33 +217,6 @@ export default function BasicTabs(props) {
             <div className="tab-comment__review-content">
               {item.comment}
             </div>
-            {/* <div className="tab-comment__review-bottom">
-              <IconButton aria-label="thumbUp" sx={{ fontSize: 1 }}>
-                <ThumbUpIcon color="disabled" sx={{ marginRight: 1 }} /> <span style={{ fontSize: 16 }}>3</span>
-              </IconButton>
-              <IconButton
-                // id="button-report-comment"
-                arial-controls="menu-report-comment"
-                aria-haspopup="true"
-                aria-label="thumbUp"
-                size="small"
-                onClick={handleOpenReprotComment}
-              >
-                <MoreVertIcon color="disabled" />
-              </IconButton>
-              <Menu
-                id="menu-report-comment"
-                anchorEl={openReprotComment}
-                open={Boolean(openReprotComment)}
-                onClose={handleCloseReprotComment}
-                MenuListProps={{
-                  'aria-labelledby': 'button-report-comment',
-                }}
-              >
-                <MenuItem onClick={handleCloseReprotComment}>không hữu ích</MenuItem>
-                <MenuItem onClick={handleCloseReprotComment}>Báo cáo lạm dụng</MenuItem>
-              </Menu>
-            </div> */}
           </div>
         )
       }
@@ -291,36 +256,36 @@ export default function BasicTabs(props) {
           <div className="tab-comment-rating__ranting">
             <div className="tab-comment-rating__summary">
               <div className="tab-comment-rating__total-start">
-                <span className="tab-comment-rating__average">4.9</span>
+                <span className="tab-comment-rating__average">{totalRating}</span>
                 <span className="tab-comment-rating__max">/5</span>
               </div>
               <div className="tab-comment-rating__stars-icon">
-                <Rating name="half-rating-read" defaultValue={5} precision={0.5} size="large" readOnly />
+                <Rating name="half-rating-read" defaultValue={totalRating} precision={1} size="large" readOnly />
               </div>
               <div className="tab-comment-rating__total-evaluate">
-                13344 đánh giá
+                {listComment.totalComment} đánh giá
               </div>
             </div>
             <div className="tab-comment-rating__list flexBoxColunm">
               <div className="tab-comment-rating__item">
                 <Rating name="half-rating-read" defaultValue={5} precision={0.5} size="medium" readOnly />
-                <span>1234 đánh giá</span>
+                <span>{[...listComment.listComment].filter(item => item.point === 5).length} đánh giá</span>
               </div>
               <div className="tab-comment-rating__item">
                 <Rating name="half-rating-read" defaultValue={4} precision={0.5} size="medium" readOnly />
-                <span>1234 đánh giá</span>
+                <span>{[...listComment.listComment].filter(item => item.point === 4).length} đánh giá</span>
               </div>
               <div className="tab-comment-rating__item">
                 <Rating name="half-rating-read" defaultValue={3} precision={0.5} size="medium" readOnly />
-                <span>1234 đánh giá</span>
+                <span>{[...listComment.listComment].filter(item => item.point === 3).length} đánh giá</span>
               </div>
               <div className="tab-comment-rating__item">
                 <Rating name="half-rating-read" defaultValue={2} precision={0.5} size="medium" readOnly />
-                <span>1234 đánh giá</span>
+                <span>{[...listComment.listComment].filter(item => item.point === 2).length} đánh giá</span>
               </div>
               <div className="tab-comment-rating__item">
                 <Rating name="half-rating-read" defaultValue={1} precision={0.5} size="medium" readOnly />
-                <span>1234 đánh giá</span>
+                <span>{[...listComment.listComment].filter(item => item.point === 1).length} đánh giá</span>
               </div>
             </div>
           </div>
@@ -351,7 +316,7 @@ export default function BasicTabs(props) {
                   color="primary"
                   size="large"
                   loading={btnLoadingComment}
-                  onClick={() => hanldeAddComment(user.id, product_id)}
+                  onClick={() => hanldeAddComment(product_id)}
                 >
                   Bình luận
                 </LoadingButton>

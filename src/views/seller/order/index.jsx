@@ -4,7 +4,6 @@ import { Route, Switch, useRouteMatch } from "react-router-dom";
 import ListOrderPage from "./pages/ListOrderPage";
 import DetailOrderPage from "./pages/DetailOrderPage";
 
-
 function Order(props) {
     const match = useRouteMatch();
     return (

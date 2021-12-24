@@ -3,6 +3,8 @@ import {useState} from "react";
 import userApi from "api/userApi";
 // notify
 import { useSnackbar } from 'notistack';
+//helper
+import { handleNotiDialog } from "helper/notify";
 
 import "../user.scss";
 import Sidebar from "../components/Sidebar";
@@ -20,27 +22,16 @@ function ChangePasswordPage() {
             const res = await userApi.changePassword(data);
 
             if (res.success) {
-                setIsProccess(false);
-                handleNotiDialog(res.message,'success');
+                handleNotiDialog(enqueueSnackbar, res.message, 'success');
             }else{
-                setIsProccess(false);
-                handleNotiDialog(res.message,'error');
+                handleNotiDialog(enqueueSnackbar, res.message, 'error');
             }
+            setIsProccess(false);
 
         } catch (error) {
             console.log('error: ' + error);
         }
     }
-    /************** handle noti dialog***************/
-    const handleNotiDialog = (message, status) => {
-        enqueueSnackbar(message, {
-            variant: status,
-            anchorOrigin: {
-                vertical: 'bottom',
-                horizontal: 'left',
-            },
-        });
-    };
 
     return (
         <div className="wrapper_inner">

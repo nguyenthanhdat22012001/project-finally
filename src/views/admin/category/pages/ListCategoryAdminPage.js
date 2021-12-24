@@ -45,7 +45,6 @@ function ListCategoryAdminPage() {
 
         setListCategory([...newListCategory]);
         setIsLoadFetchApiSuccess(true);
-        console.log(res.data);
       }
 
     } catch (error) {
@@ -65,10 +64,9 @@ function ListCategoryAdminPage() {
       const res = await categoryApi.addCategory(data);
       if (res.success) {
         await handleGetListCategory();
-        setIsProccess(false);
         handleNotiDialog(enqueueSnackbar,'thêm danh mục thành công', 'success');
       };
-
+      setIsProccess(false);
 
     } catch (error) {
       console.log('error: ' + error);
@@ -85,10 +83,9 @@ function ListCategoryAdminPage() {
       const res = await categoryApi.deleteCategory(id);
       if (res.success) {
         handleGetListCategory();
-        setIsProccess(false);
         handleNotiDialog(enqueueSnackbar,'xóa danh mục thành công', 'success');
       }
-
+      setIsProccess(false);
 
     } catch (error) {
       console.log('error: ' + error);
@@ -103,8 +100,8 @@ function ListCategoryAdminPage() {
       const res = await categoryApi.getCategoryById(id);
       if (res.success) {
         setEditCategory({ ...editCategory, isEdit: true, category: res.data });
-        setIsProccess(false);
       }
+      setIsProccess(false);
 
     } catch (error) {
       console.log('error: ' + error);
@@ -119,11 +116,10 @@ function ListCategoryAdminPage() {
       const res = await categoryApi.updateCategory(id, data);
       if (res.success) {
         handleGetListCategory();
-        setIsProccess(false);
         handleNotiDialog(enqueueSnackbar,'chỉnh sửa danh mục thành công', 'success');
       }
+      setIsProccess(false);
 
-      console.log(res);
     } catch (error) {
       console.log('error: ' + error);
     }

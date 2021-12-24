@@ -14,6 +14,7 @@ export const createStoreSchema = yup.object().shape({
         .required("Không được để trống"),
     phone: yup
         .string()
+        .max(10,'Tối đa 10 kí tự')
         .matches(/(84|0[3|5|7|8|9])+([0-9]{8})\b/g, 'không đúng định dạng')
         .required("Không được để trống"),
 });

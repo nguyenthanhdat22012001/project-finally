@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import LinkBreadcrumbs from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -14,6 +13,7 @@ import { Link } from 'react-router-dom';
 import productApi from "api/productApi";
 //helper
 import {convertPriceSale} from "helper/FormatNumber";
+import { scrollToTop } from 'helper/notify';
 
 import "./ProductPage.scss";
 import Sidebar from "../components/Sidebar";
@@ -25,7 +25,7 @@ function ProductPage() {
     const [sort, setSort] = useState('NONE');
     const [products, setProducts] = useState([]);
     const [pages, setPages] = useState({
-        limit: 2,
+        limit: 6,
         currentPage: 1,
     });
     const [filterProduct, setFilterProduct] = useState({
@@ -73,13 +73,13 @@ function ProductPage() {
             console.log('error', error);
         }
     }
-    /*************get all product**************/
+    /*************handle change page**************/
     const handleChangePage = (event, value) => {
-
         setPages({
             ...pages,
             currentPage: value,
         });
+        scrollToTop();
     };
     /*************handle filter product**************/
     const handleChangeInput = (event) => {
@@ -166,7 +166,6 @@ function ProductPage() {
                     newProduct = products.sort((a, b) => convertPriceSale(a.price,a.discount) - convertPriceSale(b.price,b.discount));
                     setProducts(newProduct);
                 }
-                // console.log('newProduct',newProduct);
                 break;
             case 'Z-A':
                 if (filterProduct.isFilter) {
@@ -179,7 +178,6 @@ function ProductPage() {
                     newProduct = products.sort((a, b) => convertPriceSale(b.price,b.discount) - convertPriceSale(a.price,a.discount));
                     setProducts(newProduct);
                 }
-                // console.log('newProduct',newProduct);
                 break;
 
             default:
@@ -190,14 +188,11 @@ function ProductPage() {
 
     return (
         <div>
-            {console.log('filterProduct', filterProduct)}
             <div role="presentation">
                 <Breadcrumbs aria-label="breadcrumb">
-                    <LinkBreadcrumbs underline="hover" color="inherit">
                         <Link to="/client">
                             TADAHA
                         </Link>
-                    </LinkBreadcrumbs>
                     <Typography color="text.primary">Sản Phẩm</Typography>
                 </Breadcrumbs>
             </div>

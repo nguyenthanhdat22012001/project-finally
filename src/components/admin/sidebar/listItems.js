@@ -10,11 +10,20 @@ import GroupIcon from '@mui/icons-material/Group';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import PaymentIcon from '@mui/icons-material/Payment';
+import StoreIcon from '@mui/icons-material/Store';
 import { NavLink } from "react-router-dom";
+//redux
+import { useDispatch } from "react-redux";
+import {setTitlePageAction} from "redux/actions/titleAction";
 
 const baseUrl = "/admin";
 
-export default function MainListItems({handleChangeTitlepage}) {
+export default function MainListItems() {
+  const dispatch = useDispatch();
+
+  const handleChangeTitlepage = (title) =>{
+    dispatch(setTitlePageAction(title));
+  }
 
   return (
     <List>
@@ -66,12 +75,20 @@ export default function MainListItems({handleChangeTitlepage}) {
           <ListItemText primary="Khuyến mãi" />
         </ListItem>
       </NavLink>
-      <NavLink to={`${baseUrl}/member`} exact activeClassName="nav-active">
-        <ListItem  onClick={() => handleChangeTitlepage('Thành viên')}>
+      <NavLink to={`${baseUrl}/users`} exact activeClassName="nav-active">
+        <ListItem  onClick={() => handleChangeTitlepage('Khách hàng')}>
           <ListItemIcon>
             <GroupIcon />
           </ListItemIcon>
-          <ListItemText primary="Thành viên" />
+          <ListItemText primary="Khách hàng" />
+        </ListItem>
+      </NavLink>
+      <NavLink to={`${baseUrl}/stores`} exact activeClassName="nav-active">
+        <ListItem  onClick={() => handleChangeTitlepage('Danh sách cửa hàng')}>
+          <ListItemIcon>
+            <StoreIcon />
+          </ListItemIcon>
+          <ListItemText primary="Cửa hàng" />
         </ListItem>
       </NavLink>
     </List>

@@ -14,6 +14,7 @@ import { Link, useParams } from 'react-router-dom';
 import productApi from "api/productApi";
 //helper
 import { convertPriceSale } from "helper/FormatNumber";
+import { scrollToTop } from 'helper/notify';
 
 import "./ProductPage.scss";
 import Sidebar from "../components/Sidebar";
@@ -30,7 +31,7 @@ function ProductStorePage() {
     const [products, setProducts] = useState([]);
     const [store, setStore] = useState({});
     const [pages, setPages] = useState({
-        limit: 2,
+        limit: 6,
         currentPage: 1,
     });
     const [filterProduct, setFilterProduct] = useState({
@@ -43,6 +44,7 @@ function ProductStorePage() {
     /*************load page**************/
     useEffect(async () => {
         await getAllProductsBySlug(slug);
+        scrollToTop();
     }, [slug])
 
     /*************get all product**************/
@@ -81,11 +83,11 @@ function ProductStorePage() {
 
     /*************get all product**************/
     const handleChangePage = (event, value) => {
-
         setPages({
             ...pages,
             currentPage: value,
         });
+        scrollToTop();
     };
     /*************handle filter product**************/
     const handleChangeInput = (event) => {
@@ -190,6 +192,7 @@ function ProductStorePage() {
                 break;
         }
     }
+
 
     return (
         <div>

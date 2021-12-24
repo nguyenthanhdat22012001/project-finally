@@ -9,7 +9,6 @@ import { Route, Switch, useRouteMatch } from "react-router-dom";
 
 import Header from '../../components/seller/header/Header';
 
-
 // lazy load 
 const dashboardLazyLoad = React.lazy(() => import('./dashboard'));
 const commentLazyLoad = React.lazy(() => import('./comment'));
@@ -17,6 +16,7 @@ const messageLazyLoad = React.lazy(() => import('./message'));
 const orderLazyLoad = React.lazy(() => import('./order'));
 const productLazyLoad = React.lazy(() => import('./product'));
 const couponLazyLoad = React.lazy(() => import('./coupon'));
+const infoLazyLoad = React.lazy(() => import('./info'));
 
 const mdTheme = createTheme();
 
@@ -52,6 +52,7 @@ function Seller(props) {
                             <Route path={`${match.url}/message`} component={messageLazyLoad} />
                             <Route path={`${match.url}/product`} component={productLazyLoad} />
                             <Route path={`${match.url}/coupon`} component={couponLazyLoad} />
+                            <Route path={`${match.url}/info`} component={infoLazyLoad} />
                         </Switch>
 
                     </Container>

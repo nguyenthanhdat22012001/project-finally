@@ -41,11 +41,10 @@ function ListPaymentAdminPage() {
             action: { pay_id: item.id, pay_name: item.name },
           }
         });
-
         setListPayment([...newListPayment]);
-        setIsLoadFetchApiSuccess(true);
       }
-
+      setIsLoadFetchApiSuccess(true);
+      
     } catch (error) {
       console.log('error: ' + error);
     }

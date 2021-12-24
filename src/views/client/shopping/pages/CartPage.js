@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React,{useEffect} from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
@@ -11,17 +11,26 @@ import { useSelector, useDispatch } from "react-redux";
 import { handleDeleteProductCartredux, handleUpdateQuantityCartredux } from "redux/actions/cartAction";
 //helper
 import { fCurrencyVN } from 'helper/FormatNumber';
+import { handleNotiDialog, scrollToTop } from "helper/notify";
+//noti
+import { useSnackbar } from 'notistack';
 
 import "./CartPage.scss";
 import Stepper from "../components/Stepper";
-import InputQuantity from "../components/InputQuantity";
+import InputQuantity2 from "../components/InputQuantity2";
 
 const baseUrl = '/client';
 
 function CartPage() {
   const dispatch = useDispatch();
   const cart = useSelector(state => state.shopping.cart);
+  const user = useSelector(state => state.auth.user);
+  const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
 
+  useEffect(() => {
+    scrollToTop();
+  }, [])
 
   /*************handle delete product in cart**************/
   const handleDeleteProductInCart = (store_id, product_id, attribute_id) => {
@@ -49,6 +58,15 @@ function CartPage() {
     } catch (error) {
       console.log('error: ' + error);
     }
+  }
+  /*************handle redirect checkout page**************/
+  const handleRedirectCheckoutPage = () => {
+    if (!user) {
+      handleNotiDialog(enqueueSnackbar, "Bạn chưa đăng nhập", 'error');
+      return;
+    }
+
+    history.push(`${baseUrl}/shopping/checkout`);
   }
 
   return (
@@ -106,7 +124,7 @@ function CartPage() {
                                     </td>
                                     <td className="cart__product__price"> {fCurrencyVN(prd.product.price)}</td>
                                     <td className="cart__product__quanty">
-                                      <InputQuantity
+                                      <InputQuantity2
                                         store_id={stor.store.id}
                                         product_id={prd.product.id}
                                         attribute_id={attribute.id}
@@ -151,7 +169,7 @@ function CartPage() {
           </div>
           <div className="" style={{ textAlign: 'right' }}>
             <Link to={`${baseUrl}/product`}> <Button variant="contained" color="secondary" size="large" sx={{ marginRight: 1 }}>Tiếp tục mua hàng</Button> </Link>
-            <Link to={`${baseUrl}/shopping/checkout`}>  <Button variant="contained" color="primary" size="large">Thanh toán</Button></Link>
+            <Button onClick={handleRedirectCheckoutPage} variant="contained" color="primary" size="large">Thanh toán</Button>
           </div>
         </div>
       </div>

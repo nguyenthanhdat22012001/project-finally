@@ -1,11 +1,9 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
 import MenuIcon from '@mui/icons-material/Menu';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import Toolbar from '@mui/material/Toolbar';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
@@ -15,7 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
-import {useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 // notify
 import { useSnackbar } from 'notistack';
 //redux
@@ -45,17 +43,20 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
+const baseUrl = '/seller';
+
 
 export default function Header() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const user = useSelector(state => state.auth.user);
+  const titlePage =  useSelector(state => state.titlePage.title);
   /*******state********/
-  const [titlePage, setTitlePage] = React.useState('Thống Kê');
   const [openSideBar, setOpenSideBar] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -67,10 +68,6 @@ export default function Header() {
     setOpenSideBar(!openSideBar);
   };
 
-  /***********hanlde change title page************/
-  const handleChangeTitlepage = (titlePage) => {
-    setTitlePage(titlePage)
-  }
   /***********handle logout user**********/
   const handleLogoutUser = async () => {
     try {
@@ -112,13 +109,8 @@ export default function Header() {
           >
             {titlePage}
           </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
           <Tooltip title="Account settings">
-            <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
+            <IconButton onClick={handleClick} size="small" sx={{ ml: 2, mr: 2 }}>
               <AvatarCircelShortText name={user.name} />
             </IconButton>
           </Tooltip>
@@ -156,9 +148,12 @@ export default function Header() {
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           >
-            <MenuItem>
-              <Avatar /> Thông tin cửa hàng
-            </MenuItem>
+            <Link to={`${baseUrl}/info`}>
+              <MenuItem>
+                <Avatar /> Thông tin cửa hàng
+              </MenuItem>
+            </Link>
+
             <Divider />
 
             <MenuItem onClick={handleLogoutUser}>
@@ -174,7 +169,6 @@ export default function Header() {
       <Sidebar
         openSideBar={openSideBar}
         toggleSideBar={toggleSideBar}
-        handleChangeTitlepage={handleChangeTitlepage}
       />
     </Box>
   );

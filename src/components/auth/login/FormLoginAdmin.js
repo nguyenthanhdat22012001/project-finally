@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 //validate
@@ -15,6 +15,8 @@ FormLoginAdmin.propTypes = {
 
 function FormLoginAdmin(props) {
     const { handleLogin } = props;
+    /******state******/
+    const [btnLoading, setbtnLoading] = useState(false);
 
     const {
         register,
@@ -22,8 +24,14 @@ function FormLoginAdmin(props) {
         formState: { errors }
     } = useForm({ resolver: yupResolver(loginSchema) });
 
+    const handleOnSubmit = async (data) => {
+        setbtnLoading(true);
+        await handleLogin(data);
+        setbtnLoading(false);
+    }
+
     return (
-        <Box component="form" noValidate onSubmit={handleSubmit(handleLogin)} sx={{ mt: 3 }}>
+        <Box component="form" noValidate onSubmit={handleSubmit(handleOnSubmit)} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <TextField
@@ -53,14 +61,15 @@ function FormLoginAdmin(props) {
                     />
                 </Grid>
             </Grid>
-            <Button
+            <LoadingButton
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                loading={btnLoading}
             >
                 Đăng Nhập
-            </Button>
+            </LoadingButton>
         </Box>
     )
 }

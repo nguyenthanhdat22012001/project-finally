@@ -27,7 +27,7 @@ function CouponPage() {
     const [dialogDelete, setDialogDelete] = useState({ openDialog: false, message: '', isDelete: false, idDelete: null });
     const [isProccess, setIsProccess] = useState(false);
     const [pages, setPages] = useState({
-        limit: 2,
+        limit: 6,
         currentPage: 1,
     });
     const [coupons, setCoupon] = useState([]);

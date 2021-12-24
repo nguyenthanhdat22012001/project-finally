@@ -57,14 +57,6 @@ function FormCategory(props) {
                     error={errors.name && true}
                 />
                 <TextField
-                    required
-                    fullWidth
-                    id="outlined-required"
-                    label="Slug"
-                    margin="normal"
-                    {...register("slug")}
-                />
-                <TextField
                     id="outlined-multiline-static"
                     fullWidth
                     margin="normal"

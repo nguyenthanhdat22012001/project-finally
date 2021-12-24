@@ -63,7 +63,7 @@ function ListBrandAdminPage() {
       if (res.success) {
         await handleGetListBrand();
         handleNotiDialog(enqueueSnackbar, res.message, 'success');
-      }else{
+      } else {
         handleNotiDialog(enqueueSnackbar, res.message, 'error');
       }
       setIsProccess(false);
@@ -83,10 +83,10 @@ function ListBrandAdminPage() {
       const res = await brandApi.deleteBrand(id);
       if (res.success) {
         handleGetListBrand();
-        setIsProccess(false);
+
         handleNotiDialog(enqueueSnackbar, 'xóa thương hiệu thành công', 'success');
       }
-
+      setIsProccess(false);
 
     } catch (error) {
       console.log('error: ' + error);

@@ -5,19 +5,19 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import IconButton from '@mui/material/IconButton';
 
 
-InputQuantity.propTypes = {
+InputQuantity2.propTypes = {
     quantity: PropTypes.number,
     maxQuantity: PropTypes.number,
     handldeSetQuantityAttribute: PropTypes.func,
 }
 
-InputQuantity.defaultProps = {
+InputQuantity2.defaultProps = {
     quantity: 1,
     maxQuantity: null,
     handldeSetQuantityAttribute: null,
 }
 
-function InputQuantity(props) {
+function InputQuantity2(props) {
     const [qty, setQty] = useState(props.quantity);
 
     function handldeUp() {
@@ -26,7 +26,7 @@ function InputQuantity(props) {
             if (newQty > props.maxQuantity) {
                 return;
             }
-        } 
+        }
         setQty(newQty);
         props.handldeSetQuantityAttribute(newQty);
     }
@@ -35,9 +35,24 @@ function InputQuantity(props) {
         if (qty > 1) {
             const newQty = qty - 1;
             setQty(newQty);
-            props.handldeSetQuantityAttribute(newQty)
+            props.handldeSetQuantityAttribute(newQty);
         }
 
+    }
+    const handleOnchangeInput = (e) => {
+        const target = e.target;
+        const value = target.value;
+        if (!isNaN(value)) {
+            let newQty = value ;
+            if (newQty > props.maxQuantity) {
+                newQty = props.maxQuantity;
+            }
+            if (newQty < 0) {
+                newQty = 1;
+            }
+            setQty(newQty);
+            props.handldeSetQuantityAttribute(newQty);
+        }
     }
 
     return (
@@ -45,8 +60,8 @@ function InputQuantity(props) {
             <IconButton aria-label="delete" size="small" onClick={handldeDown} >
                 <RemoveIcon color="disabled" />
             </IconButton>
-            <span className="inputUpDown__input">{qty}</span>
-            {/* <input className="inputUpDown__input" type="number" value={qty} min="1" /> */}
+            {/* <span className="inputUpDown__input">{qty}</span> */}
+            <input className="inputUpDown__input" type="number" value={qty} min="1" onChange={handleOnchangeInput} />
             <IconButton aria-label="delete" size="small" onClick={handldeUp}>
                 <AddIcon color="disabled" />
             </IconButton>
@@ -56,5 +71,5 @@ function InputQuantity(props) {
 
 
 
-export default InputQuantity
+export default InputQuantity2
 

@@ -4,8 +4,8 @@ import ChatIcon from '@mui/icons-material/Chat';
 import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
 // utils
-import { fCurrency } from 'helper/FormatNumber';
-
+import { fCurrencyVN } from 'helper/FormatNumber';
+import PropTypes from 'prop-types';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Card)(({ theme }) => ({
@@ -33,13 +33,21 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 const TOTAL = 714000;
 
-export default function TotalRevenueToday() {
+TotalRevenueToday.propTypes = {
+  revenueToday: PropTypes.number,
+}
+TotalRevenueToday.defaultProps = {
+  revenueToday: 0,
+}
+
+export default function TotalRevenueToday(props) {
+  const {revenueToday} = props;
   return (
     <RootStyle>
       <IconWrapperStyle>
         <ChatIcon width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fCurrency(TOTAL)}</Typography>
+      <Typography variant="h4">{fCurrencyVN(revenueToday)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         Doanh Thu Hôm nay
       </Typography>

@@ -36,7 +36,7 @@ function HistoryOrderPage() {
                     }else if(item.status === 3){
                         item.name_status = 'Đang giao hàng'
                         item.color = 'purple';
-                    }else{
+                    }else if(item.status === 4) {
                         item.name_status = 'Đã giao hàng'
                         item.color = 'green';
                     }

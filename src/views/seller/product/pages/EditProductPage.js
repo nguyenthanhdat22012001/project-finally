@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
-import {  useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 // notify
 import { useSnackbar } from 'notistack';
-//redux
-import { useSelector } from "react-redux";
 // helper
 import { handleNotiDialog } from "helper/notify";
 //api
@@ -12,22 +10,22 @@ import productApi from "api/productApi";
 import brandApi from "api/brandApi";
 import categoryApi from "api/categoryApi";
 
-
 import FormEditProduct from '../components/FormEditProduct';
+import ProccessDialog from "components/dialog/ProccessDialog";
 
 
 export default function EditProductPage() {
-  const  { id } = useParams();
-  const user = useSelector(state => state.auth.user);
+  const { id } = useParams();
   const { enqueueSnackbar } = useSnackbar();
   /******state******/
+  const [isProccess, setIsProccess] = useState(false);
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [editProduct, setEditProduct] = useState({});
 
   /***************load page****************/
   useEffect(() => {
-    Promise.all([handleGetProductById(id),handleGetListCategory(), handleGetListBrand()]);
+    Promise.all([handleGetProductById(id), handleGetListCategory(), handleGetListBrand()]);
   }, [])
 
   /*************handle get list category***************/
@@ -56,7 +54,6 @@ export default function EditProductPage() {
   const handleGetProductById = async (id) => {
     try {
       const res = await productApi.getById(id);
-      console.log('res', res);
       if (res.success) {
         setEditProduct(res.data);
       } else {
@@ -67,15 +64,17 @@ export default function EditProductPage() {
     }
   }
   /*************handle update product***************/
-  const handleUpdateProduct = async (id,data) => {
+  const handleUpdateProduct = async (id, data) => {
     try {
-      const res = await productApi.updateProduct(id,data);
-      console.log('res', res);
+      setIsProccess(true);
+
+      const res = await productApi.updateProduct(id, data);
       if (res.success) {
         handleNotiDialog(enqueueSnackbar, res.message, 'success');
       } else {
         handleNotiDialog(enqueueSnackbar, res.message, 'error');
       }
+      setIsProccess(false);
     } catch (error) {
       console.log('error', error);
     }
@@ -83,6 +82,7 @@ export default function EditProductPage() {
 
   return (
     <Grid container >
+      {isProccess && <ProccessDialog />} {/* proccess page */}
       <FormEditProduct
         categories={categories}
         brands={brands}

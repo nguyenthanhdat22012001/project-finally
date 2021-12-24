@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -8,25 +8,25 @@ import { postSchema } from "validates/clientValidate";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import TextAreaFroala from "components/textarea/TextAreaFroala";
+import TextAreaFroala from "../components/TextAreaFroala";
 
 function FormAddPost(props) {
-    const [description,setDescription] = useState('');
+    const [description, setDescription] = useState('');
     const {
         register,
         handleSubmit,
         formState: { errors }
     } = useForm({ resolver: yupResolver(postSchema) });
 
-    const handleOnSubmit = (data) =>{
+    const handleOnSubmit = (data) => {
         const obj = {
             ...data,
             description: description,
         }
         props.handleAddPost(obj);
     }
-
-    const handleOnChangeDescription = (text)=>{
+    /*********handle change description***********/
+    const handleOnChangeDescription = (text) => {
         setDescription(text);
     }
 
@@ -47,7 +47,7 @@ function FormAddPost(props) {
             <Typography variant="subtitle1" gutterBottom component="div">
                 Mô tả bài viết
             </Typography>
-            <TextAreaFroala handleOnChangeDescription={handleOnChangeDescription} />
+            <TextAreaFroala handleOnChangeDescription={handleOnChangeDescription} description={description} />
             <Button type="submit" variant="contained" color="primary" size="medium" sx={{ margin: "30px 25px" }}>
                 Đăng bài viết
             </Button>

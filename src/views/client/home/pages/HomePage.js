@@ -15,20 +15,22 @@ import ListCategory from '../components/ListCategoey';
 import TopListStores from '../components/TopListStores';
 // img banner
 import banner1 from "assets/images/banner-1.jpg";
+import banner2 from "assets/images/banner-1.jpg";
+import banner3 from "assets/images/banner-1.jpg";
 
 
 const images = [
     {
         original: banner1,
-        thumbnail: 'https://picsum.photos/id/1018/250/150/',
+        thumbnail: banner1,
     },
     {
-        original: 'https://picsum.photos/id/1015/1000/600/',
-        thumbnail: 'https://picsum.photos/id/1015/250/150/',
+        original: banner2,
+        thumbnail: banner2,
     },
     {
-        original: 'https://picsum.photos/id/1019/1000/600/',
-        thumbnail: 'https://picsum.photos/id/1019/250/150/',
+        original: banner3,
+        thumbnail: banner3,
     },
 ];
 
@@ -100,7 +102,7 @@ function HomePage() {
     /*************get all category**************/
     const getAllCategory = async () => {
         try {
-            const res = await categoryApi.getCategoryAll();
+            const res = await categoryApi.getCategory();
             console.log('res', res);
             if (res.success) {
                 setCategories([...res.data]);

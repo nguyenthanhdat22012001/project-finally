@@ -20,12 +20,11 @@ export const LoginUserRedux = (enqueueSnackbar, history, data) => async (dispatc
             dispatch({ type: typeAuth.LOGIN_USER, payload: result });
             handleNotiDialog(enqueueSnackbar, res.message, 'success');
             setUserLocalStorage(result);
-            history.goBack();
+            history.push('/');
         } else {
             handleNotiDialog(enqueueSnackbar, res.message, 'error');
         }
 
-        console.log(res);
     } catch (error) {
         console.log('error: ' + error);
     }
@@ -45,12 +44,11 @@ export const LoginGoogleRedux = (enqueueSnackbar, history, data) => async (dispa
             dispatch({ type: typeAuth.LOGIN_USER, payload: result });
             handleNotiDialog(enqueueSnackbar, res.message, 'success');
             setUserLocalStorage(result);
-            history.goBack();
+            history.push('/');
         } else {
             handleNotiDialog(enqueueSnackbar, res.message, 'error');
         }
 
-        console.log(res);
     } catch (error) {
         console.log('error: ' + error);
     }
@@ -90,7 +88,7 @@ export const LogOutUserRedux = (enqueueSnackbar,history) => async (dispatch, get
         if (res.success) {
             dispatch({ type: typeAuth.LOGOUT_USER });
             removeUserLocalStorage();
-            history.push('/');
+            window.location.href = '/client';
         } else {
             handleNotiDialog(enqueueSnackbar, res.message, 'error');
         }
@@ -100,8 +98,8 @@ export const LogOutUserRedux = (enqueueSnackbar,history) => async (dispatch, get
     }
 }
 
-/**********update user****************/
-export const updateUserRedux = (history) => async (dispatch, getState) => {
+/**********update user redux****************/
+export const updateUserRedux = (history = null) => async (dispatch, getState) => {
     try {
         const res = await userApi.getProfileUser();
 
@@ -113,9 +111,9 @@ export const updateUserRedux = (history) => async (dispatch, getState) => {
             }
             dispatch({ type: typeAuth.UPDATE_USER, payload: result });
             setUserLocalStorage(result);
-            history.push('/seller');
-        } else {
-            console.log(res);
+            if(history){
+                history.push('/seller');
+            }
         }
     } catch (error) {
         console.log('error: ' + error);

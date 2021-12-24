@@ -5,9 +5,17 @@ const postApi = {
         const url = `/posts`;
         return axisosClient.get(url);
     },
+    getPostUser: (id)=>{
+        const url = `/posts/user/${id}`;
+        return axisosClient.get(url);
+    },
     getPostBySlug: (slug)=>{
         const url = `/posts/${slug}`;
         return axisosClient.get(url);
+    },
+    updatePost: (id,data)=>{
+        const url = `/posts/${id}`;
+        return axisosClient.put(url,{...data});
     },
     addPost: (data)=>{
         const url = `/posts`;
@@ -36,6 +44,10 @@ const postApi = {
     checkUserLikePost: (params)=>{
         const url = `/check-user-like-post`;
         return axisosClient.get(url,{params});
+    },
+    deletePost: (id)=>{
+        const url = `/posts/${id}`;
+        return axisosClient.delete(url);
     },
 }
 

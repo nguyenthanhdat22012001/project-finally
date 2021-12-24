@@ -29,6 +29,10 @@ const userApi = {
         const url = `/profile/change-password`;
         return axisosClient.post(url,{...data});
     },
+    updateUser: (id,data)=>{
+        const url = `/profile/update/${id}`;
+        return axisosClient.put(url,{...data});
+    },
     refreshToken: ()=>{
         const url = `/refresh-token`;
         return axisosClient.get(url);
@@ -44,6 +48,10 @@ const userApi = {
     },
     LogoutAdmin: ()=>{
         const url = `/admin/logout`;
+        return axisosClient.get(url);
+    },
+    getUsers: ()=>{
+        const url = `/user`;
         return axisosClient.get(url);
     },
 }

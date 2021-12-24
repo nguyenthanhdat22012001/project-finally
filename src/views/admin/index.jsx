@@ -13,9 +13,10 @@ const dashboardLazyLoad = React.lazy(() => import('./dashboard'));
 const brandLazyLoad = React.lazy(() => import('./brand'));
 const categoryLazyLoad = React.lazy(() => import('./category'));
 const couponLazyLoad = React.lazy(() => import('./coupon'));
-const memberLazyLoad = React.lazy(() => import('./member'));
 const orderLazyLoad = React.lazy(() => import('./order'));
 const paymentLazyLoad = React.lazy(() => import('./payment'));
+const usersLazyLoad = React.lazy(() => import('./users'));
+const storesLazyLoad = React.lazy(() => import('./stores'));
 
 const mdTheme = createTheme();
 
@@ -51,7 +52,8 @@ function Admin(props) {
                             <Route path={`${match.url}/brand`} component={brandLazyLoad} />
                             <Route path={`${match.url}/payment`} component={paymentLazyLoad} />
                             <Route path={`${match.url}/coupon`} component={couponLazyLoad} />
-                            <Route path={`${match.url}/member`} component={memberLazyLoad} />
+                            <Route path={`${match.url}/users`} component={usersLazyLoad} />
+                            <Route path={`${match.url}/stores`} component={storesLazyLoad} />
                         </Switch>
 
                     </Container>

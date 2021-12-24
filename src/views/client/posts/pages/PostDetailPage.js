@@ -46,7 +46,7 @@ function PostDetailPage(props) {
 
     /***************load page****************/
     useEffect(() => {
-        Promise.all([getPosts(),getPostDetail()]);
+        Promise.all([getPosts(), getPostDetail()]);
     }, [slug])
     /***************get post****************/
     const getPosts = async () => {
@@ -99,8 +99,8 @@ function PostDetailPage(props) {
     }
     /***************handle add commnet****************/
     const hanldeAddComment = async () => {
-        if(!user){
-            handleNotiDialog(enqueueSnackbar,"Bạn chưa đăng nhập", 'error');
+        if (!user) {
+            handleNotiDialog(enqueueSnackbar, "Bạn chưa đăng nhập", 'error');
             return;
         }
         if (textComment === '') {
@@ -138,8 +138,8 @@ function PostDetailPage(props) {
     }
     /***************handle reply comment****************/
     const hanldeReplyComment = async (textComment) => {
-        if(!user){
-            handleNotiDialog(enqueueSnackbar,"Bạn chưa đăng nhập", 'error');
+        if (!user) {
+            handleNotiDialog(enqueueSnackbar, "Bạn chưa đăng nhập", 'error');
             return;
         }
         if (textComment === '') {
@@ -156,15 +156,8 @@ function PostDetailPage(props) {
             const res = await postApi.addComments(data);
 
             if (res.success) {
-                let newComments = [...comments].map(item => {
-                    if (item.id === idPostReply) {
-                        item.sub_comments = [...item.sub_comments, res.data];
-                    }
-                    return item;
-                });
-                console.log('newComments', newComments);
+                await getCommentOfPost(post.id);
                 handleToggleDialogReplyCommen();
-                setComments([res.data, ...comments]);
                 handleNotiDialog(enqueueSnackbar, res.message, 'success');
             } else {
                 handleNotiDialog(enqueueSnackbar, res.message, 'error');
@@ -175,8 +168,8 @@ function PostDetailPage(props) {
     }
     /***************handle toggle like post****************/
     const hangleToggleLikePost = async () => {
-        if(!user){
-            handleNotiDialog(enqueueSnackbar,"Bạn chưa đăng nhập", 'error');
+        if (!user) {
+            handleNotiDialog(enqueueSnackbar, "Bạn chưa đăng nhập", 'error');
             return;
         }
         const islike = !likePost;
@@ -228,17 +221,13 @@ function PostDetailPage(props) {
             />
             <div role="presentation">
                 <Breadcrumbs aria-label="breadcrumb">
-                    <LinkBreadcrumbs underline="hover" color="inherit" href="/">
-                        MUI
-                    </LinkBreadcrumbs>
-                    <LinkBreadcrumbs
-                        underline="hover"
-                        color="inherit"
-                        href="/getting-started/installation/"
-                    >
-                        Core
-                    </LinkBreadcrumbs>
-                    <Typography color="text.primary">{post ? post.name : ''}</Typography>
+                    <Link to="/client">
+                        TADAHA
+                    </Link>
+                    <Link to="/client/posts">
+                        Bài viết
+                    </Link>
+                    <Typography color="text.primary">{post ? post.name : ""}</Typography>
                 </Breadcrumbs>
             </div>
             <div className="posts__pdp__wrapper">

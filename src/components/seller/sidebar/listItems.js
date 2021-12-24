@@ -9,20 +9,27 @@ import ListItemButton from '@mui/material/ListItemButton';
 import Collapse from '@mui/material/Collapse';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import RateReviewIcon from '@mui/icons-material/RateReview';
-import ForumIcon from '@mui/icons-material/Forum';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import { NavLink } from "react-router-dom";
+//redux
+import { useDispatch } from "react-redux";
+import {setTitlePageAction} from "redux/actions/titleAction";
 
 const baseUrl = "/seller";
 
-export default function MainListItems({handleChangeTitlepage}) {
+export default function MainListItems() {
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
     setOpen(!open);
   };
+
+  const handleChangeTitlepage = (title) =>{
+    dispatch(setTitlePageAction(title));
+  }
 
   return (
     <List>
@@ -75,14 +82,14 @@ export default function MainListItems({handleChangeTitlepage}) {
           <ListItemText primary="Khuyến mãi" />
         </ListItem>
       </NavLink>
-      <NavLink to={`${baseUrl}/message`} exact activeClassName="nav-active">
+      {/* <NavLink to={`${baseUrl}/message`} exact activeClassName="nav-active">
         <ListItem onClick={() => handleChangeTitlepage('Tin nhắn')} >
           <ListItemIcon>
             <ForumIcon />
           </ListItemIcon>
           <ListItemText primary="Tin nhắn" />
         </ListItem>
-      </NavLink>
+      </NavLink> */}
       <NavLink to={`${baseUrl}/comment`} exact activeClassName="nav-active">
         <ListItem onClick={() => handleChangeTitlepage('Đánh Giá Sản Phẩm')} >
           <ListItemIcon>

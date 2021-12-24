@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -56,14 +56,14 @@ export default function Menu() {
         setOpenNavbar(boolean);
     };
 
-    const handleOnSearch = () =>{
-        if(search === ""){
+    const handleOnSearch = () => {
+        if (search === "") {
             return;
         }
-       history.push(`/client/product/search/${search}`)
+        history.push(`/client/product/search/${search}`)
     }
 
-    const handleChangeInput = (e) =>{
+    const handleChangeInput = (e) => {
         const value = e.target.value;
         setSearch(value);
     }
@@ -85,7 +85,9 @@ export default function Menu() {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <img src={Logo} alt="" style={{ width: '80px' }} />
+                        <Link to="/" >
+                            <img src={Logo} alt="" style={{ width: '80px' }} />
+                        </Link>
                         <Search >
                             <StyledInputBase
                                 placeholder="Tìm kiếm"
@@ -102,7 +104,7 @@ export default function Menu() {
                             </IconButton>
                         </Search>
                         <Box sx={{ flexGrow: 1 }} />
-                        <Box sx={{ display: { xs: 'flex', md: 'flex' } }}>
+                        <Box sx={{ display: { xs: 'flex', md: 'flex' }, alignItems: 'center', }}>
 
                             <CartMenu />{/* cart menu */}
                             <AvatarMenu /> {/* avatar menu */}

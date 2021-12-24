@@ -121,7 +121,7 @@ function Mystore(props) {
                         </div>
                         <div className="mystore__item">
                             <h4 className="mystore__name">{Object.keys(store).length > 0 ? store.name : ""}</h4>
-                            <span className="mystore__numfollow">1234 luot theo doi</span>
+                            <span className="mystore__numfollow">{Object.keys(store).length > 0 ? store.totalFollow : 0} lượt theo dõi</span>
                         </div>
                         <div className="mystore__item">
                             <div className=" flexBoxColunm mystore__chat">

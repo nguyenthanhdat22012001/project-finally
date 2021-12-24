@@ -126,7 +126,7 @@ function ListCouponAdminPage() {
         handleNotiDialog(enqueueSnackbar, res.message, 'success');
       }
       setIsProccess(false);
-      console.log(res);
+      
     } catch (error) {
       console.log('error: ' + error);
     }

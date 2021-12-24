@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import LinkBreadcrumbs from '@mui/material/Link';
+import { Link,useHistory } from 'react-router-dom';
 // api 
 import postApi from "api/postApi";
 //noti
@@ -21,6 +21,7 @@ import ProccessDialog from "components/dialog/ProccessDialog";
 function AddPostPage(props) {
     const user = useSelector(state => state.auth.user);
     const { enqueueSnackbar } = useSnackbar();
+    const history = useHistory();
     /*********state*********/
     const [isProccess, setIsProccess] = useState(false);
     const [posts, setPosts] = useState([]);
@@ -41,7 +42,10 @@ function AddPostPage(props) {
             const res = await postApi.addPost(newData);
             if (res.success) {
                 handleNotiDialog(enqueueSnackbar, res.message, 'success');
-               await handleGetPost();
+                //    await handleGetPost();
+                history.goBack();
+            }else{
+                handleNotiDialog(enqueueSnackbar, res.message, 'error');  
             }
             setIsProccess(false);
 
@@ -67,16 +71,12 @@ function AddPostPage(props) {
             {isProccess && <ProccessDialog />} {/* proccess page */}
             <div role="presentation">
                 <Breadcrumbs aria-label="breadcrumb">
-                    <LinkBreadcrumbs underline="hover" color="inherit" href="/">
-                        MUI
-                    </LinkBreadcrumbs>
-                    <LinkBreadcrumbs
-                        underline="hover"
-                        color="inherit"
-                        href="/getting-started/installation/"
-                    >
-                        Core
-                    </LinkBreadcrumbs>
+                    <Link to="/client">
+                        TADAHA
+                    </Link>
+                    <Link to="/client/posts">
+                        Bài viết
+                    </Link>
                     <Typography color="text.primary">Thêm bài viết</Typography>
                 </Breadcrumbs>
             </div>

@@ -43,7 +43,7 @@ function Sidebar(props) {
     /*************get all category**************/
     const getAllCategory = async () => {
         try {
-            const res = await categoryApi.getCategoryAll();
+            const res = await categoryApi.getCategory();
             console.log('res', res);
             if (res.success) {
                 setCategories([...res.data]);

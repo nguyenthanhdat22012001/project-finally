@@ -53,10 +53,10 @@ export const changePasswordSchema = yup.object().shape({
     .string()
     .required("Vui lòng nhập mật khẩu")
     .min(8, "mật khẩu tối đa 8 ký tự")
-    .when("new_password", {
+    .when("password", {
       is: (val) => (val && val.length > 0 ? true : false),
       then: yup.string().oneOf(
-        [yup.ref("new_password")],
+        [yup.ref("password")],
         "Xác mật khẩu không khớp"
       ),
     })

@@ -3,33 +3,37 @@ import * as yup from "yup";
 export const categorySchema = yup.object().shape({
     name: yup
         .string()
+        .max(255, 'Tối đa 255 kí tự')
         .trim()
         .required("Không được để trống"),
-    slug: yup
-        .string()
-        .trim(),
     description: yup
         .string()
+        .max(255, 'Tối đa 255 kí tự')
         .trim(),
     hide: yup
         .string()
+        .max(255, 'Tối đa 255 kí tự')
 });
 
 export const brandSchema = yup.object().shape({
     name: yup
         .string()
+        .max(255, 'Tối đa 255 kí tự')
         .trim()
         .required("Không được để trống"),
     description: yup
         .string()
+        .max(255, 'Tối đa 255 kí tự')
         .trim(),
     hide: yup
         .string()
+        .max(255, 'Tối đa 255 kí tự')
 });
 
 export const productSchema = yup.object().shape({
     name: yup
         .string()
+        .max(255, 'Tối đa 255 kí tự')
         .trim()
         .required("Không được để trống"),
     price: yup
@@ -40,6 +44,7 @@ export const productSchema = yup.object().shape({
     discount: yup
         .number()
         .typeError('Phải là số')
+        .max(100, 'không được lớn hơn 100')
         .min(0, 'không được nhỏ hơn 0'),
     cate_id: yup
         .number()
@@ -51,15 +56,18 @@ export const productSchema = yup.object().shape({
         .required("Không được để trống"),
     shortdescription: yup
         .string()
+        .max(255, 'Tối đa 255 kí tự')
         .trim(),
     hide: yup
-        .string(),
+        .string()
+        .max(255, 'Tối đa 255 kí tự'),
     attributes: yup.array().of(
         yup.object().shape({
             id: yup
                 .number(),
             name: yup
                 .string()
+                .max(255, 'Tối đa 255 kí tự')
                 .trim()
                 .required('Không được để trống'),
             quantity: yup.number()
@@ -76,6 +84,7 @@ export const paymentSchema = yup.object().shape({
     name: yup
         .string()
         .max(255, 'Tối đa 255 kí tự')
+        .max(255, 'Tối đa 255 kí tự')
         .trim()
         .required("Không được để trống"),
     fee_shipping: yup
@@ -85,4 +94,5 @@ export const paymentSchema = yup.object().shape({
         .required("Không được để trống"),
     hide: yup
         .string()
+        .max(255, 'Tối đa 255 kí tự')
 });

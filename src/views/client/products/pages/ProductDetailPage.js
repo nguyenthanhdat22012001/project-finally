@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import LinkBreadcrumbs from '@mui/material/Link';
 import ImageGallery from 'react-image-gallery';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import IconButton from '@mui/material/IconButton';
 import Rating from '@mui/material/Rating';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Button from '@mui/material/Button';
@@ -19,8 +18,8 @@ import { useParams } from 'react-router-dom';
 // notify
 import { useSnackbar } from 'notistack';
 //helper
-import { fCurrency, PriceSale, fPercent, fCurrencyVN } from "helper/FormatNumber";
-import { handleNotiDialog } from 'helper/notify';
+import { PriceSale, fPercent, fCurrencyVN } from "helper/FormatNumber";
+import { handleNotiDialog,scrollToTop } from 'helper/notify';
 // api
 import productApi from 'api/productApi';
 import couponApi from 'api/couponApi';
@@ -33,12 +32,13 @@ import "./ProductDetailPage.scss";
 import TabDetailProduct from "../components/TabDetailProduct";
 import Product2 from "../components/Product2";
 import Coupon from "../components/Coupon";
-import InputQuantity from "../components/InputQuantity";
+import InputQuantity2 from "../components/InputQuantity2";
 import ProccessDialog from "components/dialog/ProccessDialog";
 
 const baseUrl = '/client/product/';
 
 function ProductDetailPage() {
+    const history = useHistory();
     const { slug } = useParams();
     const user = useSelector(state => state.auth.user);
     const { enqueueSnackbar } = useSnackbar();
@@ -65,6 +65,7 @@ function ProductDetailPage() {
     /*******load product detail*******/
     useEffect(async () => {
         await getProductBySlug();
+        scrollToTop();
     }, [slug])
 
     /*************get  product by slug**************/
@@ -95,7 +96,7 @@ function ProductDetailPage() {
     /*************get all product**************/
     const getAllProducts = async () => {
         try {
-            const res = await productApi.getAllProducts();
+            const res = await productApi.getProductTopSale();
             if (res.success) {
                 setProducts([...res.data]);
             }
@@ -287,7 +288,7 @@ function ProductDetailPage() {
             const newData = {
                 product_id: product.id,
                 attribute_id: attribute.id,
-                quantity: attribute.quantity,
+                quantity: attribute.quantity <= 0 ? 1 : attribute.quantity,
             };
 
             dispatch(handleAddCartRedux(enqueueSnackbar, newData));
@@ -298,25 +299,28 @@ function ProductDetailPage() {
             console.log('error: ' + error);
         }
     }
+    /*************handle add cart and redirect cart page**************/
+    const handleAddCartAndRedirect = () => {
+        try {
+            setIsProccess(true);
+            handleAddCart();
+            history.push(`/client/shopping`);
+        } catch (error) {
+            console.log('error: ' + error);
+        }
+    }
 
     return (
         <div>
             {isProccess && <ProccessDialog />} {/* proccess page */}
             <div role="presentation">
                 <Breadcrumbs aria-label="breadcrumb">
-                    <LinkBreadcrumbs underline="hover" color="inherit">
                         <Link to="/client">
                             TADAHA
                         </Link>
-                    </LinkBreadcrumbs>
-                    <LinkBreadcrumbs
-                        underline="hover"
-                        color="inherit"
-                    >
                         <Link to="/client/product">
                             Sản Phẩm
                         </Link>
-                    </LinkBreadcrumbs>
                     <Typography color="text.primary">{Object.keys(product).length > 0 ? product.name : ''}</Typography>
                 </Breadcrumbs>
             </div>
@@ -409,8 +413,8 @@ function ProductDetailPage() {
                                 </div>
                             </div>
                             <div className="product__detail__infor__brand">
-                                Thương hiệu:
-                                <Link to=""> {Object.keys(product).length > 0 ? product.brand.name : ''} </Link>
+                                Danh mục:
+                                <Link to={`${baseUrl}category/${product.cate?.slug}`}> {Object.keys(product).length > 0 ? product.cate.name : ''} </Link>
                             </div>
                             {
                                 Object.keys(product).length > 0 && product.discount > 0 ?
@@ -419,14 +423,14 @@ function ProductDetailPage() {
                                             {PriceSale(product.price, product.discount)}
                                         </span>
                                         <div className="product__detail__infor__price-old">
-                                            <span> {fCurrency(product.price)}</span>
+                                            <span> {fCurrencyVN(product.price ? product.price : 0)}</span>
                                             <span>-{fPercent(product.discount)}</span>
                                         </div>
                                     </div>
                                     :
                                     <div className="flexBoxColunm product__detail__infor__price">
                                         <span className="product__detail__infor__price-new">
-                                            {fCurrency(product.price)}
+                                            {fCurrencyVN(product.price ? product.price : 0)}
                                         </span>
                                         <div className="product__detail__infor__price-old">
                                             <span></span>
@@ -475,14 +479,14 @@ function ProductDetailPage() {
                             </div>
                             <div className="product__detail__infor__attribute">
                                 <h4>Số lượng</h4>
-                                <InputQuantity
+                                <InputQuantity2
                                     handldeSetQuantityAttribute={handldeSetQuantityAttribute}
                                     quantity={attribute.quantity}
                                     maxQuantity={attribute.maxQuantity}
                                 />
                             </div>
                             <div className="group-btn-cart">
-                                <Button variant="contained" color="secondary" size="large" sx={{ marginRight: 1 }}>Mua ngay</Button>
+                                <Button onClick={handleAddCartAndRedirect} variant="contained" color="secondary" size="large" sx={{ marginRight: 1 }}>Mua ngay</Button>
                                 <Button
                                     variant="contained"
                                     color="primary"
@@ -498,6 +502,7 @@ function ProductDetailPage() {
                         <TabDetailProduct
                             description={Object.keys(product).length > 0 ? product.description : ''}
                             product_id={product.id}
+                            totalRating={Object.keys(product).length > 0 ? product.totalRating : 0}
                         />
                         <div className="product__detail__relative">
                             <h4>Sản phẩm cùng cửa hàng</h4>

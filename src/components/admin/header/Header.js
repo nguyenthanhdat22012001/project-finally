@@ -7,13 +7,11 @@ import Badge from '@mui/material/Badge';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Toolbar from '@mui/material/Toolbar';
-import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import Logout from '@mui/icons-material/Logout';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 import {useHistory } from 'react-router-dom';
 // notify
@@ -51,8 +49,8 @@ export default function Header() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const user = useSelector(state => state.auth.user);
+  const titlePage =  useSelector(state => state.titlePage.title);
   /*******state********/
-  const [titlePage, setTitlePage] = React.useState('Thống Kê');
   const [openSideBar, setOpenSideBar] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -67,10 +65,6 @@ export default function Header() {
     setOpenSideBar(!openSideBar);
   };
 
-  /***********hanlde change title page************/
-  const handleChangeTitlepage = (titlePage) => {
-    setTitlePage(titlePage)
-  }
   /***********handle logout user**********/
   const handleLogoutUser = async () => {
     try {
@@ -112,13 +106,8 @@ export default function Header() {
           >
             {titlePage}
           </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
           <Tooltip title="Account settings">
-            <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
+            <IconButton onClick={handleClick} size="small" sx={{ ml: 2, mr: 2 }}>
               <AvatarCircelShortText name={user.name} />
             </IconButton>
           </Tooltip>
@@ -156,11 +145,6 @@ export default function Header() {
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           >
-            <MenuItem>
-              <Avatar /> Thông tin cửa hàng
-            </MenuItem>
-            <Divider />
-
             <MenuItem onClick={handleLogoutUser}>
               <ListItemIcon>
                 <Logout fontSize="small" />
@@ -174,7 +158,6 @@ export default function Header() {
       <Sidebar
         openSideBar={openSideBar}
         toggleSideBar={toggleSideBar}
-        handleChangeTitlepage={handleChangeTitlepage}
       />
     </Box>
   );
