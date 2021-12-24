@@ -6,6 +6,7 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import ProductCategoryPage from "./pages/ProductCategoryPage";
 import ProductStorePage from "./pages/ProductStorePage";
 import ProductSearchPage from "./pages/ProductSearchPage";
+import NotFound from "components/gennerals/NotFound";
 
 function Product(props) {
     const match = useRouteMatch();
@@ -16,6 +17,7 @@ function Product(props) {
             <Route path={`${match.url}/store/:slug`} component={ProductStorePage} />
             <Route path={`${match.url}/category/:slug`} component={ProductCategoryPage} />
             <Route path={`${match.url}/search/:search`} component={ProductSearchPage} />
+            <Route component={NotFound} />
         </Switch>
     )
 }

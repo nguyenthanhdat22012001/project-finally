@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Rating from '@mui/material/Rating';
 //helper
-import {fCurrencyVN} from "helper/FormatNumber"
+import {fCurrencyVN,PriceSale} from "helper/FormatNumber"
 
 import "./Product2.scss";
 
@@ -28,9 +28,15 @@ function Product2(props) {
                 </div>
                 <div className="product2__content">
                     <h3 className="product2__title" >{product ? product.name : ''}</h3>
-                    <div className="product2__price">{product ? fCurrencyVN(product.price) : '0 đ'} </div>
+                    {
+                           product.discount > 0 ? 
+                           <div className="product2__price">{PriceSale(product.price, product.discount)} </div>
+                           :
+                           <div className="product2__price">{fCurrencyVN(product.price)} </div>
+                    }
+               
                     <div className="product2__rating">
-                        <Rating name="half-rating-read" defaultValue={5} precision={0.5} size="small" readOnly />
+                        <Rating name="half-rating-read" defaultValue={product ? product.totalRating : 0} precision={1} size="small" readOnly />
                     </div>
                 </div>
             </Link>

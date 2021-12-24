@@ -5,7 +5,7 @@ import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
 // utils
 import { fShortenNumber } from 'helper/FormatNumber';
-
+import PropTypes from 'prop-types';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Card)(({ theme }) => ({
@@ -13,7 +13,7 @@ const RootStyle = styled(Card)(({ theme }) => ({
   textAlign: 'center',
   padding: theme.spacing(5, 0),
   color: theme.palette.primary.darker,
-  backgroundColor: 'lightseagreen'
+  backgroundColor: 'orangered'
 }));
 
 const IconWrapperStyle = styled('div')(({ theme }) => ({
@@ -26,22 +26,28 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
   justifyContent: 'center',
   marginBottom: theme.spacing(3),
   color: '#fff',
-  backgroundImage: 'linear-gradient(135deg, #fff 0%, lightseagreen 100%)',
+  backgroundImage: 'linear-gradient(135deg, #fff 0%, orangered 100%)',
 }));
 
 // ----------------------------------------------------------------------
 
-const TOTAL = 714000;
+UserRegisterToday.propTypes = {
+  userRegisterToday: PropTypes.number,
+}
+UserRegisterToday.defaultProps = {
+  userRegisterToday: 0,
+}
 
-export default function Visitors() {
+export default function UserRegisterToday(props) {
+  const { userRegisterToday } = props;
   return (
     <RootStyle>
       <IconWrapperStyle>
         <ChatIcon width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
+      <Typography variant="h4">{fShortenNumber(userRegisterToday)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Lượt Ghé Thăm
+        Lượt Đăng Kí Hôm Nay
       </Typography>
     </RootStyle>
   );

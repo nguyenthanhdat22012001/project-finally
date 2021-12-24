@@ -3,8 +3,15 @@
     enqueueSnackbar(message, {
       variant: status,
       anchorOrigin: {
-        vertical: 'bottom',
-        horizontal: 'left',
+        vertical: 'top',
+        horizontal: 'right',
       },
     });
   };
+
+  export const  scrollToTop = () => {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}

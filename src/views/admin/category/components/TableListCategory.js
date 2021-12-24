@@ -62,12 +62,12 @@ function TableListCategory(props) {
   }
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: 500, width: '100%' }}>
       <DataGrid
         rows={listCategory}
         columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
         disableSelectionOnClick
       />
       {/* dialogDelete delete */}

@@ -88,7 +88,8 @@ export default function FormEditProduct(props) {
     }, [editProduct])
 
     const onLoginSubmit = (data) => {
-        if (data.hide === "false") {
+        console.log('data.hide',data.hide);
+        if (data.hide === 'false' || data.hide === '0') {
             data.hide = 0;
         } else {
             data.hide = 1;
@@ -98,7 +99,7 @@ export default function FormEditProduct(props) {
             ...product,
             ...data,
         }
-        console.log('newData', newData)
+        console.log('data.hide',data.hide);
         props.handleUpdateProduct(newData.id, newData);
     };
 
@@ -347,7 +348,7 @@ export default function FormEditProduct(props) {
 
                 <Grid item xs={12} sm={6} md={6} sx={{ pr: 4, pb: 4 }}>
                     <Typography variant="subtitle1" gutterBottom component="div">
-                        Giảm giá(%)
+                        Giảm giá (%)
                     </Typography>
                     <TextField
                         fullWidth

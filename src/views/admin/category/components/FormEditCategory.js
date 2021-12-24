@@ -72,15 +72,6 @@ function FormEditCategory(props) {
                     error={errors.name && true}
                 />
                 <TextField
-                    required
-                    fullWidth
-                    id="outlined-required"
-                    label="Slug"
-                    margin="normal"
-                    defaultValue={category.slug}
-                    {...register("slug")}
-                />
-                <TextField
                     id="outlined-multiline-static"
                     fullWidth
                     margin="normal"

@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 //helper
 import { formatdateDMY } from "helper/FormatDate";
 import { fCurrencyVN } from 'helper/FormatNumber';
+import { scrollToTop } from 'helper/notify';
 
 import "./CheckoutSuccessPage.scss";
 
@@ -23,6 +24,7 @@ function CheckoutSuccessPage() {
 
     useEffect(async () => {
         await getOrderByid();
+        scrollToTop();
     }, [id])
 
     const getOrderByid = async () => {
@@ -138,7 +140,7 @@ function CheckoutSuccessPage() {
                         </span>
                     </div>
                     <div className="" style={{ textAlign: 'right' }}>
-                        <Link to={`/client/user/order`}>  <Button variant="contained" color="primary" size="large">Đơn hàng của tối</Button></Link>
+                        <Link to={`/client/user/order`}>  <Button variant="contained" color="primary" size="large">Đơn hàng của tôi</Button></Link>
                     </div>
                 </div>
             </div>

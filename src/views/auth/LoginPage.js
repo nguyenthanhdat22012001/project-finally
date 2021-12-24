@@ -63,7 +63,7 @@ useEffect(() => {
     try {
       setIsProccess(true);
 
-      dispatch(LoginGoogleRedux(enqueueSnackbar,history,newData));
+    dispatch(LoginGoogleRedux(enqueueSnackbar,history,newData));
 
       setIsProccess(false);
 

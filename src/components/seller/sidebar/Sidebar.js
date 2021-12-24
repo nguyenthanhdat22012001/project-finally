@@ -5,6 +5,7 @@ import MuiDrawer from '@mui/material/Drawer';
 import { styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
+import { Link } from 'react-router-dom';
 
 import Logo from "assets/images/logo.png";
 import ListItems from './listItems';
@@ -38,7 +39,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 
-export default function Sidebar({ openSideBar, toggleSideBar, handleChangeTitlepage }) {
+export default function Sidebar({ openSideBar, toggleSideBar}) {
 
   return (
     <Drawer variant="permanent" open={openSideBar}>
@@ -50,14 +51,15 @@ export default function Sidebar({ openSideBar, toggleSideBar, handleChangeTitlep
           px: [1],
         }}
       >
-        <img src={Logo} alt="" style={{ width: '150px' }} />
+        <a href="/">
+          <img src={Logo} alt="" style={{ width: '130px' }} />
+        </a>
         <IconButton onClick={toggleSideBar}>
           <ChevronLeftIcon />
         </IconButton>
       </Toolbar>
       <Divider />
       <ListItems
-        handleChangeTitlepage={handleChangeTitlepage}
       />
     </Drawer>
   );

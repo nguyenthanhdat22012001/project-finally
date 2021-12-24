@@ -10,19 +10,23 @@ import IconButton from '@mui/material/IconButton';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
-import { Link,useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 // notify
 import { useSnackbar } from 'notistack';
 //redux
 import { useDispatch, useSelector } from "react-redux";
-import { LogOutUserRedux} from "redux/actions/AuthAction";
+import { LogOutUserRedux } from "redux/actions/AuthAction";
 
 import AvatarCircelShortText from "components/avatar/AvatarCircelShortText";
+import ProccessDialog from "components/dialog/ProccessDialog";
 
 const baseUrl = '/client/user';
 
 function AvatarMenu(props) {
+    /******state*******/
+    const [isProccess, setIsProccess] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
+
     const isMenuOpen = Boolean(anchorEl);
     const history = useHistory();
     const user = useSelector(state => state.auth.user);
@@ -31,14 +35,18 @@ function AvatarMenu(props) {
 
     /***********handle logout user**********/
     const handleLogoutUser = async () => {
-       try {
-        dispatch(LogOutUserRedux(enqueueSnackbar,history));
+        try {
+            setIsProccess(true); 
 
-       } catch (error) {
-        console.log('error',error);
-       }
+            dispatch(LogOutUserRedux(enqueueSnackbar, history));
+
+            setIsProccess(false); 
+
+        } catch (error) {
+            console.log('error', error);
+        }
     };
-   /***********handle toggle sub menu**********/
+    /***********handle toggle sub menu**********/
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -48,6 +56,7 @@ function AvatarMenu(props) {
 
     return (
         <div>
+            {isProccess && <ProccessDialog />} {/* proccess page */}
             <IconButton
                 size="large"
                 onClick={handleProfileMenuOpen}
@@ -147,7 +156,7 @@ function AvatarMenu(props) {
                             <ListItemIcon>
                                 <PersonIcon fontSize="small" />
                             </ListItemIcon>
-                            Thong tin ca nhan
+                            Thông tin cá nhân
                         </MenuItem>
                     </Link>
                     <Link to={`${baseUrl}/order`}>
@@ -155,7 +164,7 @@ function AvatarMenu(props) {
                             <ListItemIcon>
                                 <ShoppingBasketIcon fontSize="small" />
                             </ListItemIcon>
-                            Don hang cua ban
+                            Đơn hàng của bạn
                         </MenuItem>
                     </Link>
                     <Link to={`${baseUrl}/favorite-follow`}>
@@ -163,14 +172,14 @@ function AvatarMenu(props) {
                             <ListItemIcon>
                                 <FavoriteBorderIcon fontSize="small" />
                             </ListItemIcon>
-                            San pham yeu thich
+                            Sản phẩm yêu thích
                         </MenuItem>
                     </Link>
                     <MenuItem onClick={handleLogoutUser}>
                         <ListItemIcon>
                             <Logout fontSize="small" />
                         </ListItemIcon>
-                        Thoat
+                        Thoát
                     </MenuItem>
                 </Menu>
             }

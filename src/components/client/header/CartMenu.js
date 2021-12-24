@@ -18,6 +18,7 @@ const baseUrl = '/client';
 function CartMenu(props) {
     const dispatch = useDispatch();
     const cart = useSelector(state => state.shopping.cart);
+    const user = useSelector(state => state.auth.user);
 
 
     /*************handle delete product in cart**************/
@@ -38,14 +39,14 @@ function CartMenu(props) {
     }
 
     return (
-        <IconButton size="large" aria-label="" color="inherit" className="cart-menu__icon">
-            <Badge badgeContent={4} color="error" >
+        <div size="large" aria-label="" color="inherit" className="cart-menu__icon">
+            <Badge badgeContent={cart ? parseInt(cart.totalQuantity) : 0} color="error" >
                 <Link to={`${baseUrl}/shopping`}>
                     <ShoppingCartIcon sx={{ color: '#fff', fontSize: '28px' }} />
                 </Link>
             </Badge>
             <div className="cart-menu__wrapper">
-                <h5 className="cart-menu__title">Bạn hiện có  {cart ? cart.totalQuantity : 0} sản phẩm</h5>
+                <h5 className="cart-menu__title">Bạn hiện có  {cart ? parseInt(cart.totalQuantity) : 0} sản phẩm</h5>
                 <div className="cart-menu__list-product">
                     {
                         cart ?
@@ -83,10 +84,15 @@ function CartMenu(props) {
                     <span> {cart ? fCurrencyVN(cart.totalPrice) : fCurrencyVN(0)}</span>
                 </div>
                 <div className="cart-menu__btn">
-                    <Link to={`${baseUrl}/shopping/checkout`} >  <Button variant="contained" color="primary" size="small">Thanh toán</Button></Link>
+                    {
+                        user ? 
+                        <Link to={`${baseUrl}/shopping/checkout`} >  <Button variant="contained" color="primary" size="small">Thanh toán</Button></Link>
+                        : ""
+                    }
+                   
                 </div>
             </div>
-        </IconButton>
+        </div>
     )
 }
 

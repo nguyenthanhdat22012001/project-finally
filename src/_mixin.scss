@@ -53,6 +53,7 @@
     border-radius:3px; 
     border: 2px solid #ccc;
     font-size:$fontSize;
+    text-align: center;
 }
 @mixin hideSpinInputNumber {
     input[type=number]:focus{

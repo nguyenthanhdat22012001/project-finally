@@ -4,8 +4,8 @@ import ChatIcon from '@mui/icons-material/Chat';
 import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
 // utils
-import { fShortenNumber } from 'helper/FormatNumber';
-
+import { fCurrencyVN } from 'helper/FormatNumber';
+import PropTypes from 'prop-types';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Card)(({ theme }) => ({
@@ -13,7 +13,7 @@ const RootStyle = styled(Card)(({ theme }) => ({
   textAlign: 'center',
   padding: theme.spacing(5, 0),
   color: theme.palette.primary.darker,
-  backgroundColor: 'orangered'
+  backgroundColor: 'lightseagreen'
 }));
 
 const IconWrapperStyle = styled('div')(({ theme }) => ({
@@ -26,22 +26,29 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
   justifyContent: 'center',
   marginBottom: theme.spacing(3),
   color: '#fff',
-  backgroundImage: 'linear-gradient(135deg, #fff 0%, orangered 100%)',
+  backgroundImage: 'linear-gradient(135deg, #fff 0%, lightseagreen 100%)',
 }));
 
 // ----------------------------------------------------------------------
 
-const TOTAL = 714000;
 
-export default function Followers() {
+TotalRevenueMonth.propTypes = {
+  revenueMonth: PropTypes.number,
+}
+TotalRevenueMonth.defaultProps = {
+  revenueMonth: 0,
+}
+
+export default function TotalRevenueMonth(props) {
+  const {revenueMonth} = props;
   return (
     <RootStyle>
       <IconWrapperStyle>
         <ChatIcon width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
+      <Typography variant="h4">{fCurrencyVN(revenueMonth)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Lượt Theo Dõi
+        Doanh Thu Tháng
       </Typography>
     </RootStyle>
   );

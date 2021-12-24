@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import List from '@mui/material/List';
@@ -13,36 +14,33 @@ import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import WysiwygIcon from '@mui/icons-material/Wysiwyg';
 import { Link } from "react-router-dom";
 
-class Navbar extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            openNavbar: false
-        }
-    };
 
-    static getDerivedStateFromProps(props, state) {
-        if (state.openNavbar !== props.openNavbar) {
-            console.log('getDerivedStateFromProps navbar')
-            return { openNavbar: props.openNavbar }
-        };
-    };
+Navbar.propTypes = {
+    openNavbar: PropTypes.bool,
+    closeNavbar: PropTypes.func,
+}
+Navbar.defaultProps = {
+    openNavbar : false,
+    closeNavbar : null,
+}
 
-    toggleDrawer = (anchor, open) => (event) => {
+function Navbar(props) {
+    const {openNavbar,closeNavbar} = props;
+
+    const toggleDrawer = (anchor, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
         }
 
-        this.setState({ [anchor]: open });
-        this.props.closeNavbar(open);
+        closeNavbar(open);
     };
 
-    list = (anchor) => (
+    const list = (anchor) => (
         <Box
             sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
             role="presentation"
-            onClick={this.toggleDrawer(anchor, false)}
-            onKeyDown={this.toggleDrawer(anchor, false)}
+            onClick={toggleDrawer(anchor, false)}
+            onKeyDown={toggleDrawer(anchor, false)}
         >
             <List>
                 <Link to="/">
@@ -90,22 +88,20 @@ class Navbar extends React.Component {
         </Box>
     );
 
-    render() {
         return (
             <div>
                 <React.Fragment key={'left'}>
                     <SwipeableDrawer
                         anchor={'left'}
-                        open={this.state.openNavbar}
-                        onClose={this.toggleDrawer('opentNavbar', false)}
-                        onOpen={this.toggleDrawer('opentNavbar', true)}
+                        open={openNavbar}
+                        onClose={toggleDrawer('opentNavbar', false)}
+                        onOpen={toggleDrawer('opentNavbar', true)}
                     >
-                        {this.list("left")}
+                        {list("left")}
                     </SwipeableDrawer>
                 </React.Fragment>
             </div>
         );
-    }
 }
 
 export default Navbar;

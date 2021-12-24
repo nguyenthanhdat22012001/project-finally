@@ -4,7 +4,7 @@ import { Route, Switch, useRouteMatch } from "react-router-dom";
 import Header from "components/client/header/Header";
 import Footer from "components/client/footer/Footer";
 import ScrollToTop from "components/client/header/ScrollToTop";
-import Chat from "components/client/chat/Chat";
+import NotFound from "components/gennerals/NotFound";
 // lazy load 
 const homeLazyLoad = React.lazy(() => import('./home'));
 const productLazyLoad = React.lazy(() => import('./products'));
@@ -13,13 +13,14 @@ const userLazyLoad = React.lazy(() => import('./user'));
 const voucherLazyLoad = React.lazy(() => import('./voucher'));
 const postsLazyLoad = React.lazy(() => import('./posts'));
 
+
+
 function Client(props) {
     const match = useRouteMatch();
 
     return (
         <div className="client">
             <ScrollToTop />
-            <Chat />
             <Header />
             <main className="client__inner">
                 <Switch>
@@ -34,6 +35,8 @@ function Client(props) {
                     <Route path={`${match.url}/vouchers`} component={voucherLazyLoad} /> {/* voucher   */}
                     
                     <Route path={`${match.url}/posts`} component={postsLazyLoad} /> {/* posts   */}
+
+                    <Route  component={NotFound} /> {/* NotFound   */}
                 </Switch>
             </main>
             <Footer />

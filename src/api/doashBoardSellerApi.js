@@ -13,6 +13,14 @@ const doashBoardSellerApi = {
         const url = `/dash-board/product-trend/store/${store_id}`;
         return axisosClient.get(url);
     },
+    statisticsGeneralOfAdmin: ()=>{
+        const url = `/dash-board/general/admin`;
+        return axisosClient.get(url);
+    },
+    statisticsRevenueStoresByMonth: ()=>{
+        const url = `/dash-board/revenue-store-month`;
+        return axisosClient.get(url);
+    },
 }
 
 

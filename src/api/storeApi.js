@@ -1,9 +1,17 @@
 import axisosClient from "./axisosClient";
 
 const storeApi = {
+    getAllStore: () => {
+        const url = `/stores`;
+        return axisosClient.get(url);
+    },
     createStore: (data) => {
         const url = `/stores`;
         return axisosClient.post(url, {...data});
+    },
+    updateStore: (id,data) => {
+        const url = `/stores/${id}`;
+        return axisosClient.put(url, {...data});
     },
     getStoreByIdUser: (id) => {
         const url = `/stores/${id}`;

@@ -8,10 +8,11 @@ import HistoryOrderPage from "./pages/HistoryOrderPage";
 import OrderDetailPage from "./pages/OrderDetailPage";
 import FavoriteAndFollowPage from "./pages/FavoriteAndFollowPage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
+import NotFound from "components/gennerals/NotFound";
 
 function User(props) {
     const match = useRouteMatch();
-    console.log(match);
+
     return (
         <Switch>
             <Route exact path={`${match.url}`} component={InfoPage} />
@@ -21,6 +22,7 @@ function User(props) {
             <Route exact path={`${match.url}/order`} component={HistoryOrderPage} />
             <Route path={`${match.url}/order/:id`} component={OrderDetailPage} />
             <Route path={`${match.url}/favorite-follow`} component={FavoriteAndFollowPage} />
+            <Route  component={NotFound} />
         </Switch>
     )
 }

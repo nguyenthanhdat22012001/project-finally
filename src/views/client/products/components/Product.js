@@ -126,7 +126,7 @@ function Product(props) {
                     <ButtonAddCart title="Mua ngay" slug={product.slug} />
                 </div>
                 <div className="product__buyRating">
-                    <span className="product__buy">Đã bán: {product.order_count}</span>
+                    <span className="product__buy">Đã bán: {product.order_count ? product.order_count : 0 }</span>
                     <span className="product__rating">
                         <Rating name="half-rating-read" size="small" defaultValue={product.totalRating} precision={1} readOnly />
                     </span>

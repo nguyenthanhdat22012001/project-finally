@@ -5,7 +5,7 @@ import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
 // utils
 import { fShortenNumber } from 'helper/FormatNumber';
-
+import PropTypes from 'prop-types';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Card)(({ theme }) => ({
@@ -31,17 +31,23 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const TOTAL = 714000;
+OrderToday.propTypes = {
+  numberOrdersConfirmed: PropTypes.number,
+}
+OrderToday.defaultProps = {
+  numberOrdersConfirmed: 0,
+}
 
-export default function OrderToday() {
+export default function OrderToday(props) {
+  const {numberOrdersConfirmed} = props;
   return (
     <RootStyle>
       <IconWrapperStyle>
         <ChatIcon width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
+      <Typography variant="h4">{fShortenNumber(numberOrdersConfirmed)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Đơn Hàng Hôm Nay
+        Đơn Hàng Đã Xác Nhận
       </Typography>
     </RootStyle>
   );

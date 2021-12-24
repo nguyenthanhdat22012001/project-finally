@@ -12,53 +12,53 @@ import ListItems from './listItems';
 const drawerWidth = 240;
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
-        '& .MuiDrawer-paper': {
-            position: 'relative',
-            whiteSpace: 'nowrap',
-            width: drawerWidth,
-            transition: theme.transitions.create('width', {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
-            boxSizing: 'border-box',
-            ...(!open && {
-                overflowX: 'hidden',
-                transition: theme.transitions.create('width', {
-                    easing: theme.transitions.easing.sharp,
-                    duration: theme.transitions.duration.leavingScreen,
-                }),
-                width: theme.spacing(7),
-                [theme.breakpoints.up('sm')]: {
-                    width: theme.spacing(9),
-                },
-            }),
+  ({ theme, open }) => ({
+    '& .MuiDrawer-paper': {
+      position: 'relative',
+      whiteSpace: 'nowrap',
+      width: drawerWidth,
+      transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      boxSizing: 'border-box',
+      ...(!open && {
+        overflowX: 'hidden',
+        transition: theme.transitions.create('width', {
+          easing: theme.transitions.easing.sharp,
+          duration: theme.transitions.duration.leavingScreen,
+        }),
+        width: theme.spacing(7),
+        [theme.breakpoints.up('sm')]: {
+          width: theme.spacing(9),
         },
-    }),
+      }),
+    },
+  }),
 );
 
 
-export default function Sidebar({openSideBar,toggleSideBar,handleChangeTitlepage}) {
+export default function Sidebar({ openSideBar, toggleSideBar }) {
 
-    return (
-        <Drawer variant="permanent" open={openSideBar}>
-        <Toolbar
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            px: [1],
-          }}
-        >
-    <img src={Logo} alt="" style={{width: '150px'}} />
-          <IconButton onClick={toggleSideBar}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </Toolbar>
-        <Divider />
-        <ListItems  
-        handleChangeTitlepage={handleChangeTitlepage}
-        />
-      </Drawer>
-    );
+  return (
+    <Drawer variant="permanent" open={openSideBar}>
+      <Toolbar
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          px: [1],
+        }}
+      >
+        <a href='/'>
+          <img src={Logo} alt="" style={{ width: '130px' }} />
+        </a>
+        <IconButton onClick={toggleSideBar}>
+          <ChevronLeftIcon />
+        </IconButton>
+      </Toolbar>
+      <Divider />
+      <ListItems />
+    </Drawer>
+  );
 }

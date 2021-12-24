@@ -121,7 +121,7 @@ export default function TabOrder(props) {
                                                             Đã đặt hàng ngày {formatdateDMY(item.created_at)}
                                                         </div>
                                                         <div className="user__order__date" style={{ color: `${item.color}` }}>
-                                                            {item.name_status} {item.status === 4 ? formatdateDMY(item.updated_at) : ""}
+                                                            {item.name_status} 
                                                         </div>
                                                     </div>
                                                     <div className="user__order__body">
@@ -153,7 +153,7 @@ export default function TabOrder(props) {
                                                     Đã đặt hàng ngày {formatdateDMY(item.created_at)}
                                                 </div>
                                                 <div className="user__order__date" style={{ color: `${item.color}` }}>
-                                                    {item.name_status} {item.status === 4 ? formatdateDMY(item.updated_at) : ""}
+                                                    {item.name_status} 
                                                 </div>
                                             </div>
                                             <div className="user__order__body">
@@ -183,7 +183,7 @@ export default function TabOrder(props) {
                                                     Đã đặt hàng ngày {formatdateDMY(item.created_at)}
                                                 </div>
                                                 <div className="user__order__date" style={{ color: `${item.color}` }}>
-                                                    {item.name_status} {item.status === 4 ? formatdateDMY(item.updated_at) : ""}
+                                                    {item.name_status} 
                                                 </div>
                                             </div>
                                             <div className="user__order__body">
@@ -213,7 +213,7 @@ export default function TabOrder(props) {
                                                     Đã đặt hàng ngày {formatdateDMY(item.created_at)}
                                                 </div>
                                                 <div className="user__order__date" style={{ color: `${item.color}` }}>
-                                                    {item.name_status} {item.status === 4 ? formatdateDMY(item.updated_at) : ""}
+                                                    {item.name_status} 
                                                 </div>
                                             </div>
                                             <div className="user__order__body">
@@ -230,7 +230,7 @@ export default function TabOrder(props) {
                         }) : ""
                 }
             </TabPanel>
-            <TabPanel value={value} index={4}>
+            <TabPanel value={value} index={5}>
                 {
                     orders ?
                         [...orders].map(item => {

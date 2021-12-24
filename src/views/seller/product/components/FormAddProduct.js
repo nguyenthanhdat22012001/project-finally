@@ -271,7 +271,7 @@ export default function FormAddProduct(props) {
           {errors.cate_id && <p style={{ color: 'red', fontSize: '12px', marginLeft: '15px' }}>{errors.cate_id?.message}</p>}
         </Grid>
         <Grid item xs={12} sm={6} md={6} sx={{ pr: 4, pb: 4 }}>
-          <InputLabel id="brand_id">Thưởng Hiệu</InputLabel>
+          <InputLabel id="brand_id">Thương Hiệu</InputLabel>
           <Select
             fullWidth
             labelId="brand_id"
@@ -317,7 +317,7 @@ export default function FormAddProduct(props) {
           <TextField
             fullWidth
             type="number"
-            label="Giảm giá"
+            label="Giảm giá (%)"
             name="discount"
             {...register("discount")}
             helperText={errors.discount && `${errors.discount?.message}`}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
+import { useHistory } from 'react-router-dom';
 // notify
 import { useSnackbar } from 'notistack';
 //redux
@@ -13,12 +14,16 @@ import categoryApi from "api/categoryApi";
 
 
 import FormAddProduct from '../components/FormAddProduct';
+import ProccessDialog from "components/dialog/ProccessDialog";
 
+const baseUrl = '/seller/product';
 
 export default function AddProductPage() {
+  const history = useHistory();
   const user = useSelector(state => state.auth.user);
   const { enqueueSnackbar } = useSnackbar();
   /******state******/
+  const [isProccess, setIsProccess] = useState(false);
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
 
@@ -56,13 +61,16 @@ export default function AddProductPage() {
       store_id: user.store_id,
     }
     try {
+      setIsProccess(true);
       const res = await productApi.addProduct(newData);
-      console.log('res', res);
+
       if (res.success) {
         handleNotiDialog(enqueueSnackbar, res.message, 'success');
-      }else{
+        history.push(`${baseUrl}`);
+      } else {
         handleNotiDialog(enqueueSnackbar, res.message, 'error');
       }
+      setIsProccess(false);
     } catch (error) {
       console.log('error', error);
     }
@@ -70,6 +78,7 @@ export default function AddProductPage() {
 
   return (
     <Grid container >
+      {isProccess && <ProccessDialog />} {/* proccess page */}
       <FormAddProduct
         categories={categories}
         brands={brands}

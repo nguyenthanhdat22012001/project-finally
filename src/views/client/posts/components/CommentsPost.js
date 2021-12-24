@@ -69,11 +69,11 @@ function CommentsPost(props) {
                                             </div>
                                             <div className="posts__cp__comment__bottom">
                                                 {
-                                                    !user || user.id !== item.user_id ?
-                                                        <Button size="small" onClick={() => handleToggleDialogReplyCommen(true, item.id)}>
-                                                            Trả lời
-                                                        </Button>
-                                                        : ""
+                                                    // !user || user.id !== item.user_id ?
+                                                    //     <Button size="small" onClick={() => handleToggleDialogReplyCommen(true, item.id)}>
+                                                    //         Trả lời
+                                                    //     </Button>
+                                                    //     : ""
                                                 }
                                             </div>
                                         </li>

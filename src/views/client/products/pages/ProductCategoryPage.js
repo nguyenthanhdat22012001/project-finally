@@ -14,6 +14,7 @@ import { Link, useParams } from 'react-router-dom';
 import productApi from "api/productApi";
 //helper
 import { convertPriceSale } from "helper/FormatNumber";
+import { scrollToTop } from 'helper/notify';
 
 import "./ProductPage.scss";
 import Sidebar from "../components/Sidebar";
@@ -29,7 +30,7 @@ function ProductCategoryPage() {
     const [products, setProducts] = useState([]);
     const [category, setCategory] = useState({});
     const [pages, setPages] = useState({
-        limit: 2,
+        limit: 6,
         currentPage: 1,
     });
     const [filterProduct, setFilterProduct] = useState({
@@ -42,6 +43,7 @@ function ProductCategoryPage() {
     /*************load page**************/
     useEffect(async () => {
         await getAllProductsBySlug(slug);
+        scrollToTop();
     }, [slug])
 
     /*************get all product**************/
@@ -80,11 +82,11 @@ function ProductCategoryPage() {
 
     /*************get all product**************/
     const handleChangePage = (event, value) => {
-
         setPages({
             ...pages,
             currentPage: value,
         });
+        scrollToTop();
     };
     /*************handle filter product**************/
     const handleChangeInput = (event) => {

@@ -22,6 +22,7 @@ import shoppingApi from "api/shoppingApi";
 //helper
 import { fCurrencyVN } from 'helper/FormatNumber';
 import { handleNotiDialog } from 'helper/notify';
+import { scrollToTop } from 'helper/notify';
 //validate
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -53,6 +54,7 @@ function ChekOutPage() {
 
     useEffect(async () => {
         Promise.all([getCouponUserCollection(), getMethodPayment()]);
+        scrollToTop()
     }, [])
     /******* get all coupon user collecttion********/
     const getCouponUserCollection = async () => {
@@ -334,7 +336,7 @@ function ChekOutPage() {
                             </div>
 
                             <div className="checkout__payment">
-                                <span> phi ship</span>
+                                <span> phí ship</span>
                                 <span>{cart ? fCurrencyVN(cart.feeShip) : '0đ'} </span>
                             </div>
                             {
@@ -356,6 +358,7 @@ function ChekOutPage() {
                                     variant="contained"
                                     color="primary"
                                     size="large"
+                                    disabled={cart && cart.totalPrice > 0 ? false : true }
                                 >Đặt hàng</Button>
                             </div>
                         </div>

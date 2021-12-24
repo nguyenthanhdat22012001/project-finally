@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
@@ -14,12 +13,10 @@ import { LoginAdminRedux } from 'redux/actions/AuthAction';
 import { useSnackbar } from 'notistack';
 
 import FormLoginAdmin from 'components/auth/login/FormLoginAdmin';
-import ProccessDialog from "components/dialog/ProccessDialog";
 
 const theme = createTheme();
 
 function LoginAdmin() {
-  const [isProccess, setIsProccess] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
@@ -27,11 +24,7 @@ function LoginAdmin() {
   /*************** handle login ************/
   const handleLogin = async (data) => {
     try {
-      setIsProccess(true);
-
       dispatch(LoginAdminRedux(enqueueSnackbar, history, data));
-
-      setIsProccess(false);
 
     } catch (error) {
       console.log('error: ' + error);
@@ -40,7 +33,6 @@ function LoginAdmin() {
 
   return (
     <ThemeProvider theme={theme}>
-      {isProccess && <ProccessDialog />} {/* proccess page */}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

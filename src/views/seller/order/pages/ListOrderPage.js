@@ -5,11 +5,12 @@ import shoppingApi from 'api/shoppingApi';
 import { useSelector } from "react-redux";
 
 import TableOrder from "../components/TableOrder";
-
+import TableSkeleton from "components/skeleton/TableSkeleton";
 
 function ListOrderPage() {
     const user = useSelector(state => state.auth.user);
     /*********state*********/
+    const [isLoadFetchApiSuccess, setIsLoadFetchApiSuccess] = useState(false);
     const [orders, setOrders] = useState([]);
 
     useEffect(async () => {
@@ -18,6 +19,10 @@ function ListOrderPage() {
 
     const getAllOrderStore = async () => {
         try {
+            if (isLoadFetchApiSuccess) {
+                setIsLoadFetchApiSuccess(false);
+            }
+
             const res = await shoppingApi.getOrdersByStoreId(user.store_id);
             if (res.success) {
                 const newData = [...res.data].map(item => {
@@ -30,6 +35,8 @@ function ListOrderPage() {
                 })
                 setOrders(newData);
             }
+            setIsLoadFetchApiSuccess(true);
+
         } catch (error) {
             console.log('error', error);
         }
@@ -37,7 +44,13 @@ function ListOrderPage() {
 
     return (
         <div>
-            <TableOrder orders={orders} />
+            {
+                isLoadFetchApiSuccess ?
+                    <TableOrder orders={orders} />
+                    :
+                    <TableSkeleton />
+            }
+
         </div>
     );
 }

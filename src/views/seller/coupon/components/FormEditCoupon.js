@@ -114,7 +114,7 @@ function FormEditCoupon(props) {
                         required
                         type='date'
                         id="outlined-required"
-                        label="Ngay bat dau"
+                        label="Ngày bắt đầu"
                         margin="normal"
                         defaultValue={coupon.date_begin}
                         {...register("date_begin")}
@@ -125,7 +125,7 @@ function FormEditCoupon(props) {
                         required
                         type='date'
                         id="outlined-required"
-                        label="ngay ket thuc"
+                        label="ngày kết thúc"
                         margin="normal"
                         defaultValue={coupon.date_end}
                         {...register("date_end")}

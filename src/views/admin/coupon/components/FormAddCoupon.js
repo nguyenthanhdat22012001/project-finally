@@ -101,7 +101,7 @@ function FormAddCoupon(props) {
                         required
                         type='date'
                         id="outlined-required"
-                        label="Ngay bat dau"
+                        label="Ngày bắt đầu"
                         margin="normal"
                         defaultValue={dateInput}
                         {...register("date_begin")}
@@ -112,7 +112,7 @@ function FormAddCoupon(props) {
                         required
                         type='date'
                         id="outlined-required"
-                        label="ngay ket thuc"
+                        label="ngày kết thúc"
                         margin="normal"
                         defaultValue={dateInput}
                         {...register("date_end")}
@@ -122,7 +122,7 @@ function FormAddCoupon(props) {
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
                     <FormControlLabel control={<Checkbox {...register("hide")}  />} label="Ẩn" />
-                    <Button type="submit" variant="contained">Thêm danh mục</Button>
+                    <Button type="submit" variant="contained">Thêm coupon</Button>
                 </Box>
             </Box>
         </div>
